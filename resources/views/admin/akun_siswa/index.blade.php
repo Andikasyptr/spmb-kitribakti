@@ -8,6 +8,26 @@
         <div class="bg-white shadow rounded-lg p-6">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2 sm:gap-0">
                 <h1 class="text-xl font-bold text-gray-800">Daftar Akun Siswa</h1>
+                <!-- Form Search -->
+                <form method="GET" action="{{ route('admin.siswa.index') }}" class="flex">
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        placeholder="Cari siswa..."
+                        class="border rounded-l-lg px-3 py-2 text-sm focus:outline-none focus:ring focus:border-blue-400">
+
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700 transition">
+                        Cari
+                    </button>
+
+                    @if(request('search'))
+                        <a href="{{ route('admin.siswa.index') }}"
+                        class="ml-2 bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition">
+                            Reset
+                        </a>
+                    @endif
+                </form>
+                
+
                 <a href="{{ route('admin.siswa.create') }}"
                    class="inline-block bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-semibold py-2 px-5 rounded-lg shadow transition-all duration-300 ease-in-out transform hover:scale-105">
                     + Tambah
@@ -19,40 +39,70 @@
             @endif
 
             <div class="overflow-x-auto">
-                <table class="min-w-full border text-sm">
-                    <thead class="bg-gray-100 text-gray-700 uppercase">
+                <table class="min-w-full border border-gray-200 shadow-lg rounded-lg overflow-hidden">
+                    <thead class="bg-indigo-600 text-white">
                         <tr>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">No</th>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">Nama</th>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">Email</th>
-                            <th class="px-6 py-3 text-left whitespace-nowrap">Aksi</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">No</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Nama</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Email</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-white divide-y divide-gray-200">
                         @forelse($siswas as $index => $siswa)
-                            <tr class="border-t">
-                                <td class="px-6 py-2 whitespace-nowrap">{{ $index + 1 }}</td>
-                                <td class="px-6 py-2 whitespace-nowrap">{{ $siswa->name }}</td>
-                                <td class="px-6 py-2 whitespace-nowrap">{{ $siswa->email }}</td>
-                                <td class="px-6 py-2 whitespace-nowrap">
-                                    <a href="{{ route('admin.siswa.edit', $siswa->id) }}" class="text-blue-600 hover:underline">Edit</a>
-                                    <form id="delete-siswa-form-{{ $siswa->id }}" action="{{ route('admin.siswa.destroy', $siswa->id) }}" method="POST" class="inline ml-2">
+                            <tr class="hover:bg-gray-50 transition duration-150">
+                                <!-- Gunakan firstItem() agar nomor mengikuti halaman -->
+                                <td class="px-6 py-3 whitespace-nowrap">{{ $siswas->firstItem() + $index }}</td>
+                                <td class="px-6 py-3 whitespace-nowrap">{{ $siswa->name }}</td>
+                                <td class="px-6 py-3 whitespace-nowrap">{{ $siswa->email }}</td>
+                                <td class="px-6 py-3 whitespace-nowrap">
+                                    <!-- Tombol Edit -->
+                                    <a href="{{ route('admin.siswa.edit', $siswa->id) }}" 
+                                        class="text-blue-600 hover:underline font-medium">
+                                        Edit
+                                    </a>
+
+                                    <!-- Tombol Hapus -->
+                                    <form id="delete-siswa-form-{{ $siswa->id }}" 
+                                        action="{{ route('admin.siswa.destroy', $siswa->id) }}" 
+                                        method="POST" 
+                                        class="inline ml-2">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" onclick="confirmDeleteSiswa({{ $siswa->id }})" class="text-red-600 hover:underline">
+                                        <button type="button" 
+                                                onclick="confirmDeleteSiswa({{ $siswa->id }})" 
+                                                class="text-red-600 hover:underline font-medium">
                                             Hapus
                                         </button>
                                     </form>
-
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-4 text-gray-500">Belum ada data siswa.</td>
+                                <td colspan="4" class="text-center py-6 text-gray-500">
+                                    Belum ada data siswa.
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
+
+                {{-- <!-- Info paginasi -->
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-4 text-sm text-gray-600">
+                    <div>
+                        Menampilkan 
+                        <span class="font-semibold">{{ $siswas->firstItem() }}</span>
+                        sampai 
+                        <span class="font-semibold">{{ $siswas->lastItem() }}</span>
+                        dari total 
+                        <span class="font-semibold">{{ $siswas->total() }}</span>
+                        siswa
+                    </div> --}}
+                    <div class="mt-2 sm:mt-7">
+                        {{ $siswas->withQueryString()->links() }}
+                    </div>
+                </div>
+
                 @include('components.footer')
             </div>
         </div>
@@ -96,7 +146,6 @@
     }
 </script>
 @endpush
-
 
 @push('scripts')
 <script>

@@ -11,12 +11,28 @@ use Illuminate\Support\Facades\Hash;
 
 class SiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $profile = ProfileAdmin::where('user_id', Auth::id())->first();
-        $siswas = User::where('role', 'siswa')->get();
+
+        // Ambil keyword pencarian dari input GET
+        $search = $request->input('search');
+
+        // Query siswa + filter pencarian + pagination
+        $siswas = User::where('role', 'siswa')
+            ->when($search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            ->orderBy('name', 'asc')
+            ->paginate(20) // tampil 10 per halaman
+            ->withQueryString(); // biar search tetap kebawa saat pindah halaman
+
         return view('admin.akun_siswa.index', compact('siswas', 'profile'));
     }
+
 
     public function create()
     {
