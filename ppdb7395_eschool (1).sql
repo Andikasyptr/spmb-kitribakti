@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Aug 29, 2025 at 10:12 AM
--- Server version: 10.11.13-MariaDB-cll-lve
--- PHP Version: 8.3.23
+-- Host: 127.0.0.1
+-- Generation Time: Sep 06, 2025 at 11:30 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,8 +33,8 @@ CREATE TABLE `absensis` (
   `tanggal` date NOT NULL,
   `jam_masuk` time DEFAULT NULL,
   `jam_pulang` time DEFAULT NULL,
-  `status_masuk` enum('Hadir','Izin','Sakit','Alpa') DEFAULT NULL,
-  `status_pulang` enum('Hadir','Izin','Sakit','Alpa') DEFAULT NULL,
+  `status_masuk` enum('Tepat Waktu','Terlambat','Alpha','Izin','Sakit','Pulang Cepat') NOT NULL,
+  `status_pulang` enum('Tepat Waktu','Terlambat','Alpha','Izin','Sakit','Pulang Cepat') NOT NULL,
   `keterangan` text DEFAULT NULL,
   `dibuat_oleh` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -50,9 +50,10 @@ CREATE TABLE `absensis` (
 --
 
 INSERT INTO `absensis` (`id`, `user_id`, `tanggal`, `jam_masuk`, `jam_pulang`, `status_masuk`, `status_pulang`, `keterangan`, `dibuat_oleh`, `created_at`, `updated_at`, `foto_masuk`, `foto_pulang`, `lokasi_masuk`, `lokasi_pulang`) VALUES
-(5, 6, '2025-07-02', '15:10:21', '15:10:34', 'Hadir', 'Hadir', NULL, 6, '2025-07-02 08:10:21', '2025-07-02 08:10:34', 'storage/absen/6864e96d09fa3_masuk.jpg', 'storage/absen/6864e97a5fa93_pulang.jpg', '-6.256258527563193,107.18105924341226', '-6.256258527563193,107.18105924341226'),
-(6, 6, '2025-07-04', '10:27:10', NULL, 'Hadir', NULL, NULL, 6, '2025-07-04 03:27:10', '2025-07-04 03:27:10', 'storage/absen/68674a0d836cf_masuk.jpg', NULL, '-6.262671,107.177261', NULL),
-(14, 6, '2025-07-14', '13:24:48', '13:26:08', 'Hadir', 'Hadir', NULL, 6, '2025-07-14 06:24:48', '2025-07-14 06:26:08', 'storage/absen/6874a2af8fcce_masuk.jpg', 'storage/absen/6874a30094876_pulang.jpg', '-6.262674575087973,107.1772361131236', '-6.262671039180642,107.1772324543745');
+(5, 6, '2025-07-02', '15:10:21', '15:10:34', '', '', NULL, 6, '2025-07-02 08:10:21', '2025-07-02 08:10:34', 'storage/absen/6864e96d09fa3_masuk.jpg', 'storage/absen/6864e97a5fa93_pulang.jpg', '-6.256258527563193,107.18105924341226', '-6.256258527563193,107.18105924341226'),
+(6, 6, '2025-07-04', '10:27:10', NULL, '', '', NULL, 6, '2025-07-04 03:27:10', '2025-07-04 03:27:10', 'storage/absen/68674a0d836cf_masuk.jpg', NULL, '-6.262671,107.177261', NULL),
+(14, 6, '2025-07-14', '13:24:48', '13:26:08', '', '', NULL, 6, '2025-07-14 06:24:48', '2025-07-14 06:26:08', 'storage/absen/6874a2af8fcce_masuk.jpg', 'storage/absen/6874a30094876_pulang.jpg', '-6.262674575087973,107.1772361131236', '-6.262671039180642,107.1772324543745'),
+(15, 26, '2025-09-04', '13:32:32', NULL, '', '', NULL, 26, '2025-09-04 06:32:32', '2025-09-04 06:32:32', 'storage/absen/68b93280da4bf_masuk.jpg', NULL, '-6.262511666666668,107.17688216666666', NULL);
 
 -- --------------------------------------------------------
 
@@ -106,10 +107,11 @@ CREATE TABLE `exams` (
 INSERT INTO `exams` (`id`, `user_id`, `title`, `description`, `duration`, `total_questions`, `kelas`, `mapel_id`, `created_at`, `updated_at`, `start_time`, `end_time`) VALUES
 (63, 26, 'Seni Budaya', 'Semua Jurusan', 10, 0, 'X', 6, '2025-08-28 21:22:20', '2025-08-28 21:30:00', '2025-08-29 06:30:00', '2025-08-29 09:30:00'),
 (64, 26, 'Seni Budaya', 'Semua Jurusan', 10, 0, 'XI', 6, '2025-08-28 21:23:43', '2025-08-28 21:29:28', '2025-08-29 06:30:00', '2025-08-29 09:30:00'),
-(65, 26, 'Seni Budaya', 'Semua Jurusan', 10, 0, 'XII', 6, '2025-08-28 21:25:16', '2025-08-28 21:29:05', '2025-08-29 06:30:00', '2025-08-29 09:30:00'),
+(65, 26, 'Seni Budaya', 'Semua Jurusan', 10, 0, 'XII', 6, '2025-08-28 21:25:16', '2025-08-31 09:17:11', '2025-08-31 16:20:00', '2025-08-31 19:30:00'),
 (66, 419, 'Pendidikan Kewarganegaraan', 'Semua Jurusan', 90, 0, 'X', 5, '2025-08-29 02:48:15', '2025-08-29 02:48:15', NULL, NULL),
 (67, 419, 'Pendidikan Kewarganegaraan', 'Semua Jurusan', 90, 0, 'XI', 5, '2025-08-29 02:48:41', '2025-08-29 02:48:41', NULL, NULL),
-(68, 419, 'Pendidikan Kewarganegaraan', 'Semua Jurusan', 90, 0, 'XII', 5, '2025-08-29 02:49:13', '2025-08-29 02:49:13', NULL, NULL);
+(68, 419, 'Pendidikan Kewarganegaraan', 'Semua Jurusan', 90, 0, 'XII', 5, '2025-08-29 02:49:13', '2025-08-29 02:49:13', NULL, NULL),
+(71, 26, 'IPAS', 'Semua Jurusan', 90, 0, 'X', 8, '2025-09-04 06:18:58', '2025-09-04 06:18:58', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -192,7 +194,27 @@ INSERT INTO `exam_questions` (`id`, `exam_id`, `question_text`, `point`, `questi
 (297, 65, 'Alat musik Sasando berasal dari ...', 5, 'multiple_choice', NULL, '2025-08-28 21:25:35', '2025-08-28 21:25:35'),
 (298, 65, 'Lagu \'Apuse\' berasal dari ...', 5, 'multiple_choice', NULL, '2025-08-28 21:25:35', '2025-08-28 21:25:35'),
 (299, 65, 'Tari Serimpi berasal dari ...', 5, 'multiple_choice', NULL, '2025-08-28 21:25:35', '2025-08-28 21:25:35'),
-(300, 65, 'Patung Garuda Wisnu Kencana terdapat di ...', 5, 'multiple_choice', NULL, '2025-08-28 21:25:35', '2025-08-28 21:25:35');
+(300, 65, 'Patung Garuda Wisnu Kencana terdapat di ...', 5, 'multiple_choice', NULL, '2025-08-28 21:25:35', '2025-08-28 21:25:35'),
+(301, 71, 'Luas Segitiga = a*t/2', 5, 'multiple_choice', 'questions/lZoQ5MgI8ni8lUfEtY7NjRPqUR2iXduFXBeibVrP.jpg', '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(302, 71, 'Tari Saman berasal dari daerah ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(303, 71, 'Wayang kulit menggunakan bahan utama ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(304, 71, 'Lagu \'Ampar-Ampar Pisang\' berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(305, 71, 'Batik yang memiliki motif parang berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(306, 71, 'Seni rupa yang dibuat dengan tiga dimensi disebut ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(307, 71, 'Tari Kecak berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(308, 71, 'Lagu \'Gundul-Gundul Pacul\' berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(309, 71, 'Patung Liberty yang terkenal terletak di negara ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(310, 71, 'Tari Piring berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(311, 71, 'Lagu \'Yamko Rambe Yamko\' berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(312, 71, 'Alat musik tradisional dari Maluku adalah ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(313, 71, 'Kain tenun ikat terkenal dari daerah ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(314, 71, 'Candi Borobudur merupakan peninggalan agama ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(315, 71, 'Tari Jaipong berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(316, 71, 'Kain khas yang terkenal dari Sumatera Selatan adalah ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(317, 71, 'Alat musik Sasando berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(318, 71, 'Lagu \'Apuse\' berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(319, 71, 'Tari Serimpi berasal dari ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35'),
+(320, 71, 'Patung Garuda Wisnu Kencana terdapat di ...', 5, 'multiple_choice', NULL, '2025-09-04 06:19:35', '2025-09-04 06:19:35');
 
 -- --------------------------------------------------------
 
@@ -515,7 +537,107 @@ INSERT INTO `exam_question_options` (`id`, `exam_question_id`, `option_label`, `
 (1452, 300, 'B', 'Yogyakarta', NULL, 0, '2025-08-28 21:25:35', '2025-08-28 21:25:57'),
 (1453, 300, 'C', 'Bali', NULL, 1, '2025-08-28 21:25:35', '2025-08-28 21:25:57'),
 (1454, 300, 'D', 'NTT', NULL, 0, '2025-08-28 21:25:35', '2025-08-28 21:25:57'),
-(1455, 300, 'E', 'Sumatera', NULL, 0, '2025-08-28 21:25:35', '2025-08-28 21:25:57');
+(1455, 300, 'E', 'Sumatera', NULL, 0, '2025-08-28 21:25:35', '2025-08-28 21:25:57'),
+(1456, 301, 'A', 'Angklung', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1457, 301, 'B', 'Sasando', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1458, 301, 'C', 'Tifa', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1459, 301, 'D', 'Kolintang', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1460, 301, 'E', 'Gamelan', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1461, 302, 'A', 'Jawa Tengah', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1462, 302, 'B', 'Aceh', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1463, 302, 'C', 'Bali', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1464, 302, 'D', 'Sulawesi', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1465, 302, 'E', 'Sumatera Barat', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1466, 303, 'A', 'Kayu', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1467, 303, 'B', 'Besi', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1468, 303, 'C', 'Kulit', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1469, 303, 'D', 'Kertas', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1470, 303, 'E', 'Bambu', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1471, 304, 'A', 'Kalimantan Selatan', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1472, 304, 'B', 'Papua', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1473, 304, 'C', 'Sulawesi', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1474, 304, 'D', 'Sumatera Selatan', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1475, 304, 'E', 'NTT', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1476, 305, 'A', 'Yogyakarta', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1477, 305, 'B', 'Solo', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1478, 305, 'C', 'Cirebon', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1479, 305, 'D', 'Pekalongan', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1480, 305, 'E', 'Bali', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1481, 306, 'A', 'Lukisan', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1482, 306, 'B', 'Patung', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1483, 306, 'C', 'Kaligrafi', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1484, 306, 'D', 'Batik', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1485, 306, 'E', 'Poster', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1486, 307, 'A', 'Bali', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1487, 307, 'B', 'Jawa Timur', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1488, 307, 'C', 'Sumatera Barat', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1489, 307, 'D', 'Kalimantan', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1490, 307, 'E', 'Sulawesi', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1491, 308, 'A', 'Jawa Barat', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1492, 308, 'B', 'Jawa Timur', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1493, 308, 'C', 'Jawa Tengah', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1494, 308, 'D', 'Madura', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1495, 308, 'E', 'Lampung', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1496, 309, 'A', 'Indonesia', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1497, 309, 'B', 'Prancis', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1498, 309, 'C', 'Amerika Serikat', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1499, 309, 'D', 'Italia', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1500, 309, 'E', 'Jepang', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1501, 310, 'A', 'Sumatera Barat', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1502, 310, 'B', 'Aceh', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1503, 310, 'C', 'Papua', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1504, 310, 'D', 'Kalimantan', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1505, 310, 'E', 'Bali', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1506, 311, 'A', 'Papua', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1507, 311, 'B', 'Jawa Tengah', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1508, 311, 'C', 'Sulawesi', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1509, 311, 'D', 'Maluku', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1510, 311, 'E', 'Kalimantan', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1511, 312, 'A', 'Tifa', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1512, 312, 'B', 'Angklung', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1513, 312, 'C', 'Kolintang', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1514, 312, 'D', 'Kecapi', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1515, 312, 'E', 'Rebab', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1516, 313, 'A', 'Bali', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1517, 313, 'B', 'NTT', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1518, 313, 'C', 'Sumatera Utara', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1519, 313, 'D', 'Kalimantan', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1520, 313, 'E', 'Jawa Barat', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1521, 314, 'A', 'Islam', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1522, 314, 'B', 'Hindu', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1523, 314, 'C', 'Budha', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1524, 314, 'D', 'Kristen', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1525, 314, 'E', 'Konghucu', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1526, 315, 'A', 'Jawa Tengah', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1527, 315, 'B', 'Jawa Barat', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1528, 315, 'C', 'Jawa Timur', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1529, 315, 'D', 'Bali', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1530, 315, 'E', 'Aceh', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1531, 316, 'A', 'Batik', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1532, 316, 'B', 'Songket', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1533, 316, 'C', 'Tenun', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1534, 316, 'D', 'Ikat', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1535, 316, 'E', 'Ulos', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1536, 317, 'A', 'NTT', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1537, 317, 'B', 'Papua', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1538, 317, 'C', 'Maluku', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1539, 317, 'D', 'Kalimantan', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1540, 317, 'E', 'Sulawesi', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1541, 318, 'A', 'Maluku', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1542, 318, 'B', 'Papua', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1543, 318, 'C', 'Bali', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1544, 318, 'D', 'Jawa Barat', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1545, 318, 'E', 'Sumatera Utara', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1546, 319, 'A', 'Jawa Barat', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1547, 319, 'B', 'Jawa Tengah', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1548, 319, 'C', 'Sumatera Barat', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1549, 319, 'D', 'Bali', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1550, 319, 'E', 'Aceh', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1551, 320, 'A', 'Lombok', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1552, 320, 'B', 'Yogyakarta', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1553, 320, 'C', 'Bali', NULL, 1, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1554, 320, 'D', 'NTT', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10'),
+(1555, 320, 'E', 'Sumatera', NULL, 0, '2025-09-04 06:19:35', '2025-09-05 15:22:10');
 
 -- --------------------------------------------------------
 
@@ -988,7 +1110,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2025_08_15_105054_create_exam_questions_table', 13),
 (21, '2025_08_15_105131_create_exam_question_options_table', 13),
 (22, '2025_08_20_205920_create_exam_results_table', 14),
-(23, '2025_08_21_111128_create_mapels_table', 15);
+(23, '2025_08_21_111128_create_mapels_table', 15),
+(24, '2025_09_05_220017_add_kode_kelas_to_siswa_pindahan_table', 16);
 
 -- --------------------------------------------------------
 
@@ -1051,7 +1174,7 @@ CREATE TABLE `pegawais` (
 --
 
 INSERT INTO `pegawais` (`id`, `user_id`, `nama`, `email`, `nip`, `jabatan`, `no_hp`, `alamat`, `foto`, `ttl`, `tahun_masuk`, `jenis_pegawai`, `created_at`, `updated_at`, `senin`, `selasa`, `rabu`, `kamis`, `jumat`) VALUES
-(10, 26, 'Muhammad Andika Anjas S, S.Kom.', '252613@guru.ujian.com', '202213', 'Wali Kelas', '08978475687', 'kp. walahir', 'pegawai/foto/Lt89XWhq2BcZA0Ig8tnp516cFYJxTHpakwZPX5HW.jpg', 'Bekasi, 01 Juli 2000', '2022', 'guru', '2025-08-25 15:57:34', '2025-08-25 17:11:18', 10, 10, 8, 8, 8),
+(10, 26, 'Muhammad Andika Anjas S, S.Kom.', '252613@guru.ujian.com', '202213', 'Wali Kelas', '08978475687', 'kp. walahir', 'pegawai/foto/eIw0pWhJlXMhn7Ep1quKjxj8xbBgsPeZiy1vmG5X.png', 'Bekasi, 01 Juli 2000', '2022', 'guru', '2025-08-25 15:57:34', '2025-09-05 17:31:13', 10, 10, 8, 8, 8),
 (11, NULL, 'Aliet Jaenudin, S.Pd.', '252601@guru.ujian.com', '252601', 'Wakil Kepala Sekolah Bidang Sarana Prasarana', NULL, NULL, NULL, NULL, NULL, 'guru', '2025-08-25 16:09:13', '2025-08-25 16:09:13', 10, 5, 0, 0, 18),
 (12, NULL, 'A. Daenuri, S.Pd.', '252602@guru.ujian.com', '252602', 'Wali Kelas', NULL, NULL, NULL, NULL, NULL, 'guru', '2025-08-25 16:11:57', '2025-08-25 16:11:57', 10, 10, 10, 3, 0),
 (13, 17, 'Sihabudin, S.Ag.', '252603@guru.ujian.com', '252604', 'Wali Kelas', NULL, NULL, 'pegawai/foto/bE8ibxJgi49L5ykGQ3dm42irFuHpSAt4dZ51Efn0.jpg', NULL, NULL, 'guru', '2025-08-25 16:17:14', '2025-08-28 03:55:59', 9, 0, 2, 9, 0),
@@ -1205,33 +1328,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('0p2C5Y1Vg3PxOKe1IgL4Nl7epDFVpv7gUqQY4x0C', 516, '114.79.2.195', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiRWc2ZVRlaUticUV6ellxbENJZEJvQkNnSnNub29hZWswdUpUc2Z0WiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0MjoiaHR0cHM6Ly9lZHUub25saW5lcHBkYi5jb20vc2lzd2EvZGFzaGJvYXJkIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDA6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL3Npc3dhL3Byb2ZpbGUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo1MTY7fQ==', 1756430351),
-('17vxImFbnxL9ZBYz2VkA46am8bbkfgeQn5l8mTWa', NULL, '114.10.72.197', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiMTRVRkdSYXl3Y3g1bG1Pb0pmS2ppZUhEMlVxa1VpSEtyTjViUW5NdSI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0MjoiaHR0cHM6Ly9lZHUub25saW5lcHBkYi5jb20vc2lzd2EvZWxlYXJuaW5nIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756436289),
-('2OHuP7kXlLoz7vX3M9gMY7uuEOYnav8jfVMNXVkz', 100, '114.10.117.209', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiMW9nZmRyU1ltcEJtT05XdXNXazZkNXNobTBrZDJPM2RiOHhBRE1mSCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL3Npc3dhL3VqaWFuIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTAwO30=', 1756432017),
-('3obIWeSKe9vj4IFdRtwhqA0r7WQGWTFD1AjFlTdE', 183, '140.213.14.232', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTzE0SnFuYTZWa3hBU3Z2VnhJemV2NXk0a3JtRmZEd3M5ZEpibjNuMCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL2xvZ2luIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTgzO30=', 1756433998),
-('7aciBxX96A2ne4kdoJHGqor80TWOl5SwxZNgbtDL', NULL, '114.8.199.137', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRjllUUdHZWJEYkF5REFBbDZOb3g2cjZpb01QMmN4cGxLMW9rUXZwSCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756432177),
-('7BUtxeGE8iKxksTLSG0pLw2K088aLw3DvhfzhPhB', 133, '114.10.118.225', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoia2ZTN3BTODg2VUNBM1BUODhPQmN0OE5OYkVReGJwMlptOE01dElCZiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL3Npc3dhL3VqaWFuIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTMzO30=', 1756432111),
-('7KnM5upGkXkrCjr1MJIKqBF7cTDMlJRSQU6aYOvy', NULL, '114.10.24.108', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOFd4Y0lMY3pBM0lsQXR5OTZyVzlHOWhVVFB6OW90TjhjdTljSFdQVCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756432097),
-('7MV4JmRWl8LQO5plo4jvNLxKcIC9s8Ar3KI6dXLX', NULL, '114.10.73.117', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoieVFJeWlORDY1RE5EYWFWa3k5SXR3U01jZXRsVkE2WElpeFhmalkyUSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tIjt9fQ==', 1756431815),
-('84CObwPgPjBivuyLX7OsK56nz7eTKT6ND0S2utiZ', NULL, '114.10.28.160', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRG1pYkwxRVIyQzdJZ29meWhVMWN3ZmlKc1M4MTB3MU9ib2REWmlabiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756433145),
-('dU5fAFpCaBGbolOuntyCI9rHYJqxwvt7yxdE21kb', NULL, '114.4.215.203', 'Mozilla/5.0 (Linux; U; Android 13; id-id; Redmi 10 2022 Build/TP1A.220624.014) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/112.0.5615.136 Mobile Safari/537.36 XiaoMi/MiuiBrowser/14.7.1.2-gn', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOElKVVZpN0VSb21EcUhQYkVLMjBUZE5zSWwweWZGcFl3akp6aWZ2biI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756428679),
-('ft0S9PPBdtv1Cfdo7sfQAonRaKpxn81LGbkt0x1A', 240, '114.10.71.221', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiUjZSVUFWbEZ6UmhZcmZVakx3QWFjaFRKSXJTNHpkVkJzVWhOT2VjbyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly9lZHUub25saW5lcHBkYi5jb20uIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756429178),
-('Gg0oI86fORHrF82Pw6UomBzJ3pPWhH8KVq6HSVeb', 106, '114.10.30.32', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiN2ZUdjcyUjZDYjhsOVlLQ1pkaEpucEoya0k3YVVPM3RJSmV4UFRJUiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL3Npc3dhL3VqaWFuIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTA2O30=', 1756428750),
-('hlt4DYyR4VU06Uc618TCwYqGMpZZuQ2HwhEWiFTU', 491, '114.10.65.63', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoiUWoyN2FWZTFIbEZPaEVFbXRDUjc2V1FxQzY3M2FOWVRCSmRwR253ZyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756435359),
-('hOYJxm9iGAomr6mxh760ksBv8FKRaC8KXt0Vnsbx', NULL, '114.4.78.20', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiWG1RSUNwbzZJNlo1bjhIRFV2Nk9INkpQelJQVXZTb25rQWVTZ0hxYiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756429903),
-('isFbdkwIll6bwMGrRGX1awPCvjL3njwmTEToALto', NULL, '182.3.44.86', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMEMwYmpLMXRmRlFjODBSbHFWOU9jRTdtQTd5MDRPcllFckZYZXNvTCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756432710),
-('mqmJC3TP3MJ3c0N3xIHt5zo9xcVYFIEcwdDjYixL', 275, '103.171.82.215', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YToyOntzOjY6Il90b2tlbiI7czo0MDoic0U3U2E2TXQyR3l0blg4T215SGhFTFF4Qm1PS3Y2OTd1WG5SNnltUCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756428814),
-('PjTkFu1SKQ9eJllqse08j2aUJKrx93pYR4ofugbv', 181, '114.4.215.203', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiM2k2UWJvM3NUUlJaN0lGeFdVdjBKcHNpcGhtRWxYd2pKMUR6VkdBYSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL3Npc3dhL3VqaWFuIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTgxO30=', 1756428624),
-('rHb0feLXY3aji1KWLwWlmnRsl6vJlHaZJ7crgYUh', 275, '103.171.82.215', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoidmNpNXoyaElPVzZXYjI2aWpFSXVYSlJCWTdaQ2pHbUVyM1JRZzZiMyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9lZHUub25saW5lcHBkYi5jb20vbG9naW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyNzU7fQ==', 1756428784),
-('RUKF0Xdkwj7TmRuLtJUPSinrRes2zRoeaSr17B0T', 419, '180.245.84.206', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36 EdgA/139.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiR0tiRVJ2eUM3MzJMa2dGVVc5Y3hhMk9nd1FhMUNwSXlndHh4T0lCUSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzI6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDE5O30=', 1756436072),
-('rwWv3cyBPdJVSe4ytU56T9QOmoqF7gh3nA0yE5I4', NULL, '140.213.14.105', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibVBEVXNZSFVlOElJbFNUeFNLTmpnNHF1aWdSTUNEbGY1ZmpLb2tOMCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756433932),
-('tOI8aWCuWizv2Kv7olfEIc9G02hWq9IsYKJp9bxR', 32, '180.245.84.206', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoib3FMNEhXSVFnQWQ5ZFEwdjZpckRVZHBEbWRaVVFtT2VjNE9yRnU3byI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL2d1cnUvZGFzaGJvYXJkIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MzI7fQ==', 1756435566),
-('uR6IwTtydoC0ZKHkAiMFsPDy7DuqwjNgFlGzA2RO', NULL, '180.242.76.34', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiT1ZZelc5SjNpY3NVMEpRNE0zVU15Ym5lOXhuWkJ2Z0t6c1JZODlUOSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1756429593),
-('WgAsFPGTBoBawk1hVWTyjYz80YlGNpo3jJROZhvF', NULL, '114.10.70.6', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiS2prMGNubFdvRUhZWkdNYW45VW1UTHJGalBIWjdiNE5nRUk2RFV2SiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo0NDoiaHR0cHM6Ly9lZHUub25saW5lcHBkYi5jb20vc2lzd2Evc3BtYi9kYWZ0YXIiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czozMjoiaHR0cHM6Ly9lZHUub25saW5lcHBkYi5jb20vbG9naW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX19', 1756435140),
-('z798Fv5V9TaOsKZFrxrwDG7OhsAJJMHgVqNwXRTL', 393, '114.4.78.15', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZVdJYzh6czlYTEpGVDlaY0tYN1A1MzROWjJqeWplaEdiek9scHZSQiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly9lZHUub25saW5lcHBkYi5jb20vc2lzd2EvdWppYW4iO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTozOTM7fQ==', 1756431043),
-('ZgSRPVlUgic03yjxvaqyNbrcZK7sSEA7kwBxXpIT', 448, '114.10.68.92', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiU2t0Mjh2RTVVQTA3TXBQcmdYZlQwcGEwQjdPQlBBc21BcXpHcHNqZCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tL3Npc3dhL3VqaWFuIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NDQ4O30=', 1756428608),
-('zmbtky2pJXiTxmVHaIrtlekmjMXZbKa4qAxteqOe', 169, '114.4.213.2', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSWJaY2VaUjRXUmZ1SGF4bUZLckZUaVpkRldIemNnSzlYVzN3WndPUiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjY6Imh0dHBzOi8vZWR1Lm9ubGluZXBwZGIuY29tIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTY5O30=', 1756428727),
-('ZXWEHTs4CdwynCedJIQw8ICWSRrJChT3kmjm8eDb', 2, '114.10.75.126', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiN0REd2VDN1NxdVNoWExsaXRSbzN0TXJkcHpqdzBRanNKcE93OXVnbyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MTEyOiJodHRwczovL2VkdS5vbmxpbmVwcGRiLmNvbS9hZG1pbi9kYXRhLXVqaWFuLXNpc3dhLzY0P2p1cnVzYW49VGVrbmlrJTIwS2VuZGFyYWFuJTIwUmluZ2FuJmtlbGFzX2lkPTI4JmtvZGVfa2VsYXM9Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1756429529);
+('MSDaYCM7awH3bNmCjMEsES4mfac07SX0IEaurpYR', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNFJBRUx0eFV0SE5JYkxFTVdINFBPcTh3WTRySUY4Uk5zZXJVbnJwbyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1757150955),
+('sU6qX8jqC8RntVldHfUbLoRl7GjC3MVQSubodWp7', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNU5QYklFcmhjQzNtbXVwRHdQZ0ZETXBvbjFxOXZiY2JFdTFxY29pOCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1757149136);
 
 -- --------------------------------------------------------
 
@@ -1333,9 +1431,8 @@ INSERT INTO `siswas` (`id`, `user_id`, `nama`, `email`, `nisn`, `nik`, `jenis_ke
 (45, 137, 'Manda Febriyanti', 'mandafry@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '2', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-26 06:54:15', '2025-08-26 06:54:15', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (46, 139, 'laura cahya yusilva', 'racaaa1125@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '2', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-26 06:56:05', '2025-08-26 06:56:05', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (47, 121, 'amelia putri fauziyah', 'faufauziahamel01@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '2', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-26 06:56:51', '2025-08-26 06:56:51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
-(48, 77, 'Abdul Haris', '25261001@ujian.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 29, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-26 07:16:00', '2025-08-26 07:16:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (49, 140, 'Siti Uswatun.c', 'sayaana2801@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '2', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-26 07:33:36', '2025-08-26 07:33:36', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
-(52, 141, 'uli', 'uli@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 29, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-26 15:25:34', '2025-08-26 15:25:34', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
+(52, 141, 'uli', 'uli@gmail.com', '5678890', '79908080', 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-26 15:25:34', '2025-08-31 09:12:05', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (53, 143, 'Sihab Badawi', 'jujusamsul24@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '1', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-27 00:29:23', '2025-08-27 00:29:23', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (54, 144, 'Dika Damenta Rorimpandey', 'ddamenta@gmail.com', NULL, NULL, 'L', 'Kristen', NULL, NULL, NULL, '2025/2026', 30, '1', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-27 00:29:29', '2025-08-27 00:29:29', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (55, 145, 'Nizam Hasbi', 'nijamhasbi198@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '1', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-27 00:29:54', '2025-08-27 00:29:54', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
@@ -1427,9 +1524,9 @@ INSERT INTO `siswas` (`id`, `user_id`, `nama`, `email`, `nisn`, `nik`, `jenis_ke
 (141, 245, 'Ririn fakhriyah', 'ririnfakhriyah@student.ac.id', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 29, NULL, 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-27 04:50:03', '2025-08-27 04:50:03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (142, 246, 'Dandie Abdul rizki', 'dandirizki@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '2', 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-27 13:50:29', '2025-08-27 13:50:29', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (143, 251, 'Neyla Rara irawan', 'neylarara30@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 29, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:38:52', '2025-08-28 00:38:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
-(144, 278, 'jones Aranda Kiria', 'jhonson12@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 29, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:45:41', '2025-08-28 00:45:41', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif');
+(144, 278, 'jones Aranda Kiria', 'jhonson12@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 29, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:45:41', '2025-08-28 00:45:41', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
+(145, 248, 'Rasya Devara Souhoka', 'rasyasouhoka@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:47:40', '2025-08-28 00:47:40', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif');
 INSERT INTO `siswas` (`id`, `user_id`, `nama`, `email`, `nisn`, `nik`, `jenis_kelamin`, `agama`, `no_kk`, `ttl`, `tahun_masuk`, `tahun_ajaran`, `kelas_id`, `kode_kelas`, `jurusan`, `asal_sekolah`, `alamat`, `no_hp`, `nama_ayah`, `nama_ibu`, `alamat_orang_tua`, `file_skl`, `file_ijazah`, `file_ktp_orang_tua`, `file_kk`, `file_foto`, `created_at`, `updated_at`, `nis`, `no_ijazah`, `pendidikan_ayah`, `pendidikan_ibu`, `pekerjaan_ayah`, `pekerjaan_ibu`, `nik_ayah`, `nik_ibu`, `penghasilan_ayah`, `penghasilan_ibu`, `status`) VALUES
-(145, 248, 'Rasya Devara Souhoka', 'rasyasouhoka@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:47:40', '2025-08-28 00:47:40', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (146, 249, 'Yuceysya Tuzzahra', 'yuceysyatzzhra@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 30, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:47:40', '2025-08-28 00:47:40', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (147, 250, 'haribah', 'haribahseptianixiiotkp@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 30, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:47:41', '2025-08-28 00:47:41', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (148, 252, 'nanda', 'nandaaaprill44@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 30, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:47:44', '2025-08-28 00:47:44', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
@@ -1468,7 +1565,7 @@ INSERT INTO `siswas` (`id`, `user_id`, `nama`, `email`, `nisn`, `nik`, `jenis_ke
 (181, 291, 'Adzra Mahira Prasetyaningrum', 'adzramahira6a@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 29, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:50:17', '2025-08-28 00:50:17', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (182, 293, 'Aliya Putri Pratiwi', 'yaya@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 29, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:53:02', '2025-08-28 00:53:02', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (183, 294, 'mutiara apriyanti', 'tiaraaaprilyntii012@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 30, NULL, 'Manajemen Perkantoran', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 00:56:09', '2025-08-28 00:56:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
-(184, 297, 'muhammad andika pratama', 'kipli246@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, NULL, 28, NULL, 'OK', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 01:28:40', '2025-08-28 01:28:40', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
+(184, 297, 'muhammad andika pratama', 'kipli246@gmail.com', '89800', '79797979', 'L', 'Islam', NULL, NULL, NULL, NULL, 28, NULL, 'OK', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 01:28:40', '2025-09-04 06:13:54', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (185, 300, 'Muhammad Gofur', 'halok730@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 28, NULL, 'OK', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 01:28:42', '2025-08-28 01:28:42', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (186, 295, 'Raffi gandara fantys', 'raffigandarafantys@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 28, NULL, 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 01:28:51', '2025-08-28 01:28:51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (187, 308, 'M.RAIHAN', 'dontoll@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 28, NULL, 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-28 01:29:09', '2025-08-28 01:29:09', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
@@ -1573,9 +1670,9 @@ INSERT INTO `siswas` (`id`, `user_id`, `nama`, `email`, `nisn`, `nik`, `jenis_ke
 (286, 427, 'Fadli Akbar Komaini Siregar', 'fadliakbarkomainisiregar@student.ac.id', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '2', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:15:26', '2025-08-29 00:15:26', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (287, 380, 'ILHAM HIDAYAT', 'Hamzah2010@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 28, NULL, 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:16:14', '2025-08-29 00:16:14', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (288, 431, 'manda febriyanti', 'mpyelll170208@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '2', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:16:43', '2025-08-29 00:16:43', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
-(289, 432, 'Pharel', 'pharel5five@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '2', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:17:52', '2025-08-29 00:17:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif');
+(289, 432, 'Pharel', 'pharel5five@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '2', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:17:52', '2025-08-29 00:17:52', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
+(290, 428, 'MUHAMMAD ARYA', 'amuhammadarya839@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 29, '2', 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:18:14', '2025-08-29 00:18:14', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif');
 INSERT INTO `siswas` (`id`, `user_id`, `nama`, `email`, `nisn`, `nik`, `jenis_kelamin`, `agama`, `no_kk`, `ttl`, `tahun_masuk`, `tahun_ajaran`, `kelas_id`, `kode_kelas`, `jurusan`, `asal_sekolah`, `alamat`, `no_hp`, `nama_ayah`, `nama_ibu`, `alamat_orang_tua`, `file_skl`, `file_ijazah`, `file_ktp_orang_tua`, `file_kk`, `file_foto`, `created_at`, `updated_at`, `nis`, `no_ijazah`, `pendidikan_ayah`, `pendidikan_ibu`, `pekerjaan_ayah`, `pekerjaan_ibu`, `nik_ayah`, `nik_ibu`, `penghasilan_ayah`, `penghasilan_ibu`, `status`) VALUES
-(290, 428, 'MUHAMMAD ARYA', 'amuhammadarya839@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 29, '2', 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:18:14', '2025-08-29 00:18:14', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (291, 437, 'wily', 'wily@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '1', 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:18:42', '2025-08-29 00:18:42', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (292, 435, 'Rangga agustian Supriyadi', 'supriyadirangga72@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 29, '2', 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:19:42', '2025-08-29 00:19:42', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (293, 436, 'Raka hadi Pratama', 'rakahadipratama08@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 29, '2', 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:19:53', '2025-08-29 00:19:53', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
@@ -1626,7 +1723,7 @@ INSERT INTO `siswas` (`id`, `user_id`, `nama`, `email`, `nisn`, `nik`, `jenis_ke
 (338, 509, 'Dani Fikri', 'dani@student.ac.id', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 29, '1', 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:41:25', '2025-08-29 00:41:25', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (339, 507, 'abdul haris maulana', 'abdul.harismaulana12@gmail.com', NULL, NULL, 'L', 'Kristen', NULL, NULL, NULL, '2025/2026', 28, NULL, 'Teknik Kendaraan Ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:41:29', '2025-08-29 00:41:29', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
 (340, 511, 'nabila luth afifah', 'nabilalutafifah@gmail.com', NULL, NULL, 'P', 'Islam', NULL, NULL, NULL, '2025/2026', 29, '1', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 00:41:45', '2025-08-29 00:41:45', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif'),
-(341, 516, 'fasya busnainul fadilah', 'fasyaabusnainulffasyabusnainul@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '1', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-08-29 01:13:12', '2025-08-29 01:13:12', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif');
+(343, NULL, 'fasya busnainul fadilah', 'fasyaabusnainulffasyabusnainul@gmail.com', NULL, NULL, 'L', 'Islam', NULL, NULL, NULL, '2025/2026', 30, '1', 'Teknik Komputer dan Jaringan Telekomunikasi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-09-05 15:20:56', '2025-09-05 15:20:56', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'siswa aktif');
 
 -- --------------------------------------------------------
 
@@ -1640,8 +1737,9 @@ CREATE TABLE `siswa_absensis` (
   `tanggal` date NOT NULL,
   `jam_masuk` time DEFAULT NULL,
   `jam_pulang` time DEFAULT NULL,
-  `status_masuk` enum('Hadir') DEFAULT NULL,
-  `status_pulang` enum('Hadir') DEFAULT NULL,
+  `status_masuk` enum('Tepat Waktu','Terlambat','Belum Absen') NOT NULL DEFAULT 'Belum Absen',
+  `status_pulang` enum('Hadir Lengkap','Pulang Cepat','Belum Pulang') NOT NULL DEFAULT 'Belum Pulang',
+  `status_keseluruhan` enum('Alpha','Belum Lengkap','Hadir Lengkap') NOT NULL DEFAULT 'Alpha',
   `keterangan` text DEFAULT NULL,
   `dibuat_oleh` bigint(20) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1656,8 +1754,9 @@ CREATE TABLE `siswa_absensis` (
 -- Dumping data for table `siswa_absensis`
 --
 
-INSERT INTO `siswa_absensis` (`id`, `user_id`, `tanggal`, `jam_masuk`, `jam_pulang`, `status_masuk`, `status_pulang`, `keterangan`, `dibuat_oleh`, `created_at`, `updated_at`, `foto_masuk`, `foto_pulang`, `lokasi_masuk`, `lokasi_pulang`) VALUES
-(4, 7, '2025-07-14', '14:00:37', '14:00:45', 'Hadir', 'Hadir', NULL, 7, '2025-07-14 07:00:37', '2025-07-14 07:00:45', 'storage/absen/6874ab150bc69_masuk.jpg', 'storage/absen/6874ab1d54731_pulang.jpg', '-6.26265470005337,107.17721875974027', '-6.26265470005337,107.17721875974027');
+INSERT INTO `siswa_absensis` (`id`, `user_id`, `tanggal`, `jam_masuk`, `jam_pulang`, `status_masuk`, `status_pulang`, `status_keseluruhan`, `keterangan`, `dibuat_oleh`, `created_at`, `updated_at`, `foto_masuk`, `foto_pulang`, `lokasi_masuk`, `lokasi_pulang`) VALUES
+(4, 7, '2025-07-14', '14:00:37', '14:00:45', '', '', 'Alpha', NULL, 7, '2025-07-14 07:00:37', '2025-07-14 07:00:45', 'storage/absen/6874ab150bc69_masuk.jpg', 'storage/absen/6874ab1d54731_pulang.jpg', '-6.26265470005337,107.17721875974027', '-6.26265470005337,107.17721875974027'),
+(5, 141, '2025-09-06', '01:00:00', '01:01:00', 'Tepat Waktu', 'Pulang Cepat', 'Alpha', NULL, 141, '2025-09-05 18:00:13', '2025-09-05 18:01:08', 'storage/absen/68bb252d6f287_masuk.jpg', 'storage/absen/68bb25643423d_pulang.jpg', '-6.256449903428345,107.18125360015998', '-6.256449903428345,107.18125360015998');
 
 -- --------------------------------------------------------
 
@@ -1670,8 +1769,8 @@ CREATE TABLE `siswa_pindahan` (
   `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `nama` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `nisn` varchar(255) NOT NULL,
-  `nik` varchar(255) NOT NULL,
+  `nisn` varchar(255) DEFAULT NULL,
+  `nik` varchar(255) DEFAULT NULL,
   `jenis_kelamin` enum('L','P') DEFAULT NULL,
   `agama` varchar(100) DEFAULT NULL,
   `no_kk` varchar(255) DEFAULT NULL,
@@ -1679,6 +1778,7 @@ CREATE TABLE `siswa_pindahan` (
   `tahun_masuk` year(4) DEFAULT NULL,
   `tahun_ajaran` varchar(10) DEFAULT NULL,
   `kelas_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `kode_kelas` varchar(255) DEFAULT NULL,
   `jurusan` varchar(255) DEFAULT NULL,
   `asal_sekolah` varchar(255) DEFAULT NULL,
   `alamat` text DEFAULT NULL,
@@ -1710,10 +1810,10 @@ CREATE TABLE `siswa_pindahan` (
 -- Dumping data for table `siswa_pindahan`
 --
 
-INSERT INTO `siswa_pindahan` (`id`, `user_id`, `nama`, `email`, `nisn`, `nik`, `jenis_kelamin`, `agama`, `no_kk`, `ttl`, `tahun_masuk`, `tahun_ajaran`, `kelas_id`, `jurusan`, `asal_sekolah`, `alamat`, `no_hp`, `nama_ayah`, `nama_ibu`, `alamat_orang_tua`, `file_skl`, `file_ijazah`, `file_ktp_orang_tua`, `file_kk`, `file_foto`, `created_at`, `updated_at`, `nis`, `no_ijazah`, `pendidikan_ayah`, `pendidikan_ibu`, `pekerjaan_ayah`, `pekerjaan_ibu`, `nik_ayah`, `nik_ibu`, `penghasilan_ayah`, `penghasilan_ibu`, `status`) VALUES
-(12, NULL, 'siswa pertama', 'siswa@gmail.com', '0910384022', '3216090611100008', 'L', 'Islam', '3216092801140027', 'Bekasi, 01 Juli 2003', '2025', '2025/2026', NULL, 'Teknik Komputer dan Jaringan Telekomunikasi', 'SMP Negeri 6 Cikarang Utara', 'Kp. Walahir RT001/RW004 Desa Karangraharja Kec. Cikarang Utara Kab. Bekasi', '08978475687', 'Jasi Irsan', 'Anita Nurfitriyani', 'Kp. Walahir RT001/RW004 Desa Karangraharja Kec. Cikarang Utara Kab. Bekasi', 'dokumen/skl/15Vzef3meeROwIUKpiln0GkWa9GM3wPW9wBZcGbl.pdf', 'dokumen/ijazah/XdheP5pJsRTBP3Nvh5MJiH9mu12gy0AmCh3QqpCz.pdf', 'dokumen/ktp_ortu/7cFQdu9M9FyCYMemX8KTCTyaK9OKIskxBKw3bpy2.pdf', 'dokumen/kk/EuGpvA62QrhOlURh1aiaGxjDMG4VuznYiCgfVRmW.pdf', 'dokumen/foto/Wi67wj3MET3jtqNCrMuJ3EpejsdRkLSxbgQRnJkG.jpg', '2025-07-17 15:11:00', '2025-07-17 15:11:00', '1234456778', '1132VFSH6237GJU', 'SLTA', 'S1', 'Karyawan', 'ASN', '1233455667488505', '1235646575690797', 'Rp. 5.000.000', 'Rp. 3.500.000', 'keluar'),
-(13, NULL, 'Anjas syaputra', 'andika@domain.com', '1234567', '1234567889290', 'L', 'Islam', '345162738838', 'Bekasi, 01 Juli 2003', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-18 09:51:07', '2025-07-18 09:51:07', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'keluar'),
-(14, NULL, 'ilham', 'ilham@domain.com', '13355677898', '12324565', NULL, NULL, '1312526', 'Bekasi,01 Juli 2003', '2021', '2025/2026', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-19 05:33:12', '2025-07-19 05:33:12', '121345267', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'keluar');
+INSERT INTO `siswa_pindahan` (`id`, `user_id`, `nama`, `email`, `nisn`, `nik`, `jenis_kelamin`, `agama`, `no_kk`, `ttl`, `tahun_masuk`, `tahun_ajaran`, `kelas_id`, `kode_kelas`, `jurusan`, `asal_sekolah`, `alamat`, `no_hp`, `nama_ayah`, `nama_ibu`, `alamat_orang_tua`, `file_skl`, `file_ijazah`, `file_ktp_orang_tua`, `file_kk`, `file_foto`, `created_at`, `updated_at`, `nis`, `no_ijazah`, `pendidikan_ayah`, `pendidikan_ibu`, `pekerjaan_ayah`, `pekerjaan_ibu`, `nik_ayah`, `nik_ibu`, `penghasilan_ayah`, `penghasilan_ibu`, `status`) VALUES
+(12, NULL, 'siswa pertama', 'siswa@gmail.com', '0910384022', '3216090611100008', 'L', 'Islam', '3216092801140027', 'Bekasi, 01 Juli 2003', '2025', '2025/2026', NULL, NULL, 'Teknik Komputer dan Jaringan Telekomunikasi', 'SMP Negeri 6 Cikarang Utara', 'Kp. Walahir RT001/RW004 Desa Karangraharja Kec. Cikarang Utara Kab. Bekasi', '08978475687', 'Jasi Irsan', 'Anita Nurfitriyani', 'Kp. Walahir RT001/RW004 Desa Karangraharja Kec. Cikarang Utara Kab. Bekasi', 'dokumen/skl/15Vzef3meeROwIUKpiln0GkWa9GM3wPW9wBZcGbl.pdf', 'dokumen/ijazah/XdheP5pJsRTBP3Nvh5MJiH9mu12gy0AmCh3QqpCz.pdf', 'dokumen/ktp_ortu/7cFQdu9M9FyCYMemX8KTCTyaK9OKIskxBKw3bpy2.pdf', 'dokumen/kk/EuGpvA62QrhOlURh1aiaGxjDMG4VuznYiCgfVRmW.pdf', 'dokumen/foto/Wi67wj3MET3jtqNCrMuJ3EpejsdRkLSxbgQRnJkG.jpg', '2025-07-17 15:11:00', '2025-07-17 15:11:00', '1234456778', '1132VFSH6237GJU', 'SLTA', 'S1', 'Karyawan', 'ASN', '1233455667488505', '1235646575690797', 'Rp. 5.000.000', 'Rp. 3.500.000', 'keluar'),
+(13, NULL, 'Anjas syaputra', 'andika@domain.com', '1234567', '1234567889290', 'L', 'Islam', '345162738838', 'Bekasi, 01 Juli 2003', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-18 09:51:07', '2025-07-18 09:51:07', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'keluar'),
+(14, NULL, 'ilham', 'ilham@domain.com', '13355677898', '12324565', NULL, NULL, '1312526', 'Bekasi,01 Juli 2003', '2021', '2025/2026', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-19 05:33:12', '2025-07-19 05:33:12', '121345267', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'keluar');
 
 -- --------------------------------------------------------
 
@@ -3350,7 +3450,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(2, 'Admin Utama', 'admin@domain.com', 'admin', NULL, '$2y$12$fZlGx1kBWQjs4Wu7SixnquyfF4jeYupq0HT4U9lHmzBX7BCokKo4C', NULL, '2025-06-27 01:45:33', '2025-06-27 01:45:33'),
+(2, 'Admin Utama', 'admin@domain.com', 'admin', NULL, '$2y$12$vXSBwXT4IXcoZVVjxwM9yufV3I0rwe8DTM867jGDQNcLrFGHVY89q', NULL, '2025-06-27 01:45:33', '2025-09-06 09:28:25'),
 (3, 'Miftahusurur, S.Pd.', 'superadmin@domain.com', 'super-admin', NULL, '$2y$12$JDaKPm81U1H3nR4iVm2GoOsH5X4av9jw/I6atuX.80zfIOaZDRCAC', NULL, '2025-06-27 02:43:04', '2025-06-27 02:43:04'),
 (6, 'M. Andika Anjas Syaputra, S.Kom.', 'andikasyaputra818@gmail.com', 'guru', NULL, '$2y$12$UiCydPmNRMUkljBkCEpzZ.Uz95hKnj3SIczrGEy0r5WIz.QYMkifa', NULL, '2025-07-02 06:35:27', '2025-07-02 06:35:27'),
 (15, 'Alit Jaenudin, S.Pd.', '252601@guru.ujian.com', 'guru', NULL, '$2y$12$0/qzmgmSFewGR0rKGsel.elLnS3LK2gJCNuDGLdIb58oM961HAUvm', NULL, '2025-08-25 11:38:19', '2025-08-25 11:38:19'),
@@ -3412,7 +3512,6 @@ INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `passwo
 (73, 'Fauqi Nuron', '20251032@ujian.com', 'member', NULL, '$2y$12$x4/CQhu9khjrbPPdMDnJ0ueV7TwCkgFctpZOyrRzPjc26T8a73H16', NULL, '2025-08-26 05:10:25', '2025-08-26 05:10:25'),
 (74, 'Jhemy Andreas', '20251033@ujian.com', 'member', NULL, '$2y$12$21wGTaYPdsdojbatd.4csOJ.e.h283C2C/ybZK5RB6ELesw3Rcila', NULL, '2025-08-26 05:10:25', '2025-08-26 05:10:25'),
 (75, 'Kamil Rulyanda', '20251034@ujian.com', 'member', NULL, '$2y$12$6ifV5DFm8CM9qCYvux2nfeJimGafQPPCem.IyJTT092peyuJ8dqFq', NULL, '2025-08-26 05:10:26', '2025-08-26 05:10:26'),
-(77, 'Abdul Haris', '25261001@ujian.com', 'siswa', NULL, '$2y$12$rmbl4/9rh8/KGh58n4lp2uQsd3ykfJ6fYi6SGTWsxFRackA1KULQu', NULL, '2025-08-26 05:14:24', '2025-08-26 05:14:24'),
 (78, 'Muhamad Sarif Hidayat', 'muhamadsarifhidayat69@gmail.com', 'siswa', NULL, '$2y$12$S29L6ll.LxXM1Ts.2CmTMOcakqV31nQKXwtV7N4yO6U/O2.CeyMDq', NULL, '2025-08-26 06:38:06', '2025-08-26 06:38:06'),
 (79, 'Muhammad Fardan AlKaisya', 'dhaan3952@gmail.com', 'siswa', NULL, '$2y$12$THpERcs89rH0byOw/.A6.eRKKYpc5AWy9ksj56DyqNf/b1cmf7pxi', NULL, '2025-08-26 06:38:18', '2025-08-26 06:38:18'),
 (80, 'ELANG SATRIA NUGROHO', 'elangsatrian87@gmail.com', 'siswa', NULL, '$2y$12$J8fMQkXsQ9EjzKbOkGDioOw9YdW1DdwTeM.7piDoBaVFLl.PLDH1.', NULL, '2025-08-26 06:38:29', '2025-08-26 06:38:29'),
@@ -3604,9 +3703,9 @@ INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `passwo
 (271, 'nayla aisyah', 'nay@gmail.com', 'siswa', NULL, '$2y$12$l7H2OAmFyEXd/1PIJItUVe0VR5iXpU/w8zYFn1BwoZie20X/WQL6m', NULL, '2025-08-28 00:43:12', '2025-08-28 00:43:12'),
 (272, 'widia juliyanti', 'dya@gmail.com', 'siswa', NULL, '$2y$12$0T2P/oQf9bipWICqXZ792ezzFhk8nyVNoXj6Kl3Xv1lFvoFCYD44C', NULL, '2025-08-28 00:43:33', '2025-08-28 00:43:33'),
 (273, 'khanza pratami', 'njaw@gmail.com', 'siswa', NULL, '$2y$12$EMhpps5BTUKgTH/xhWqSzO3y7tybr30D5pmxeYKYZMPUpmjQlTbji', NULL, '2025-08-28 00:43:34', '2025-08-28 00:43:34'),
-(274, 'Tiara rhamadani', 'quenra@gmail.com', 'siswa', NULL, '$2y$12$1YXtlxD6ruFkbpO3dlrdWuYB3O.SHqqnSpsllNZeIHAZhAA3VZFjK', NULL, '2025-08-28 00:43:35', '2025-08-28 00:43:35');
+(274, 'Tiara rhamadani', 'quenra@gmail.com', 'siswa', NULL, '$2y$12$1YXtlxD6ruFkbpO3dlrdWuYB3O.SHqqnSpsllNZeIHAZhAA3VZFjK', NULL, '2025-08-28 00:43:35', '2025-08-28 00:43:35'),
+(275, 'Tiyas miranti', 'tiyasmiranti@gmail.com', 'siswa', NULL, '$2y$12$Jy5iq6ZixIaL/j45uVQoYecsS0.6PeOTBYAF.e2H54fWnVoijltN2', 'KMrA2vl7ciRleHY5OUCcbyqjkiSRdtkTUuaunHylAoQcmTM4MiWZRPpMBPv8', '2025-08-28 00:43:36', '2025-08-28 00:43:36');
 INSERT INTO `users` (`id`, `name`, `email`, `role`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(275, 'Tiyas miranti', 'tiyasmiranti@gmail.com', 'siswa', NULL, '$2y$12$Jy5iq6ZixIaL/j45uVQoYecsS0.6PeOTBYAF.e2H54fWnVoijltN2', 'KMrA2vl7ciRleHY5OUCcbyqjkiSRdtkTUuaunHylAoQcmTM4MiWZRPpMBPv8', '2025-08-28 00:43:36', '2025-08-28 00:43:36'),
 (276, 'Nilna syakira', 'nilnasyakira1909@gmail.com', 'siswa', NULL, '$2y$12$CUrLZn/kS1CYZUqOMRzs5eoHzWd3Kg5oP1TUUHM2fZfzKHhNkHVVO', 'vvlv3fwR60vhGkkuh0QYsRWr7XM91mPFt4qC9Tx1yRFps4PW6CUYgpP9iwBK', '2025-08-28 00:43:50', '2025-08-28 00:43:50'),
 (277, 'hafsa assyifa', 'hafssahsyifa@gmail.com', 'siswa', NULL, '$2y$12$tJ6iKLday9AoplRk6GsHme/J5V1wikXZZ9SRuCLVGxvRMYm5xAgHS', NULL, '2025-08-28 00:43:52', '2025-08-28 00:43:52'),
 (278, 'jones Aranda Kiria', 'jhonson12@gmail.com', 'siswa', NULL, '$2y$12$/JGsv/SuAZ4EHEubfvwuW.NiaFdMOb2Y4oHVoLB21d63cy2Ro811q', NULL, '2025-08-28 00:44:09', '2025-08-28 00:44:09'),
@@ -4084,25 +4183,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `absensis`
 --
 ALTER TABLE `absensis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `exams`
 --
 ALTER TABLE `exams`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `exam_questions`
 --
 ALTER TABLE `exam_questions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=321;
 
 --
 -- AUTO_INCREMENT for table `exam_question_options`
 --
 ALTER TABLE `exam_question_options`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1456;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1556;
 
 --
 -- AUTO_INCREMENT for table `exam_results`
@@ -4162,7 +4261,7 @@ ALTER TABLE `mapels`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `options`
@@ -4216,19 +4315,19 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT for table `siswas`
 --
 ALTER TABLE `siswas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=342;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=344;
 
 --
 -- AUTO_INCREMENT for table `siswa_absensis`
 --
 ALTER TABLE `siswa_absensis`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `siswa_pindahan`
 --
 ALTER TABLE `siswa_pindahan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `student_answers`

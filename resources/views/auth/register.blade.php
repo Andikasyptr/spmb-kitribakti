@@ -44,6 +44,22 @@
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+@if(true) {{-- ganti true jadi kondisi apakah pendaftaran ditutup --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Pendaftaran Ditutup',
+            text: 'Saat ini tidak dalam masa pendaftaran.',
+            confirmButtonColor: '#6366F1'
+        }).then(() => {
+            window.location.href = "{{ route('login') }}"; // arahkan ke login
+        });
+    });
+</script>
+@endif
+
+
 <body class="h-full overflow-hidden">
   <div class="flex min-h-screen overflow-hidden">
     <!-- Left Side -->

@@ -25,7 +25,7 @@ class LoginController extends Controller
 
         // Email yang diizinkan untuk login tanpa password
         $bypassUsers = [
-            'admin@domain.com' => 'admin',
+            // 'admin@domain.com' => 'admin',
         ];
 
         // Login Bypass
