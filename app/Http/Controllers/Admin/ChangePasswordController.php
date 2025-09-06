@@ -41,7 +41,7 @@ class ChangePasswordController extends Controller
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
-
+        
         // Cek apakah password lama sesuai
         if (!Hash::check($request->current_password, $user->password)) {
             // Kalau password lama salah, kembali dengan error
