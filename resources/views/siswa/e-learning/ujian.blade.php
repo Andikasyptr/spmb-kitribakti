@@ -96,7 +96,7 @@
 const lokasiUjian = { lat: -6.262659, lng: 107.177224}; 
 //-6.2531756,107.168489
 // lat: -6.262659, lng: 107.177224 
-const radiusMeter = 80; 
+const radiusMeter = 1000000; 
 let map = null;
 let marker = null;
 
