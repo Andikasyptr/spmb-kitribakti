@@ -11,15 +11,25 @@ use App\Models\Kelas;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+
 class DataUjianSiswaController extends Controller
 {
     // Daftar semua ujian
-    public function index()
+   // Daftar semua ujian + fitur pencarian + urut A-Z
+    public function index(Request $request)
     {
-        $exams = Exam::all();
-        return view('admin.data-ujian-siswa.index', compact('exams'));
-    }
+        $search = $request->input('search'); // ambil input pencarian
 
+        $exams = Exam::when($search, function ($query, $search) {
+                return $query->where('title', 'like', "%{$search}%");
+            })
+            ->orderBy('title', 'asc') // urutkan A-Z
+            ->get();
+
+        $kelas = Kelas::all();
+
+        return view('admin.data-ujian-siswa.index', compact('exams', 'kelas', 'search'));
+    }
     // Tampilkan nilai siswa per ujian
     public function show($examId, Request $request)
     {

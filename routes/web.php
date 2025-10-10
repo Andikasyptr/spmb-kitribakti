@@ -140,6 +140,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('admin/guru/{id}/edit', [GuruController::class, 'edit'])->name('admin.guru.edit');
         Route::put('admin/guru/{id}', [GuruController::class, 'update'])->name('admin.guru.update');
         Route::delete('admin/guru/{id}', [GuruController::class, 'destroy'])->name('admin.guru.destroy');
+        Route::get('/download-template', [GuruController::class, 'downloadTemplate'])->name('admin.guru.downloadTemplate');
+        Route::post('/import', [GuruController::class, 'import'])->name('admin.guru.import');
+        Route::delete('/delete-all', [GuruController::class, 'deleteAll'])->name('admin.guru.deleteAll');
 
         // tendik
         Route::get('admin/tendik', [TenagaKependidikanController::class, 'index'])->name('admin.tendik.index');
@@ -148,6 +151,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('admin/tendik/{id}/edit', [TenagaKependidikanController::class, 'edit'])->name('admin.tendik.edit');
         Route::put('admin/tendik/{id}', [TenagaKependidikanController::class, 'update'])->name('admin.tendik.update');
         Route::delete('admin/tendik/{id}', [TenagaKependidikanController::class, 'destroy'])->name('admin.tendik.destroy');
+         Route::get('/tendik/download-template', [TenagaKependidikanController::class, 'downloadTemplate'])->name('admin.tendik.download-template');
+        Route::post('/tendik/import', [TenagaKependidikanController::class, 'import'])->name('admin.tendik.import');
+        Route::delete('/tendik/delete-all', [TenagaKependidikanController::class, 'deleteAll'])->name('admin.tendik.deleteAll');
 
         // siswa
         Route::get('admin/siswa', [SiswaController::class, 'index'])->name('admin.siswa.index');
@@ -156,6 +162,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('admin/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('admin.siswa.edit');
         Route::put('admin/siswa/{id}', [SiswaController::class, 'update'])->name('admin.siswa.update');
         Route::delete('admin/siswa/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy');
+        Route::get('siswa/download-template', [SiswaController::class, 'downloadTemplate'])->name('admin.siswa.download-template');
+        Route::post('siswa/import', [SiswaController::class, 'import'])->name('admin.siswa.import');
+        Route::delete('siswa/delete-all', [SiswaController::class, 'deleteAll'])->name('admin.siswa.deleteAll');
 
         // data pegawai
         Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
@@ -227,6 +236,12 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     Route::put('/mapel/{id}', [MapelController::class, 'update'])->name('mapel.update'); // update mapel
     Route::delete('/mapel/{id}', [MapelController::class, 'destroy'])->name('mapel.destroy'); // hapus mapel
 
+
+    // radius 
+
+    Route::post('/admin/radius/update', [App\Http\Controllers\Admin\SettingController::class, 'updateRadius'])
+    ->name('admin.radius.update');
+    
     // Exams
         Route::get('/admin/e-learning/exams', [ExamController::class, 'index'])->name('admin.exams.index');
         Route::get('/admin/e-learning/exams/create', [ExamController::class, 'create'])->name('admin.exams.create');
@@ -468,8 +483,10 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
                 // Route::put('/siswa/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
                 Route::put('/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
                 Route::get('/settings', [SiswaSettingController::class, 'index'])->name('siswa.settings');
-                Route::get('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi');
-                Route::get('/spmb/daftar', [SiswaSpmbController::class, 'create'])->name('spmb.form');
+                    Route::get('/ubah-sandi', [SiswaSettingController::class, 'formUbahSandi'])->name('siswa.ubahsandi.form');
+                    Route::post('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi');  
+                    Route::put('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi.update');             
+                     Route::get('/spmb/daftar', [SiswaSpmbController::class, 'create'])->name('spmb.form');
                 Route::post('/spmb/daftar', [SiswaSpmbController::class, 'store'])->name('spmb.store');
                 Route::get('/absensi', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'index'])->name('siswa.absensi.index');
                 Route::post('/absen-masuk', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'absenMasuk'])->name('siswa.absensi.masuk');

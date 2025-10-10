@@ -10,8 +10,8 @@
 
         <!-- Selamat Datang -->
         <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
-            <h1 class="text-2xl font-bold text-gray-800 mb-2">Selamat Datang, Siswa!</h1>
-            <p class="text-gray-600">Ini adalah dashboard Anda sebagai siswa. Gunakan menu di sebelah kiri untuk mengakses materi, absensi, nilai, dan informasi lainnya.</p>
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Selamat Datang, {{ $siswa->name }}</h1>
+            <p class="text-gray-600">Ini adalah dashboard Anda sebagai siswa. Gunakan menu di sebelah kiri untuk mengakses berbagai fitur lainnya.</p>
         </div>
 
         <!-- Pengumuman Terbaru -->

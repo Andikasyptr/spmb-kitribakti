@@ -18,6 +18,20 @@
                 <label class="block text-sm">Email</label>
                 <input type="email" name="email" value="{{ $siswa->email }}" class="w-full border rounded px-3 py-2" required>
             </div>
+           <div class="mb-4">
+                <label class="block text-sm">Radius Ujian (meter)</label>
+                <input 
+                    type="number" 
+                    name="exam_radius" 
+                    value="{{ old('exam_radius', $siswa->exam_radius ?? '') }}" 
+                    class="w-full border rounded px-3 py-2" 
+                    min="10" 
+                    max="10000"
+                    placeholder="Kosongkan untuk pakai radius default"
+                >
+            </div>
+
+
             <div class="flex justify-end">
                 <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Perbarui</button>
             </div>

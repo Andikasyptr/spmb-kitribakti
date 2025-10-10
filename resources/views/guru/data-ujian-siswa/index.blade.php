@@ -11,7 +11,7 @@
             <thead class="bg-gray-100">
                 <tr>
                     <th class="px-4 py-2">No</th>
-                    <th class="px-4 py-2">Judul Ujian</th>
+                    <th class="px-4 py-2">Mata Pelajaran</th>
                     <th class="px-4 py-2">Jurusan</th>
                     <th class="px-4 py-2">Kelas</th>
                     <th class="px-4 py-2">Tanggal Dibuat</th>

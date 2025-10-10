@@ -7,12 +7,36 @@
     <h1 class="text-2xl font-bold mb-6 text-gray-800">📑 Data Ujian Siswa</h1>
 
     <div class="overflow-x-auto">
+        {{-- 🔍 Form Pencarian --}}
+    <form method="GET" action="{{ route('data-ujian-siswa.index') }}" class="mb-6 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+        <input 
+            type="text" 
+            name="search" 
+            value="{{ request('search') }}" 
+            placeholder="Cari berdasarkan nama ujian..." 
+            class="border border-gray-300 rounded-md px-3 py-2 w-full sm:w-80 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        >
+      <button 
+            type="submit" 
+            class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-200">
+            Cari
+        </button>
+
+        @if(request('search'))
+            <a href="{{ route('data-ujian-siswa.index') }}" 
+            class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400 transition duration-200">
+            Reset
+            </a>
+        @endif
+
+    </form>
+
         <table class="min-w-full border border-gray-200 divide-y divide-gray-200 text-left">
             <thead class="bg-gray-100">
                 <tr>
                     <th class="px-4 py-2">No</th>
-                    <th class="px-4 py-2">Judul Ujian</th>
-                    <th class="px-4 py-2">Deskripsi</th>
+                    <th class="px-4 py-2">Mata Pelajaran</th>
+                    <th class="px-4 py-2">Jurusan</th>
                     <th class="px-4 py-2">Kelas</th>
                     <th class="px-4 py-2">Tanggal Dibuat</th>
                     <th class="px-4 py-2">Aksi</th>
@@ -24,9 +48,7 @@
                     <td class="px-4 py-2">{{ $index + 1 }}</td>
                     <td class="px-4 py-2">{{ $exam->title }}</td>
                     <td class="px-4 py-2">{{ $exam->description }}</td>
-                    <td class="px-4 py-2">
-                        {{ $exam->kelas->nama_kelas ?? '-' }}
-                    </td>
+                     <td class="px-4 py-2">{{ $exam->kelas ?? '-' }}</td>
                     <td class="px-4 py-2">{{ $exam->created_at->format('d M Y') }}</td>
                     <td class="px-4 py-2 flex gap-2 flex-wrap">
                         <a href="{{ route('data-ujian-siswa.show', $exam->id) }}" 
