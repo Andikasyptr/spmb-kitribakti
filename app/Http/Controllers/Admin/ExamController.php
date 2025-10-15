@@ -7,6 +7,7 @@ use App\Models\Exam;
 use Illuminate\Http\Request;
 use App\Models\Mapel;
 use App\Models\Kelas;
+use Illuminate\Support\Facades\DB; // ✅ Tambahkan ini
 
 class ExamController extends Controller
 {
@@ -86,10 +87,26 @@ class ExamController extends Controller
         return redirect()->route('admin.exams.index')->with('success', 'Ujian berhasil diperbarui.');
     }
 
-    // Hapus ujian
+    // Hapus ujian satuan
     public function destroy(Exam $exam)
     {
         $exam->delete();
         return redirect()->route('admin.exams.index')->with('success', 'Ujian berhasil dihapus.');
+    }
+
+    // ✅ Hapus semua ujian
+    public function deleteAll()
+    {
+        DB::beginTransaction();
+        try {
+            DB::table('exams')->delete();
+            DB::statement('ALTER TABLE exams AUTO_INCREMENT = 1');
+            DB::commit();
+
+            return redirect()->route('admin.exams.index')->with('success', 'Semua data ujian berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Support\Facades\DB;
 
 class SiswaController extends Controller
 {
@@ -167,10 +168,17 @@ public function import(Request $request)
 }
 
 
-    // 🗑️ Hapus semua akun siswa
     public function deleteAll()
-    {
-        User::where('role', 'siswa')->delete();
-        return redirect()->route('admin.siswa.index')->with('success', 'Semua akun siswa berhasil dihapus.');
+{
+    // Hapus semua siswa dari tabel users
+    DB::table('users')->where('role', 'siswa')->delete();
+
+    // Reset auto increment hanya jika TIDAK ada user lain (opsional)
+    $hasOtherUsers = DB::table('users')->where('role', '!=', 'siswa')->exists();
+    if (!$hasOtherUsers) {
+        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1');
     }
+
+    return redirect()->route('admin.siswa.index')->with('success', 'Semua akun siswa berhasil dihapus.');
+}
 }

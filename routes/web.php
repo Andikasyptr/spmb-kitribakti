@@ -185,6 +185,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('siswa/{siswa}', [DataSiswaController::class, 'show'])->name('datasiswa.show');
         Route::get('siswa/{siswa}/edit', [DataSiswaController::class, 'edit'])->name('datasiswa.edit');
         Route::put('/datasiswa/{id}', [DataSiswaController::class, 'update'])->name('datasiswa.update');
+        Route::delete('/datasiswa/delete-all', [DataSiswaController::class, 'deleteAll'])->name('datasiswa.deleteAll');
+
         // Route::get('/admin/datasiswa/{id}/move', [DataSiswaController::class, 'move'])->name('datasiswa.move');
         Route::get('/admin/datasiswa/move', [DataSiswaController::class, 'move'])->name('datasiswa.move');
         Route::get('/admin/siswapindahan/{id}', [SiswaPindahanController::class, 'show'])->name('siswapindahan.show');
@@ -249,6 +251,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('/admin/e-learning/exams/{exam}/edit', [ExamController::class, 'edit'])->name('admin.exams.edit');
         Route::put('/admin/e-learning/exams/{exam}', [ExamController::class, 'update'])->name('admin.exams.update');
         Route::delete('/admin/e-learning/exams/{exam}', [ExamController::class, 'destroy'])->name('admin.exams.destroy');
+        Route::delete('/admin/exam/delete-all', [ExamController::class, 'deleteAll'])->name('admin.exams.deleteAll');
 
 
         // Route::get('exams/{exam}/questions', [ExamQuestionController::class, 'index'])->name('questions.index');
