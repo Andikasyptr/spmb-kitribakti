@@ -29,11 +29,11 @@
                 </div>
                 <div>
                     <label class="block">NISN</label>
-                    <input type="text" name="nisn" class="w-full border rounded p-2" value="{{ old('nisn', $siswa->nisn) }}" required>
+                    <input type="text" name="nisn" class="w-full border rounded p-2" value="{{ old('nisn', $siswa->nisn) }}">
                 </div>
                 <div>
                     <label class="block">NIK</label>
-                    <input type="text" name="nik" class="w-full border rounded p-2" value="{{ old('nik', $siswa->nik) }}" required>
+                    <input type="text" name="nik" class="w-full border rounded p-2" value="{{ old('nik', $siswa->nik) }}">
                 </div>
                 {{-- Jenis Kelamin --}}
                 <div class="mb-4">

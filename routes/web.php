@@ -476,37 +476,51 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     });
 
     // Route siswa
-        Route::middleware(['auth', RoleMiddleware::class . ':siswa'])
-            ->prefix('siswa')
-            ->group(function () {
-                Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
-                 Route::get('/profile', [SiswasController::class, 'index'])->name('profile.siswa');
-                 Route::get('/profile/edit', [SiswasController::class, 'edit'])->name('profile.siswa.edit');
-                // Route::post('/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
-                // Route::put('/siswa/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
-                Route::put('/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
-                Route::get('/settings', [SiswaSettingController::class, 'index'])->name('siswa.settings');
-                    Route::get('/ubah-sandi', [SiswaSettingController::class, 'formUbahSandi'])->name('siswa.ubahsandi.form');
-                    Route::post('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi');  
-                    Route::put('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi.update');             
-                     Route::get('/spmb/daftar', [SiswaSpmbController::class, 'create'])->name('spmb.form');
-                Route::post('/spmb/daftar', [SiswaSpmbController::class, 'store'])->name('spmb.store');
-                Route::get('/absensi', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'index'])->name('siswa.absensi.index');
-                Route::post('/absen-masuk', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'absenMasuk'])->name('siswa.absensi.masuk');
-                Route::post('/absen-pulang', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'absenPulang'])->name('siswa.absensi.pulang');
 
-                // elearning
-                Route::get('/elearning', [ElearningController::class, 'index'])
-                 ->name('siswa.e-learning.index');
+    Route::middleware(['auth', RoleMiddleware::class . ':siswa'])
+        ->prefix('siswa')
+        ->group(function () {
 
-                // Route untuk Ujian
-                Route::get('ujian', [UjianController::class, 'index'])->name('siswa.ujian.index');
-                Route::get('ujian/{id}', [UjianController::class, 'show'])->name('siswa.ujian.show');
-                Route::post('ujian/{id}/submit', [UjianController::class, 'submit'])->name('siswa.ujian.submit');  
-                Route::get('/siswa/ujian/{id}/hasil', [\App\Http\Controllers\Siswa\UjianController::class, 'hasil'])
-                ->name('siswa.ujian.hasil');
+        Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
+        Route::get('/profile', [SiswasController::class, 'index'])->name('profile.siswa');
+        Route::get('/profile/edit', [SiswasController::class, 'edit'])->name('profile.siswa.edit');
+        Route::put('/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
+        Route::get('/settings', [SiswaSettingController::class, 'index'])->name('siswa.settings');
+        Route::get('/ubah-sandi', [SiswaSettingController::class, 'formUbahSandi'])->name('siswa.ubahsandi.form');
+        Route::post('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi');
+        Route::put('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi.update');
+        Route::get('/spmb/daftar', [SiswaSpmbController::class, 'create'])->name('spmb.form');
+        Route::post('/spmb/daftar', [SiswaSpmbController::class, 'store'])->name('spmb.store');
 
-            });
+        // Absensi
+        Route::get('/absensi', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'index'])->name('siswa.absensi.index');
+        Route::post('/absen-masuk', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'absenMasuk'])->name('siswa.absensi.masuk');
+        Route::post('/absen-pulang', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'absenPulang'])->name('siswa.absensi.pulang');
+
+        // Elearning
+        Route::get('/elearning', [ElearningController::class, 'index'])->name('siswa.e-learning.index');
+
+        // 📘 UJIAN (FIX)
+        Route::get('/ujian', [UjianController::class, 'index'])->name('siswa.ujian.index');
+        Route::get('/ujian/{examId}/{number?}', [UjianController::class, 'show'])->name('siswa.ujian.show');
+        Route::post('/ujian/{examId}/{questionId}/answer', [UjianController::class, 'saveAnswer'])->name('siswa.ujian.answer');
+        Route::post('/ujian/submit', [UjianController::class, 'submit'])->name('siswa.ujian.submit');
+       Route::post('/siswa/ujian/{exam}/selesai', [UjianController::class, 'selesaikanUjian'])
+    ->name('ujian.selesai');
+
+        Route::post('/siswa/ujian/{examId}/{questionId}/answer', [UjianController::class, 'saveAnswer'])->name('ujian.saveAnswer');
+
+  
+
+
+    });
+
+
+
+
+
+                 
+
 
          
             

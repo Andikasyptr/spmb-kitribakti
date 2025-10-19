@@ -7,126 +7,229 @@ use App\Models\Exam;
 use App\Models\StudentAnswer;
 use App\Models\ExamResult;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // ✅ tambahkan ini
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\Setting;
 
 class UjianController extends Controller
 {
-   public function index()
-{
-    $user = Auth::user();
-    
-    // ambil kelas siswa
-    $kelasSiswa = $user->siswa->kelas->nama_kelas ?? null;
-    
-    // ambil waktu sekarang
-    $now = now();
-    
-    // ambil ujian sesuai kelas siswa dan jadwal aktif
-    $exams = Exam::where('kelas', $kelasSiswa)
-                 ->where('start_time', '<=', $now)
-                 ->where('end_time', '>=', $now)
-                 ->orderBy('start_time', 'asc')
-                 ->paginate(10);
-
-    // 🧩 Ambil nilai radius dari kolom exam_radius di tabel users
-    $radius = $user->exam_radius ?? 100; // default ke 100 kalau null
-
-    // kirim radius ke view ujian
-    return view('siswa.e-learning.ujian', compact('exams', 'radius'));
-}
-
-   public function show($id)
-{
-    $exam = Exam::with(['questions.options'])->findOrFail($id);
-    $user = Auth::user();
-
-    // 🧩 Cek apakah siswa sudah mengerjakan ujian
-    $alreadyDone = StudentAnswer::where('student_id', $user->id)
-                                ->where('exam_id', $id)
-                                ->exists();
-
-    if ($alreadyDone) {
-        return redirect()->route('siswa.ujian.index')
-                         ->with('error', 'Anda sudah mengerjakan ujian ini.');
-    }
-
-    // 🧩 Pastikan hanya siswa dari kelas yang sesuai yang bisa mengakses ujian
-    $userKelas = $user->siswa->kelas->nama_kelas ?? null;
-    if ($exam->kelas !== $userKelas) {
-        return redirect()->route('siswa.ujian.index')
-                         ->with('error', 'Ujian ini tidak tersedia untuk kelas Anda.');
-    }
-
-    // 🧩 Ambil radius khusus siswa dari tabel users (jika ada)
-    $userRadius = $user->exam_radius ?? null;
-
-    // 🧩 Ambil radius default dari tabel settings
-    $defaultRadius = DB::table('settings')
-                        ->where('key', 'exam_radius')
-                        ->value('value');
-
-    // 🧩 Gunakan userRadius jika ada, kalau tidak pakai default, kalau dua-duanya null pakai 100
-    $radius = $userRadius ?? $defaultRadius ?? 100;
-
-    // ✅ Kirim ke view (digunakan di JavaScript atau map lokasi)
-    return view('siswa.e-learning.detail-ujian', compact('exam', 'radius'));
-}
-
-    public function submit(Request $request, $id)
+    public function index()
     {
-        $exam = Exam::with(['questions.options'])->findOrFail($id);
-        $answers = $request->input('answers', []);
+        $user = Auth::user();
+        $kelasSiswa = $user->siswa->kelas->nama_kelas ?? null;
+        $now = now();
+
+        $exams = Exam::where('kelas', $kelasSiswa)
+                     ->where('start_time', '<=', $now)
+                     ->where('end_time', '>=', $now)
+                     ->orderBy('start_time', 'asc')
+                     ->paginate(10);
+
+        $userRadius = $user->exam_radius ?? null;
+        $defaultRadius = DB::table('settings')
+                            ->where('key', 'exam_radius')
+                            ->value('value');
+        $radius = $userRadius ?? $defaultRadius ?? 100;
+
+        return view('siswa.e-learning.ujian', compact('exams', 'radius'));
+    }
+
+    public function show(Request $request, $examId, $number = null)
+    {
+        if (!$number || $number < 1) {
+            return redirect()->route('siswa.ujian.show', [
+                'examId' => $examId,
+                'number' => 1
+            ]);
+        }
+
+        $exam = Exam::with(['questions' => function($q) {
+            $q->with('options')->orderBy('id', 'asc');
+        }])->findOrFail($examId);
+
+        $questions = $exam->questions;
+        $total = $questions->count();
+
+        if ($number > $total) {
+            return redirect()->route('siswa.ujian.show', [
+                'examId' => $examId,
+                'number' => $total
+            ]);
+        }
+
+        $studentId = auth()->id();
+        $savedAnswers = StudentAnswer::where('student_id', $studentId)
+            ->where('exam_id', $examId)
+            ->pluck('option_id', 'question_id')
+            ->toArray();
+
+        return view('siswa.e-learning.detail-ujian', [
+            'exam' => $exam,
+            'questions' => $questions,
+            'number' => $number,
+            'total' => $total,
+            'savedAnswers' => $savedAnswers,
+        ]);
+    }
+
+    public function saveAnswer(Request $request, $examId, $questionId)
+{
+    $data = $request->json()->all();
+    $optionId = $data['option_id'] ?? null;
+
+    if (!$optionId) {
+        return response()->json(['success' => false, 'message' => 'option_id kosong'], 400);
+    }
+
+    $studentId = auth()->id();
+
+    // ✅ Simpan ke session sementara
+    $sessionKey = 'exam_answers_' . $examId;
+    $answers = session()->get($sessionKey, []);
+    $answers[$questionId] = $optionId;
+    session()->put($sessionKey, $answers);
+
+    // ✅ (Opsional) Simpan langsung ke DB juga agar aman
+    StudentAnswer::updateOrCreate(
+        [
+            'student_id' => $studentId,
+            'exam_id' => $examId,
+            'question_id' => $questionId
+        ],
+        [
+            'option_id' => $optionId
+        ]
+    );
+
+    return response()->json(['success' => true, 'message' => 'Jawaban tersimpan']);
+}
+
+
+    public function storeAnswer(Request $request, $examId, $questionId)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'option_id' => 'required|integer',
+        ]);
+
+        $tempKey = "exam_temp_answers_{$examId}";
+        $tempAnswers = $request->session()->get($tempKey, []);
+        $tempAnswers[$questionId] = $request->option_id;
+        $request->session()->put($tempKey, $tempAnswers);
+
+        StudentAnswer::updateOrCreate(
+            [
+                'student_id' => $user->id,
+                'exam_id' => $examId,
+                'question_id' => $questionId,
+            ],
+            [
+                'option_id' => $request->option_id,
+            ]
+        );
+
+        $nextPage = $request->get('next_page');
+        if ($nextPage) {
+            return redirect()->route('siswa.ujian.show', ['examId' => $examId, 'number' => $nextPage]);
+        }
+
+        return back()->with('success', 'Jawaban disimpan.');
+    }
+
+    // ✅ FIXED: submit() sekarang tidak wajib ada parameter kedua
+    public function submit(Request $request, $id = null)
+    {
+        $examId = $id ?? $request->input('exam_id');
+        if (!$examId) {
+            return back()->with('error', 'ID ujian tidak ditemukan.');
+        }
+
+        $exam = Exam::with(['questions.options'])->findOrFail($examId);
+        $studentId = Auth::id();
+
+        $answers = StudentAnswer::where('student_id', $studentId)
+            ->where('exam_id', $examId)
+            ->get();
 
         $score = 0;
         $maxScore = $exam->questions->sum('point');
 
-        foreach ($exam->questions as $question) {
-            $selectedOption = $answers[$question->id] ?? null;
-
-            if ($selectedOption) {
-                $option = \App\Models\ExamQuestionOption::find((int)$selectedOption);
-
-                if ($option) {
-                    $isCorrect = $option->is_correct;
-
-                    if ($isCorrect) {
-                        $score += $question->point ?? 1;
-                    }
-
-                    StudentAnswer::updateOrCreate(
-                        [
-                            'student_id'  => Auth::id(),
-                            'exam_id'     => $exam->id,
-                            'question_id' => $question->id,
-                        ],
-                        [
-                            'option_id'   => $option->id,
-                            'is_correct'  => $isCorrect,
-                        ]
-                    );
-                }
+        foreach ($answers as $answer) {
+            $option = \App\Models\ExamQuestionOption::find($answer->option_id);
+            if ($option && $option->is_correct) {
+                $score += $answer->question->point ?? 1;
+                $answer->is_correct = true;
+                $answer->save();
             }
         }
 
         ExamResult::updateOrCreate(
-            [
-                'student_id' => Auth::id(),
-                'exam_id'    => $exam->id,
-            ],
-            [
-                'score' => $score,
-            ]
+            ['student_id' => $studentId, 'exam_id' => $exam->id],
+            ['score' => $score]
         );
 
-        if ($request->ajax()) {
-            return response()->json([
-                'redirect' => route('siswa.ujian.index')
-            ]);
+        DB::table('student_exams')->updateOrInsert(
+            ['student_id' => $studentId, 'exam_id' => $exam->id],
+            ['status' => 'selesai', 'updated_at' => now()]
+        );
+
+        return redirect()->route('siswa.ujian.index')->with('success', 'Ujian telah diselesaikan.');
+    }
+
+    public function saveTempAnswer(Request $request)
+    {
+        $questionId = $request->question_id;
+        $optionId = $request->option_id;
+
+        $answers = session('exam_answers', []);
+        $answers[$questionId] = $optionId;
+        session(['exam_answers' => $answers]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function submitExam(Request $request, $examId)
+    {
+        $user = Auth::user();
+        $answers = session('exam_answers', []);
+
+        foreach ($answers as $questionId => $optionId) {
+            StudentAnswer::updateOrCreate(
+                [
+                    'student_id' => $user->id,
+                    'exam_id' => $examId,
+                    'question_id' => $questionId
+                ],
+                [
+                    'option_id' => $optionId
+                ]
+            );
         }
 
-        return redirect()->route('siswa.ujian.index')
-                         ->with('success', 'Jawaban berhasil disimpan.');
+        $score = $this->calculateExamScore($examId, $user->id);
+
+        ExamResult::updateOrCreate(
+            ['exam_id' => $examId, 'student_id' => $user->id],
+            ['score' => $score]
+        );
+
+        session()->forget('exam_answers');
+
+        return redirect()->route('siswa.ujian.index')->with('success', 'Ujian telah diselesaikan!');
+    }
+
+    private function calculateExamScore($examId, $studentId)
+    {
+        $total = DB::table('questions')->where('exam_id', $examId)->count();
+        $correct = DB::table('student_answers')
+            ->join('options', 'student_answers.option_id', '=', 'options.id')
+            ->where([
+                ['student_answers.exam_id', '=', $examId],
+                ['student_answers.student_id', '=', $studentId],
+                ['options.is_correct', '=', 1]
+            ])->count();
+
+        return $total > 0 ? round(($correct / $total) * 100, 2) : 0;
     }
 
     public function hasil($id)
@@ -141,4 +244,79 @@ class UjianController extends Controller
 
         return view('siswa.e-learning.hasil-ujian', compact('exam', 'score', 'maxScore'));
     }
+   public function selesaikanUjian(Request $request, $examId)
+{
+    $user = Auth::user();
+
+    // Ambil jawaban sementara dari session
+    $answers = session()->get('exam_answers_' . $examId, []);
+
+    // Jika session kosong, ambil dari database
+    if (empty($answers)) {
+        $answers = StudentAnswer::where('exam_id', $examId)
+            ->where('student_id', $user->id)
+            ->pluck('option_id', 'question_id')
+            ->toArray();
+    }
+
+    if (empty($answers)) {
+        return response()->json(['success' => false, 'message' => 'Tidak ada jawaban untuk disimpan.']);
+    }
+
+    DB::beginTransaction();
+    try {
+        // Simpan jawaban ke tabel student_answers
+        foreach ($answers as $questionId => $optionId) {
+            StudentAnswer::updateOrCreate(
+                [
+                    'student_id' => $user->id,
+                    'exam_id' => $examId,
+                    'question_id' => $questionId,
+                ],
+                ['option_id' => $optionId]
+            );
+        }
+
+        // ✅ Ambil data ujian beserta pertanyaan & opsi
+        $exam = Exam::with(['questions.options'])->findOrFail($examId);
+        $studentAnswers = StudentAnswer::where('student_id', $user->id)
+            ->where('exam_id', $examId)
+            ->get();
+
+        // ✅ Hitung total poin benar
+        $totalScore = 0;
+
+        foreach ($studentAnswers as $answer) {
+            $option = \App\Models\ExamQuestionOption::find($answer->option_id);
+
+            if ($option && $option->is_correct) {
+                // ✅ Ambil poin dari tabel exam_questions
+                $question = \App\Models\ExamQuestion::find($answer->question_id);
+                $totalScore += $question->point ?? 1;
+
+                // Tandai jawaban benar
+                $answer->is_correct = true;
+                $answer->save();
+            }
+        }
+
+
+        // ✅ Simpan total skor ke exam_results
+        ExamResult::updateOrCreate(
+            ['exam_id' => $examId, 'student_id' => $user->id],
+            ['score' => $totalScore, 'status' => 'selesai']
+        );
+
+        // Hapus session jawaban sementara
+        session()->forget('exam_answers_' . $examId);
+
+        DB::commit();
+        return response()->json(['success' => true, 'score' => $totalScore]);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['success' => false, 'message' => $e->getMessage()]);
+    }
+}
+
+
 }
