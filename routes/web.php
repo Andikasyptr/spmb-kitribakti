@@ -315,7 +315,25 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     // data ujian siswa 
     Route::get('data-ujian-siswa', [DataUjianSiswaController::class, 'index'])->name('data-ujian-siswa.index');
     Route::get('data-ujian-siswa/{exam}', [DataUjianSiswaController::class, 'show'])->name('data-ujian-siswa.show');
+    Route::get('data-ujian-siswa/{exam}/student/{student}/view-answers', [App\Http\Controllers\Admin\DataUjianSiswaController::class, 'viewStudentAnswers'])
+        ->name('admin.data-ujian-siswa.view-answers');
     Route::get('data-ujian-siswa/{exam}/export', [DataUjianSiswaController::class, 'export'])->name('data-ujian-siswa.export');
+    Route::delete('ujian/{id}/answer', [DataUjianSiswaController::class, 'deleteStudentAnswer']);
+    Route::delete('/admin/data-ujian-siswa/{exam}/{student}/delete', [DataUjianSiswaController::class, 'deleteStudentAnswer'])
+    ->name('data-ujian-siswa.deleteStudentAnswer');
+     Route::delete('data-ujian-siswa/{exam}/delete-multiple', [DataUjianSiswaController::class, 'deleteMultipleStudentAnswers'])
+        ->name('admin.ujian.delete-multiple');
+    // 🔹 Hapus semua siswa di ujian ini
+    Route::get('admin/admin/data-ujian-siswa/{exam}/delete-all', [DataUjianSiswaController::class, 'deleteAllStudentAnswers'])
+        ->name('admin.ujian.delete-all');
+   
+
+
+
+
+
+
+
 
 
 
@@ -396,8 +414,20 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         ->name('guru.data-ujian-siswa.index');
     Route::get('data-ujian-siswa/{exam}', [GuruDataUjianSiswaController::class, 'show'])
         ->name('guru.data-ujian-siswa.show');
+
+    Route::get('guru/data-ujian-siswa/{exam}/student/{student}/view-answers', 
+    [GuruDataUjianSiswaController::class, 'viewStudentAnswers'])
+    ->name('guru.data-ujian-siswa.view-answers');
+
+
     Route::get('data-ujian-siswa/{exam}/export', [GuruDataUjianSiswaController::class, 'export'])
         ->name('guru.data-ujian-siswa.export');
+  
+
+
+
+
+
 
     
     //     Route::get('ubahsandi', [ChangePasswordController::class, 'showChangePasswordForm'])->name('admin.ubahsandi');
@@ -505,8 +535,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('/ujian/{examId}/{number?}', [UjianController::class, 'show'])->name('siswa.ujian.show');
         Route::post('/ujian/{examId}/{questionId}/answer', [UjianController::class, 'saveAnswer'])->name('siswa.ujian.answer');
         Route::post('/ujian/submit', [UjianController::class, 'submit'])->name('siswa.ujian.submit');
-       Route::post('/siswa/ujian/{exam}/selesai', [UjianController::class, 'selesaikanUjian'])
-    ->name('ujian.selesai');
+        Route::post('/siswa/ujian/{exam}/selesai', [UjianController::class, 'selesaikanUjian'])
+        ->name('ujian.selesai');
 
         Route::post('/siswa/ujian/{examId}/{questionId}/answer', [UjianController::class, 'saveAnswer'])->name('ujian.saveAnswer');
 

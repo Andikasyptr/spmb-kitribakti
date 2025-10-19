@@ -11,11 +11,26 @@ use Illuminate\Support\Facades\DB; // ✅ Tambahkan ini
 
 class ExamController extends Controller
 {
-    // Tampilkan semua ujian
-    public function index()
+   // Tampilkan semua ujian dengan fitur pencarian
+    public function index(Request $request)
     {
-        $exams = Exam::with('questions')->latest()->get();
-        return view('admin.e-learning.exams.index', compact('exams'));
+        $query = Exam::with('questions')->latest();
+
+        // Jika ada parameter pencarian
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                ->orWhere('kelas', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $exams = $query->get();
+
+        return view('admin.e-learning.exams.index', compact('exams'))
+            ->with('search', $request->search);
     }
 
     // Form buat ujian

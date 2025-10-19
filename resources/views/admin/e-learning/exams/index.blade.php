@@ -5,9 +5,21 @@
 @section('content')
 <div class="p-6 bg-white rounded-lg shadow">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-3">
-        <h1 class="text-2xl font-bold text-gray-800">📋 Daftar Ujian</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Daftar Ujian</h1>
         
         <div class="flex flex-wrap gap-2">
+
+             <form action="{{ route('admin.exams.index') }}" method="GET" class="flex">
+            <input type="text" 
+                   name="search" 
+                   value="{{ request('search') }}"
+                   placeholder="Cari nama ujian / kelas / jurusan..."
+                   class="w-64 border border-gray-300 rounded-l-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+            <button type="submit" 
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-r-lg transition">
+                🔍
+            </button>
+        </form>
             <!-- Tombol Tambah -->
             <a href="{{ route('admin.exams.create') }}" 
                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">

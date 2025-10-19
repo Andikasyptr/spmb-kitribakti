@@ -91,7 +91,7 @@
                     </a>
                 @else
                     <button type="button" id="finishExam"
-                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg mt-4">
+                        class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg">
                         Selesai
                     </button>
                 @endif

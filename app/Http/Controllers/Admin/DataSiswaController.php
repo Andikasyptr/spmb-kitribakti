@@ -352,5 +352,4 @@ class DataSiswaController extends Controller
         }
     }
 
-
 }

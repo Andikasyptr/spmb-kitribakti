@@ -150,4 +150,33 @@ $writer->save("php://output");
 exit;
 
     }
+
+public function viewStudentAnswers($examId, $studentId)
+{
+    $user = Auth::user(); // Guru yang login
+
+    // Pastikan ujian dibuat oleh guru login
+    $exam = Exam::where('id', $examId)
+                ->where('user_id', $user->id)
+                ->firstOrFail();
+
+    // Ambil data siswa berdasarkan ID Siswa
+    $student = Siswa::with('user')->findOrFail($studentId);
+
+    // Ambil semua soal beserta opsi
+    $questions = $exam->questions()->with('options')->get();
+
+    // Ambil jawaban siswa berdasarkan user->id
+    $studentAnswers = StudentAnswer::where('exam_id', $exam->id)
+                                   ->where('student_id', $student->user->id)
+                                   ->get()
+                                   ->keyBy('question_id');
+
+    return view('guru.data-ujian-siswa.view-answers', compact(
+        'exam', 'student', 'questions', 'studentAnswers'
+    ));
+}
+
+
+
 }
