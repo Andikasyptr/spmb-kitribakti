@@ -13,6 +13,7 @@ use App\Models\StudentAnswer;
 use App\Models\ExamResult;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Jurusan;
 
 class DataUjianSiswaController extends Controller
 {
@@ -29,8 +30,9 @@ class DataUjianSiswaController extends Controller
             ->get();
 
         $kelas = Kelas::all();
+        $jurusanList = Jurusan::orderBy('nama_jurusan')->get();
 
-        return view('admin.data-ujian-siswa.index', compact('exams', 'kelas', 'search'));
+    return view('admin.data-ujian-siswa.index', compact('exams', 'kelas', 'search','jurusanList'));
     }
     // Tampilkan nilai siswa per ujian
     public function show($examId, Request $request)

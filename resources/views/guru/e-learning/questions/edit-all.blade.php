@@ -24,7 +24,6 @@
                 </button>
             </h3>
 
-
             <input type="hidden" name="questions[{{ $index }}][id]" value="{{ $question->id }}">
 
             {{-- Gambar Soal --}}
@@ -35,12 +34,14 @@
                         <img src="{{ asset('storage/' . $question->image_path) }}" alt="Gambar Soal" class="w-32 rounded border object-cover">
                     </div>
                 @endif
-                <input type="file"
-                       name="questions[{{ $index }}][image]"
-                       class="w-full text-sm text-gray-700 border border-gray-300 rounded-lg p-2
-                              file:border-0 file:bg-blue-50 file:text-blue-700 file:px-3 file:py-1
-                              file:rounded file:hover:bg-blue-100 file:cursor-pointer"
-                       accept="image/*">
+                <label class="flex items-center gap-2 cursor-pointer text-blue-600 hover:text-blue-700 text-sm border border-blue-300 rounded px-2 py-1 transition-colors duration-300">
+                    <i class="fas fa-camera text-base"></i>
+                    Pilih Gambar
+                    <input type="file"
+                           name="questions[{{ $index }}][image]"
+                           class="hidden"
+                           accept="image/*">
+                </label>
             </div>
 
             {{-- Pertanyaan --}}
@@ -78,7 +79,7 @@
                                    placeholder="Jawaban {{ $opt->option_label }}"
                                    class="flex-1 border border-blue-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
                         </div>
-                
+
                         {{-- Gambar Opsi --}}
                         <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2 gap-2 mt-2">
                             @if($opt->image_path)
@@ -86,7 +87,7 @@
                                      alt="Gambar {{ $opt->option_label }}" 
                                      class="w-20 h-20 sm:w-12 sm:h-12 rounded border object-cover mx-auto sm:mx-0">
                             @endif
-                            <label class="flex items-center gap-2 justify-center sm:justify-start cursor-pointer text-blue-600 hover:text-blue-700 text-sm border border-blue-300 rounded px-2 py-1">
+                            <label class="flex items-center gap-2 justify-center sm:justify-start cursor-pointer text-blue-600 hover:text-blue-700 text-sm border border-blue-300 rounded px-2 py-1 transition-colors duration-300">
                                 <i class="fas fa-camera text-base sm:text-sm"></i>
                                 <span class="truncate">Pilih Gambar</span>
                                 <input type="file"
@@ -125,20 +126,17 @@
     </button>
 </div>
 
-
-
     </form>
 </div>
 
 {{-- Template soal baru (hidden) --}}
 <div id="new-question-template" class="hidden bg-white border rounded-xl shadow-sm hover:shadow-md transition p-6 mb-4">
-           <h3 class="font-semibold text-lg text-green-600 mb-4 flex justify-between items-center">
-            <span>+ Soal Baru</span>
-            <button type="button" class="delete-new-question-btn text-red-600 hover:text-red-800 font-semibold text-sm">
-                Hapus
-            </button>
-        </h3>
-
+    <h3 class="font-semibold text-lg text-green-600 mb-4 flex justify-between items-center">
+        <span>+ Soal Baru</span>
+        <button type="button" class="delete-new-question-btn text-red-600 hover:text-red-800 font-semibold text-sm">
+            Hapus
+        </button>
+    </h3>
 
     <div class="mb-4">
         <label class="block font-medium text-gray-700 mb-1">Pertanyaan</label>
@@ -157,7 +155,7 @@
 
     <div class="mb-4">
         <label class="block font-medium text-gray-700 mb-1">Gambar (opsional)</label>
-        <label class="flex items-center gap-2 cursor-pointer text-green-700 hover:text-green-800 text-sm border border-green-300 rounded px-2 py-1">
+        <label class="flex items-center gap-2 cursor-pointer text-green-700 hover:text-green-800 text-sm border border-green-300 rounded px-2 py-1 transition-colors duration-300">
             <i class="fas fa-camera"></i>
             Pilih Gambar
             <input type="file" name="new_questions[__INDEX__][image]" class="hidden" accept="image/*">
@@ -181,7 +179,7 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row items-center gap-2 mt-2 sm:mt-0 w-full sm:w-auto">
-                    <label class="flex items-center gap-1 cursor-pointer text-green-700 hover:text-green-800 text-sm border border-green-300 rounded px-2 py-1">
+                    <label class="flex items-center gap-1 cursor-pointer text-green-700 hover:text-green-800 text-sm border border-green-300 rounded px-2 py-1 transition-colors duration-300">
                         <i class="fas fa-camera"></i>
                         Pilih Gambar
                         <input type="file" name="new_questions[__INDEX__][options][{{ $label }}][image]" class="hidden" accept="image/*">
@@ -196,7 +194,6 @@
 @endsection
 
 @push('scripts')
-
 <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -211,15 +208,23 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleSidebar);
     if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', toggleSidebar);
 
-    // Preview gambar sebelum upload
+    // Preview gambar & indikator tombol hijau
     document.querySelectorAll('input[type="file"]').forEach(input => {
         input.addEventListener('change', function(){
             const file = this.files[0];
+            const label = this.closest('label');
+            const previewImg = this.closest('div').querySelector('img');
+
+            if(file && previewImg){
+                previewImg.src = URL.createObjectURL(file);
+            }
+
             if(file){
-                const previewImg = this.closest('div').querySelector('img');
-                if(previewImg){
-                    previewImg.src = URL.createObjectURL(file);
-                }
+                label.classList.remove('border-blue-300','border-green-300','text-blue-600','text-green-700');
+                label.classList.add('bg-green-100','border-green-500','text-green-800');
+            } else {
+                label.classList.remove('bg-green-100','border-green-500','text-green-800');
+                label.classList.add('border-blue-300','text-blue-600');
             }
         });
     });
@@ -266,5 +271,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
 @endpush

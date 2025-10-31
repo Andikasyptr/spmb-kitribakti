@@ -381,6 +381,10 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     
     Route::post('/exams/{exam}/exam-questions', [\App\Http\Controllers\Guru\GuruExamQuestionController::class, 'store'])
         ->name('guru.exam-questions.store');
+    
+
+
+
 
     // Edit semua soal
     Route::get('/exams/{exam}/questions/edit-all', [\App\Http\Controllers\Guru\GuruExamQuestionController::class, 'editAll'])

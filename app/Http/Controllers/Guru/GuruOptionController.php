@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Guru;
 use App\Http\Controllers\Controller;
 use App\Models\Question;
 use App\Models\Option;
+
 use Illuminate\Http\Request;
 
 class GuruOptionController extends Controller
@@ -88,4 +89,5 @@ class GuruOptionController extends Controller
         return redirect()->route('guru.options.index', $question->id)
                          ->with('success', 'Pilihan jawaban berhasil dihapus.');
     }
+    
 }

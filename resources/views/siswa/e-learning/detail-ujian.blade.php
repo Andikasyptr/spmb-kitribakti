@@ -42,13 +42,14 @@
             </div>
 
 
+           
             {{-- Pilihan Jawaban --}}
             <div class="space-y-2">
                 @foreach ($currentQuestion->options as $opt)
                     @php
                         $isChecked = isset($savedAnswers[$currentQuestion->id]) && $savedAnswers[$currentQuestion->id] == $opt->id;
                     @endphp
-                    <label class="block border p-3 rounded-lg cursor-pointer hover:bg-blue-50 transition">
+                    <label class="flex items-center border p-3 rounded-lg cursor-pointer hover:bg-blue-50 transition space-x-3">
                         <input type="radio"
                             name="option_id"
                             value="{{ $opt->id }}"
@@ -56,10 +57,21 @@
                             data-exam="{{ $exam->id }}"
                             class="mr-2"
                             @if($isChecked) checked @endif>
-                        {{ $opt->option_label }}. {{ $opt->option_text }}
+
+                        {{-- Label dan Teks --}}
+                        <span class="font-medium">{{ $opt->option_label }}. {{ $opt->option_text }}</span>
+
+                        {{-- Gambar jawaban --}}
+                        @if($opt->image_path)
+                            <img src="{{ asset('storage/' . $opt->image_path) }}" 
+                                class="rounded-md border shadow-sm"
+                                style="max-width: 120px; max-height: 80px; object-fit: contain;">
+                        @endif
                     </label>
                 @endforeach
             </div>
+
+
 
             {{-- Indikator Loading --}}
             <div id="saving-status" class="mt-3 text-sm text-gray-600 hidden">

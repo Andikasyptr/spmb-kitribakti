@@ -95,7 +95,7 @@
                             <td class="px-4 py-2">{{ $siswa->jurusan ?? '-' }}</td>
                             <td class="px-4 py-2">{{ $res->score ?? 0 }}</td>
                             <td class="px-4 py-2">{{ $res ? $res->created_at->format('d M Y') : '-' }}</td>
-                            <td class="px-4 py-2 text-center">
+                            {{-- <td class="px-4 py-2 text-center">
                                 @if($res)
                                 <button data-student="{{ $userId }}" data-exam="{{ $exam->id }}" class="delete-answer-btn text-red-600 hover:text-red-800 font-semibold flex items-center gap-1 transition">
                                     <i data-lucide="trash-2" class="w-4 h-4"></i> Hapus
@@ -103,7 +103,7 @@
                                 @else
                                     <span class="text-gray-400">-</span>
                                 @endif
-                            </td>
+                            </td> --}}
                             
                            <td class="px-4 py-2">
                                  <a href="{{ route('admin.data-ujian-siswa.view-answers', [
