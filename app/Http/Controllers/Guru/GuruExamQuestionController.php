@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use App\Models\Option;
+
+
+
+
 
 class GuruExamQuestionController extends Controller
 {
@@ -45,7 +50,7 @@ class GuruExamQuestionController extends Controller
     {
         $request->validate([
             'questions' => 'required|array|min:1',
-            'questions.*.question_text'  => 'required|string',
+            'questions.*.question_text'  => 'string',
             'questions.*.point'          => 'required|integer|min:1',
             'questions.*.options'        => 'required|array|size:5',
             'questions.*.correct_answer' => 'required|string|in:A,B,C,D,E',
@@ -280,4 +285,28 @@ class GuruExamQuestionController extends Controller
 
         return redirect()->back()->with('success', 'Soal berhasil diimport!');
     }
+
+   public function deleteOptionImage(Option $option)
+{
+    try {
+        // Hapus file fisik jika ada
+        if($option->image_path && Storage::exists($option->image_path)){
+            Storage::delete($option->image_path);
+        }
+
+        // Set kolom image_path menjadi null
+        $option->image_path = null;
+        $option->save();
+
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
+
 }

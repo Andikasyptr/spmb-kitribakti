@@ -67,6 +67,7 @@
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Jurusan</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nilai</th>
                         <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
+                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -85,9 +86,14 @@
                             <td class="px-4 py-2">{{ $res->score ?? 0 }}</td>
                             <td class="px-4 py-2">
                                 {{ $res ? $res->created_at->format('d M Y') : '-' }}
-                            </td>
-
-
+                           <td class="px-4 py-2">
+                            <a href="{{ route('guru.data-ujian-siswa.view-answers', [
+                                'exam' => $exam->id,
+                                'student' => $siswa->id
+                            ]) }}">
+                                🔍 Lihat Jawaban
+                            </a>
+                           </td>
                         </tr>
                     @empty
                         <tr>

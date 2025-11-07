@@ -30,10 +30,16 @@ class StudentAnswer extends Model
     }
 
     // Relasi ke Question
-    public function question()
+    // public function question()
+    // {
+    //     return $this->belongsTo(Question::class);
+    // }
+
+        public function question()
     {
-        return $this->belongsTo(Question::class);
+        return $this->belongsTo(\App\Models\ExamQuestion::class, 'question_id');
     }
+
 
     // Relasi ke Option
     public function option()

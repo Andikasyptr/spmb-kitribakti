@@ -140,6 +140,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('admin/guru/{id}/edit', [GuruController::class, 'edit'])->name('admin.guru.edit');
         Route::put('admin/guru/{id}', [GuruController::class, 'update'])->name('admin.guru.update');
         Route::delete('admin/guru/{id}', [GuruController::class, 'destroy'])->name('admin.guru.destroy');
+        Route::get('/download-template', [GuruController::class, 'downloadTemplate'])->name('admin.guru.downloadTemplate');
+        Route::post('/import', [GuruController::class, 'import'])->name('admin.guru.import');
+        Route::delete('/delete-all', [GuruController::class, 'deleteAll'])->name('admin.guru.deleteAll');
 
         // tendik
         Route::get('admin/tendik', [TenagaKependidikanController::class, 'index'])->name('admin.tendik.index');
@@ -148,6 +151,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('admin/tendik/{id}/edit', [TenagaKependidikanController::class, 'edit'])->name('admin.tendik.edit');
         Route::put('admin/tendik/{id}', [TenagaKependidikanController::class, 'update'])->name('admin.tendik.update');
         Route::delete('admin/tendik/{id}', [TenagaKependidikanController::class, 'destroy'])->name('admin.tendik.destroy');
+         Route::get('/tendik/download-template', [TenagaKependidikanController::class, 'downloadTemplate'])->name('admin.tendik.download-template');
+        Route::post('/tendik/import', [TenagaKependidikanController::class, 'import'])->name('admin.tendik.import');
+        Route::delete('/tendik/delete-all', [TenagaKependidikanController::class, 'deleteAll'])->name('admin.tendik.deleteAll');
 
         // siswa
         Route::get('admin/siswa', [SiswaController::class, 'index'])->name('admin.siswa.index');
@@ -156,6 +162,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('admin/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('admin.siswa.edit');
         Route::put('admin/siswa/{id}', [SiswaController::class, 'update'])->name('admin.siswa.update');
         Route::delete('admin/siswa/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.destroy');
+        Route::get('siswa/download-template', [SiswaController::class, 'downloadTemplate'])->name('admin.siswa.download-template');
+        Route::post('siswa/import', [SiswaController::class, 'import'])->name('admin.siswa.import');
+        Route::delete('siswa/delete-all', [SiswaController::class, 'deleteAll'])->name('admin.siswa.deleteAll');
 
         // data pegawai
         Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');
@@ -176,6 +185,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('siswa/{siswa}', [DataSiswaController::class, 'show'])->name('datasiswa.show');
         Route::get('siswa/{siswa}/edit', [DataSiswaController::class, 'edit'])->name('datasiswa.edit');
         Route::put('/datasiswa/{id}', [DataSiswaController::class, 'update'])->name('datasiswa.update');
+        Route::delete('/datasiswa/delete-all', [DataSiswaController::class, 'deleteAll'])->name('datasiswa.deleteAll');
+
         // Route::get('/admin/datasiswa/{id}/move', [DataSiswaController::class, 'move'])->name('datasiswa.move');
         Route::get('/admin/datasiswa/move', [DataSiswaController::class, 'move'])->name('datasiswa.move');
         Route::get('/admin/siswapindahan/{id}', [SiswaPindahanController::class, 'show'])->name('siswapindahan.show');
@@ -227,6 +238,12 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     Route::put('/mapel/{id}', [MapelController::class, 'update'])->name('mapel.update'); // update mapel
     Route::delete('/mapel/{id}', [MapelController::class, 'destroy'])->name('mapel.destroy'); // hapus mapel
 
+
+    // radius 
+
+    Route::post('/admin/radius/update', [App\Http\Controllers\Admin\SettingController::class, 'updateRadius'])
+    ->name('admin.radius.update');
+    
     // Exams
         Route::get('/admin/e-learning/exams', [ExamController::class, 'index'])->name('admin.exams.index');
         Route::get('/admin/e-learning/exams/create', [ExamController::class, 'create'])->name('admin.exams.create');
@@ -234,6 +251,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::get('/admin/e-learning/exams/{exam}/edit', [ExamController::class, 'edit'])->name('admin.exams.edit');
         Route::put('/admin/e-learning/exams/{exam}', [ExamController::class, 'update'])->name('admin.exams.update');
         Route::delete('/admin/e-learning/exams/{exam}', [ExamController::class, 'destroy'])->name('admin.exams.destroy');
+        Route::delete('/admin/exam/delete-all', [ExamController::class, 'deleteAll'])->name('admin.exams.deleteAll');
 
 
         // Route::get('exams/{exam}/questions', [ExamQuestionController::class, 'index'])->name('questions.index');
@@ -297,7 +315,25 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     // data ujian siswa 
     Route::get('data-ujian-siswa', [DataUjianSiswaController::class, 'index'])->name('data-ujian-siswa.index');
     Route::get('data-ujian-siswa/{exam}', [DataUjianSiswaController::class, 'show'])->name('data-ujian-siswa.show');
+    Route::get('data-ujian-siswa/{exam}/student/{student}/view-answers', [App\Http\Controllers\Admin\DataUjianSiswaController::class, 'viewStudentAnswers'])
+        ->name('admin.data-ujian-siswa.view-answers');
     Route::get('data-ujian-siswa/{exam}/export', [DataUjianSiswaController::class, 'export'])->name('data-ujian-siswa.export');
+    Route::delete('ujian/{id}/answer', [DataUjianSiswaController::class, 'deleteStudentAnswer']);
+    Route::delete('/admin/data-ujian-siswa/{exam}/{student}/delete', [DataUjianSiswaController::class, 'deleteStudentAnswer'])
+    ->name('data-ujian-siswa.deleteStudentAnswer');
+     Route::delete('data-ujian-siswa/{exam}/delete-multiple', [DataUjianSiswaController::class, 'deleteMultipleStudentAnswers'])
+        ->name('admin.ujian.delete-multiple');
+    // 🔹 Hapus semua siswa di ujian ini
+    Route::get('admin/admin/data-ujian-siswa/{exam}/delete-all', [DataUjianSiswaController::class, 'deleteAllStudentAnswers'])
+        ->name('admin.ujian.delete-all');
+   
+
+
+
+
+
+
+
 
 
 
@@ -345,6 +381,10 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     
     Route::post('/exams/{exam}/exam-questions', [\App\Http\Controllers\Guru\GuruExamQuestionController::class, 'store'])
         ->name('guru.exam-questions.store');
+    
+
+
+
 
     // Edit semua soal
     Route::get('/exams/{exam}/questions/edit-all', [\App\Http\Controllers\Guru\GuruExamQuestionController::class, 'editAll'])
@@ -378,8 +418,20 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         ->name('guru.data-ujian-siswa.index');
     Route::get('data-ujian-siswa/{exam}', [GuruDataUjianSiswaController::class, 'show'])
         ->name('guru.data-ujian-siswa.show');
+
+    Route::get('guru/data-ujian-siswa/{exam}/student/{student}/view-answers', 
+    [GuruDataUjianSiswaController::class, 'viewStudentAnswers'])
+    ->name('guru.data-ujian-siswa.view-answers');
+
+
     Route::get('data-ujian-siswa/{exam}/export', [GuruDataUjianSiswaController::class, 'export'])
         ->name('guru.data-ujian-siswa.export');
+  
+
+
+
+
+
 
     
     //     Route::get('ubahsandi', [ChangePasswordController::class, 'showChangePasswordForm'])->name('admin.ubahsandi');
@@ -458,35 +510,51 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     });
 
     // Route siswa
-        Route::middleware(['auth', RoleMiddleware::class . ':siswa'])
-            ->prefix('siswa')
-            ->group(function () {
-                Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
-                 Route::get('/profile', [SiswasController::class, 'index'])->name('profile.siswa');
-                 Route::get('/profile/edit', [SiswasController::class, 'edit'])->name('profile.siswa.edit');
-                // Route::post('/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
-                // Route::put('/siswa/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
-                Route::put('/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
-                Route::get('/settings', [SiswaSettingController::class, 'index'])->name('siswa.settings');
-                Route::get('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi');
-                Route::get('/spmb/daftar', [SiswaSpmbController::class, 'create'])->name('spmb.form');
-                Route::post('/spmb/daftar', [SiswaSpmbController::class, 'store'])->name('spmb.store');
-                Route::get('/absensi', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'index'])->name('siswa.absensi.index');
-                Route::post('/absen-masuk', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'absenMasuk'])->name('siswa.absensi.masuk');
-                Route::post('/absen-pulang', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'absenPulang'])->name('siswa.absensi.pulang');
 
-                // elearning
-                Route::get('/elearning', [ElearningController::class, 'index'])
-                 ->name('siswa.e-learning.index');
+    Route::middleware(['auth', RoleMiddleware::class . ':siswa'])
+        ->prefix('siswa')
+        ->group(function () {
 
-                // Route untuk Ujian
-                Route::get('ujian', [UjianController::class, 'index'])->name('siswa.ujian.index');
-                Route::get('ujian/{id}', [UjianController::class, 'show'])->name('siswa.ujian.show');
-                Route::post('ujian/{id}/submit', [UjianController::class, 'submit'])->name('siswa.ujian.submit');  
-                Route::get('/siswa/ujian/{id}/hasil', [\App\Http\Controllers\Siswa\UjianController::class, 'hasil'])
-                ->name('siswa.ujian.hasil');
+        Route::get('/dashboard', [SiswaDashboardController::class, 'index'])->name('siswa.dashboard');
+        Route::get('/profile', [SiswasController::class, 'index'])->name('profile.siswa');
+        Route::get('/profile/edit', [SiswasController::class, 'edit'])->name('profile.siswa.edit');
+        Route::put('/profile/update', [SiswasController::class, 'update'])->name('profile.siswa.update');
+        Route::get('/settings', [SiswaSettingController::class, 'index'])->name('siswa.settings');
+        Route::get('/ubah-sandi', [SiswaSettingController::class, 'formUbahSandi'])->name('siswa.ubahsandi.form');
+        Route::post('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi');
+        Route::put('/ubah-sandi', [SiswaSettingController::class, 'ubahSandi'])->name('siswa.ubahsandi.update');
+        Route::get('/spmb/daftar', [SiswaSpmbController::class, 'create'])->name('spmb.form');
+        Route::post('/spmb/daftar', [SiswaSpmbController::class, 'store'])->name('spmb.store');
 
-            });
+        // Absensi
+        Route::get('/absensi', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'index'])->name('siswa.absensi.index');
+        Route::post('/absen-masuk', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'absenMasuk'])->name('siswa.absensi.masuk');
+        Route::post('/absen-pulang', [\App\Http\Controllers\Siswa\SiswaAbsensiController::class, 'absenPulang'])->name('siswa.absensi.pulang');
+
+        // Elearning
+        Route::get('/elearning', [ElearningController::class, 'index'])->name('siswa.e-learning.index');
+
+        // 📘 UJIAN (FIX)
+        Route::get('/ujian', [UjianController::class, 'index'])->name('siswa.ujian.index');
+        Route::get('/ujian/{examId}/{number?}', [UjianController::class, 'show'])->name('siswa.ujian.show');
+        Route::post('/ujian/{examId}/{questionId}/answer', [UjianController::class, 'saveAnswer'])->name('siswa.ujian.answer');
+        Route::post('/ujian/submit', [UjianController::class, 'submit'])->name('siswa.ujian.submit');
+        Route::post('/siswa/ujian/{exam}/selesai', [UjianController::class, 'selesaikanUjian'])
+        ->name('ujian.selesai');
+
+        Route::post('/siswa/ujian/{examId}/{questionId}/answer', [UjianController::class, 'saveAnswer'])->name('ujian.saveAnswer');
+
+  
+
+
+    });
+
+
+
+
+
+                 
+
 
          
             

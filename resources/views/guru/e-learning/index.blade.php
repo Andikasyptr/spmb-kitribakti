@@ -29,7 +29,7 @@
                 <thead>
                     <tr class="bg-gray-200 text-gray-700 text-sm uppercase">
                         <th class="px-6 py-3">Judul Ujian</th>
-                        <th class="px-6 py-3">Deskripsi</th>
+                        <th class="px-6 py-3">Mata Pelajaran</th>
                         <th class="px-6 py-3">Durasi</th>
                         <th class="px-6 py-3">Jumlah Soal</th>
                         <th class="px-6 py-3 text-center">Aksi</th>

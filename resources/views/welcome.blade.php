@@ -115,9 +115,9 @@
     <!-- Menu Desktop -->
     <ul class="hidden md:flex gap-6 font-medium text-sm">
         <a href="{{ url ('/') }}" class="block py-2 hover:text-yellow-400 transition">Beranda</a>
-        <a href="#" class="block py-2 hover:text-yellow-300 transition">Rekomendasi Sekolah</a>
-        <a href="#" class="block py-2 hover:text-yellow-300 transition">Informasi SPMB</a>
-        <a href="#" class="block py-2 hover:text-yellow-300 transition">Informasi Pendukung</a>
+        <a href="#jurusan" class="block py-2 hover:text-yellow-300 transition">Jurusan</a>
+        <a href="#spmb" class="block py-2 hover:text-yellow-300 transition">Informasi SPMB</a>
+        {{-- <a href="footer" class="block py-2 hover:text-yellow-300 transition">Informasi Pendukung</a> --}}
 
     </ul>
 
@@ -154,9 +154,9 @@
             </button>
         </div>
         <a href="{{ url ('/') }}" class="block py-2 hover:text-yellow-400 transition">Beranda</a>
-        <a href="#" class="block py-2 hover:text-yellow-300 transition">Rekomendasi Sekolah</a>
-        <a href="#" class="block py-2 hover:text-yellow-300 transition">Informasi SPMB</a>
-        <a href="#" class="block py-2 hover:text-yellow-300 transition">Informasi Pendukung</a>
+        <a href="#jurusan" class="block py-2 hover:text-yellow-300 transition">Jurusan</a>
+        <a href="#spmb" class="block py-2 hover:text-yellow-300 transition">Informasi SPMB</a>
+        {{-- <a href="#" class="block py-2 hover:text-yellow-300 transition">Informasi Pendukung</a> --}}
         <a href="{{ route('login') }}" class="mt-4 inline-block w-full text-center bg-green-500 hover:bg-green-600 px-4 py-2 rounded font-semibold transition">
             Masuk/Login
         </a>
@@ -170,20 +170,20 @@
   <!-- Kartu Hijau -->
   <div class="bg-green-400 text-white p-6 rounded-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out">
     <h2 class="text-4xl font-bold">SPMB</h2>
-    <p class="mt-2">Sistem Penerimaan Murid Baru</p>
-<p class="text-sm text-indigo-600 cursor-pointer underline" onclick="document.getElementById('panduanModal').classList.remove('hidden')">
+    <p class="mt-2">Pendaftaran Tahap 1 sudah dibuka!!</p>
+{{-- <p class="text-sm text-indigo-600 cursor-pointer underline" onclick="document.getElementById('panduanModal').classList.remove('hidden')">
     Lihat Panduan Pendaftaran
-</p>
+</p> --}}
   </div>
 
   <!-- Kartu Tengah -->
   <div class="bg-[#90caf9] p-6 rounded-lg shadow-md relative overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out">
-    <h2 class="text-3xl font-bold">Persyaratan Pendaftaran</h2>
-    <p class="mt-2 text-lg">Jalur Prestasi, KIP, Reguler</p>
+    <h2 class="text-3xl font-bold">Tes Kompetensi Akademik (TKA)</h2>
+    <p class="mt-2 text-lg">dilaksanakan Tanggal 3 - 7 November 2025</p>
     <!-- Tombol -->
-<p class="text-sm text-indigo-600 cursor-pointer underline" onclick="document.getElementById('modal').classList.remove('hidden')">
+{{-- <p class="text-sm text-indigo-600 cursor-pointer underline" onclick="document.getElementById('modal').classList.remove('hidden')">
     Lihat Persyaratan
-</p>
+</p> --}}
   </div>
   
 
@@ -226,7 +226,7 @@
 </section>
 
 <!-- CARI HASIL SELEKSI -->
-<section class="px-6 mt-6 animate-fade-in-up">
+{{-- <section class="px-6 mt-6 animate-fade-in-up">
   <div class="bg-white rounded-lg shadow-md p-4 transition duration-300 ease-in-out hover:shadow-lg hover:scale-[1.01]">
     <h3 class="text-lg font-semibold mb-2">Cari Hasil Seleksi</h3>
     <div class="flex gap-2">
@@ -234,7 +234,7 @@
       <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transform hover:scale-105 transition duration-300">Cari</button>
     </div>
   </div>
-</section>
+</section> --}}
 
 <style>
   @keyframes fadeSlideUp {
@@ -372,7 +372,7 @@
 
 
 
-   <section class="bg-[#f9fafb] py-12 px-4 lg:px-20" x-data="{ tahap: 1 }">
+   <section class="bg-[#f9fafb] py-12 px-4 lg:px-20" x-data="{ tahap: 1 }" id= 'spmb'>
   <h2 class="text-center text-2xl font-bold text-[#24555e] mb-8">Jadwal SPMB</h2>
 
   <!-- PILIH TAHAP -->
@@ -381,13 +381,13 @@
       :class="tahap === 1 ? 'text-blue-500 border-blue-300' : 'text-gray-400 border-gray-300'"
       class="bg-white border rounded-lg px-6 py-2 font-semibold text-sm shadow transition duration-300">
       SPMB Tahap 1 <br>
-      <span class="text-xs font-normal">Proses pendaftaran Reguler</span>
+      <span class="text-xs font-normal">Proses pendaftaran tahap 1</span>
     </button>
     <button @click="tahap = 2"
       :class="tahap === 2 ? 'text-blue-500 border-blue-300' : 'text-gray-400 border-gray-300'"
       class="bg-white border rounded-lg px-6 py-2 font-semibold text-sm shadow transition duration-300">
       SPMB Tahap 2 <br>
-      <span class="text-xs font-normal">Proses pendaftaran Prestasi</span>
+      <span class="text-xs font-normal">Proses pendaftaran tahap 2</span>
     </button>
   </div>
 

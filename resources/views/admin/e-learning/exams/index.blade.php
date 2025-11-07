@@ -5,11 +5,37 @@
 @section('content')
 <div class="p-6 bg-white rounded-lg shadow">
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-3">
-        <h1 class="text-2xl font-bold text-gray-800">📋 Daftar Ujian</h1>
-        <a href="{{ route('admin.exams.create') }}" 
-           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
-            + Tambah Ujian
-        </a>
+        <h1 class="text-2xl font-bold text-gray-800">Daftar Ujian</h1>
+        
+        <div class="flex flex-wrap gap-2">
+
+             <form action="{{ route('admin.exams.index') }}" method="GET" class="flex">
+            <input type="text" 
+                   name="search" 
+                   value="{{ request('search') }}"
+                   placeholder="Cari nama ujian / kelas / jurusan..."
+                   class="w-64 border border-gray-300 rounded-l-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none">
+            <button type="submit" 
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-r-lg transition">
+                🔍
+            </button>
+        </form>
+            <!-- Tombol Tambah -->
+            <a href="{{ route('admin.exams.create') }}" 
+               class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                + Tambah Ujian
+            </a>
+
+            <!-- Tombol Hapus Semua -->
+            <form action="{{ route('admin.exams.deleteAll') }}" method="POST" id="delete-all-form">
+                @csrf
+                @method('DELETE')
+                <button type="button" 
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition btn-delete-all">
+                    Hapus Semua
+                </button>
+            </form>
+        </div>
     </div>
 
     @if(session('success'))
@@ -25,7 +51,7 @@
                 <tr class="bg-gray-100 text-gray-700">
                     <th class="p-3 text-left font-medium border-b">Judul</th>
                     <th class="p-3 text-left font-medium border-b">Kelas</th>
-                    <th class="p-3 text-left font-medium border-b">Deskripsi</th>
+                    <th class="p-3 text-left font-medium border-b">Jurusan</th>
                     <th class="p-3 text-left font-medium border-b">Durasi (menit)</th>
                     <th class="p-3 text-left font-medium border-b">Waktu Mulai</th>
                     <th class="p-3 text-left font-medium border-b">Waktu Selesai</th>
@@ -33,7 +59,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($exams as $exam)
+                @forelse($exams as $exam)
                     <tr class="hover:bg-gray-50 transition">
                         <td class="p-3 border-b text-gray-800">{{ $exam->title }}</td>
                         <td class="p-3 border-b text-gray-800">{{ $exam->kelas ?? '-' }}</td>
@@ -67,7 +93,11 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="7" class="p-3 text-center text-gray-500">Belum ada ujian.</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
@@ -107,31 +137,19 @@
 </div>
 @endsection
 
-
 @push('scripts')
 <script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Sidebar toggle
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const mobileSidebar = document.getElementById('mobile-sidebar');
-    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
-    function toggleSidebar() {
-        mobileSidebar.classList.toggle('-translate-x-full');
-        sidebarBackdrop.classList.toggle('hidden');
-    }
-    if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleSidebar);
-    if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', toggleSidebar);
-
-    // SweetAlert Hapus
+    // SweetAlert untuk hapus satu ujian
     const deleteButtons = document.querySelectorAll('.btn-delete');
     deleteButtons.forEach(button => {
         button.addEventListener('click', function() {
             const form = this.closest('form');
             Swal.fire({
-                title: 'Yakin hapus ujian?',
+                title: 'Yakin hapus ujian ini?',
                 text: "Data ujian dan soal terkait akan dihapus!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -146,6 +164,27 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+
+    // SweetAlert untuk hapus semua ujian
+    const deleteAllBtn = document.querySelector('.btn-delete-all');
+    if (deleteAllBtn) {
+        deleteAllBtn.addEventListener('click', function() {
+            Swal.fire({
+                title: 'Yakin hapus semua ujian?',
+                text: "Semua data ujian akan dihapus permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, hapus semua!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if(result.isConfirmed){
+                    document.getElementById('delete-all-form').submit();
+                }
+            });
+        });
+    }
 });
 </script>
 @endpush

@@ -7,14 +7,30 @@ use App\Models\Exam;
 use Illuminate\Http\Request;
 use App\Models\Mapel;
 use App\Models\Kelas;
+use Illuminate\Support\Facades\DB; // ✅ Tambahkan ini
 
 class ExamController extends Controller
 {
-    // Tampilkan semua ujian
-    public function index()
+   // Tampilkan semua ujian dengan fitur pencarian
+    public function index(Request $request)
     {
-        $exams = Exam::with('questions')->latest()->get();
-        return view('admin.e-learning.exams.index', compact('exams'));
+        $query = Exam::with('questions')->latest();
+
+        // Jika ada parameter pencarian
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                ->orWhere('kelas', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $exams = $query->get();
+
+        return view('admin.e-learning.exams.index', compact('exams'))
+            ->with('search', $request->search);
     }
 
     // Form buat ujian
@@ -86,10 +102,26 @@ class ExamController extends Controller
         return redirect()->route('admin.exams.index')->with('success', 'Ujian berhasil diperbarui.');
     }
 
-    // Hapus ujian
+    // Hapus ujian satuan
     public function destroy(Exam $exam)
     {
         $exam->delete();
         return redirect()->route('admin.exams.index')->with('success', 'Ujian berhasil dihapus.');
+    }
+
+    // ✅ Hapus semua ujian
+    public function deleteAll()
+    {
+        DB::beginTransaction();
+        try {
+            DB::table('exams')->delete();
+            DB::statement('ALTER TABLE exams AUTO_INCREMENT = 1');
+            DB::commit();
+
+            return redirect()->route('admin.exams.index')->with('success', 'Semua data ujian berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

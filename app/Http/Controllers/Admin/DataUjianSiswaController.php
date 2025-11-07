@@ -5,21 +5,35 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Exam;
-use App\Models\ExamResult;
 use App\Models\Siswa;
 use App\Models\Kelas;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Models\StudentAnswer;
+use App\Models\ExamResult;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Jurusan;
 
 class DataUjianSiswaController extends Controller
 {
     // Daftar semua ujian
-    public function index()
+   // Daftar semua ujian + fitur pencarian + urut A-Z
+    public function index(Request $request)
     {
-        $exams = Exam::all();
-        return view('admin.data-ujian-siswa.index', compact('exams'));
-    }
+        $search = $request->input('search'); // ambil input pencarian
 
+        $exams = Exam::when($search, function ($query, $search) {
+                return $query->where('title', 'like', "%{$search}%");
+            })
+            ->orderBy('title', 'asc') // urutkan A-Z
+            ->get();
+
+        $kelas = Kelas::all();
+        $jurusanList = Jurusan::orderBy('nama_jurusan')->get();
+
+    return view('admin.data-ujian-siswa.index', compact('exams', 'kelas', 'search','jurusanList'));
+    }
     // Tampilkan nilai siswa per ujian
     public function show($examId, Request $request)
     {
@@ -103,4 +117,100 @@ class DataUjianSiswaController extends Controller
         $writer->save("php://output");
         exit;
     }
+    public function deleteStudentAnswer($examId, $studentId)
+    {
+        DB::beginTransaction();
+        try {
+            // 🔹 Hapus jawaban siswa
+            $deletedAnswers = StudentAnswer::where('exam_id', $examId)
+                ->where('student_id', $studentId)
+                ->delete();
+
+            // 🔹 Hapus hasil ujian siswa
+            $deletedResult = ExamResult::where('exam_id', $examId)
+                ->where('student_id', $studentId)
+                ->delete();
+
+            DB::commit();
+
+            return back()->with('success', "Data jawaban ($deletedAnswers) dan hasil ujian siswa berhasil dihapus.");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal menghapus data siswa: ' . $e->getMessage());
+        }
+    }
+    
+
+public function deleteMultipleStudentAnswers(Request $request, $examId)
+{
+    // Ambil student_ids dari request
+    $studentIds = $request->input('student_ids', []);
+
+    // Jika dikirim sebagai string, ubah menjadi array
+    if (is_string($studentIds)) {
+        $studentIds = explode(',', $studentIds);
+    }
+
+    // Cek kosong
+    if (empty($studentIds)) {
+        return back()->with('error', 'Pilih minimal satu siswa untuk dihapus.');
+    }
+
+    DB::beginTransaction();
+    try {
+        // 🔹 Hapus jawaban siswa
+        $deletedAnswers = StudentAnswer::where('exam_id', $examId)
+            ->whereIn('student_id', $studentIds)
+            ->delete();
+
+        // 🔹 Hapus hasil ujian siswa
+        $deletedResults = ExamResult::where('exam_id', $examId)
+            ->whereIn('student_id', $studentIds)
+            ->delete();
+
+        DB::commit();
+
+        return back()->with('success', "Data jawaban ($deletedAnswers) dan hasil ujian siswa berhasil dihapus.");
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Gagal menghapus data siswa: ' . $e->getMessage());
+    }
+}
+
+
+public function deleteAllStudentAnswers($examId)
+{
+    DB::beginTransaction();
+    try {
+        // 🔹 Hapus semua jawaban siswa di ujian ini
+        $deletedAnswers = StudentAnswer::where('exam_id', $examId)->delete();
+
+        // 🔹 Hapus semua hasil ujian siswa di ujian ini
+        $deletedResults = ExamResult::where('exam_id', $examId)->delete();
+
+        DB::commit();
+
+        return back()->with('success', "Semua jawaban ($deletedAnswers) dan hasil ujian siswa berhasil dihapus.");
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Gagal menghapus data siswa: ' . $e->getMessage());
+    }
+}
+
+public function viewStudentAnswers($examId, $studentId)
+{
+    $exam = Exam::with('questions.options')->findOrFail($examId);
+
+    // Ambil semua jawaban siswa
+    $studentAnswers = StudentAnswer::where('exam_id', $examId)
+                        ->where('student_id', $studentId)
+                        ->get()
+                        ->keyBy('question_id'); // supaya mudah diakses per soal
+
+    return view('admin.data-ujian-siswa.view-answers', compact('exam', 'studentAnswers'));
+}
+
+
+
+
 }
