@@ -326,6 +326,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     // 🔹 Hapus semua siswa di ujian ini
     Route::get('admin/admin/data-ujian-siswa/{exam}/delete-all', [DataUjianSiswaController::class, 'deleteAllStudentAnswers'])
         ->name('admin.ujian.delete-all');
+    
+
    
 
 

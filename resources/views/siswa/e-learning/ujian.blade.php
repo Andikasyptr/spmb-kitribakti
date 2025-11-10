@@ -87,6 +87,190 @@
 </div>
 @endsection
 
+
+@section('scripts')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+const lokasiUjian = { lat: -6.262659, lng: 107.177224 }; 
+const radiusMeter = {{ $radius }}; // ✅ dari admin (DB)
+console.log(radiusMeter);
+
+let map = null;
+let marker = null;
+
+// 📘 Panduan ujian
+function panduanUjian() {
+    Swal.fire({
+        title: '📘 Panduan Ujian',
+        html: `
+            <ul class="text-left">
+                <li>1. Pastikan Anda berada di lokasi ujian.</li>
+                <li>2. Periksa jaringan internet stabil.</li>
+                <li>3. Pilih jawaban dengan teliti.</li>
+                <li>4. Waktu ujian terbatas sesuai durasi.</li>
+                <li>5. Jangan beralih dari halaman ujian.</li>
+            </ul>
+        `,
+        icon: 'info',
+        confirmButtonText: 'Mengerti'
+    });
+}
+
+// 📏 Hitung jarak antar koordinat (dalam meter)
+function hitungJarakMeter(lat1, lng1, lat2, lng2) {
+    const R = 6371000;
+    const φ1 = lat1 * Math.PI / 180;
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
+    return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+// 🎯 Tampilkan peta dan posisi pengguna
+function tampilkanPeta(lat, lng) {
+    document.getElementById('koordinatTeks').textContent = 
+        `Lokasi Anda: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+
+    const mapDiv = document.getElementById('map');
+    mapDiv.style.display = 'block';
+
+    if (!map) {
+        map = L.map('map', {
+            center: [lat, lng],
+            zoom: 17
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // 🟢 Radius dari admin
+        L.circle([lokasiUjian.lat, lokasiUjian.lng], {
+            color: 'green',
+            fillColor: '#c6f6d5',
+            fillOpacity: 0.3,
+            radius: radiusMeter
+        }).addTo(map).bindPopup("Batas Radius Ujian");
+    }
+
+    if (marker) {
+        marker.setLatLng([lat, lng]);
+    } else {
+        marker = L.marker([lat, lng]).addTo(map).bindPopup("Lokasi Anda").openPopup();
+    }
+
+    setTimeout(() => map.invalidateSize(), 300);
+}
+
+// 🛰️ Ambil lokasi & cek jarak
+function ambilLokasi() {
+    if (!navigator.geolocation) {
+        Swal.fire('Error', 'Browser Anda tidak mendukung Geolocation', 'error');
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        function(pos) {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const jarak = hitungJarakMeter(lat, lng, lokasiUjian.lat, lokasiUjian.lng);
+
+            tampilkanPeta(lat, lng);
+
+            const statusEl = document.getElementById('jarakStatus');
+            if (statusEl) {
+                statusEl.textContent = `Jarak Anda: ${jarak.toFixed(2)} meter`;
+                statusEl.style.color = jarak <= radiusMeter ? 'green' : 'red';
+            }
+
+            // 🚨 Jika keluar area
+            if (jarak > radiusMeter) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Anda di luar area ujian!',
+                    html: `Jarak Anda: <b>${jarak.toFixed(1)} m</b><br>Batas maksimal: <b>${radiusMeter} m</b>`,
+                    timer: 4000,
+                    timerProgressBar: true
+                });
+            }
+        },
+        function(err) {
+            console.warn("Gagal deteksi lokasi:", err.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    );
+}
+
+// 🚀 Fungsi mulai ujian
+function mulaiUjian(examId) {
+    Swal.fire({
+        title: 'Mengecek lokasi...',
+        didOpen: () => Swal.showLoading(),
+        allowOutsideClick: false
+    });
+
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const jarak = hitungJarakMeter(lat, lng, lokasiUjian.lat, lokasiUjian.lng);
+
+            if (jarak > radiusMeter) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Diluar Radius!',
+                    html: `Anda <b>${jarak.toFixed(1)} meter</b> dari lokasi ujian.<br>Batas: <b>${radiusMeter} meter</b>.`
+                });
+                return;
+            }
+
+            window.location.href = `/siswa/ujian/${examId}`;
+        },
+        (err) => Swal.fire('Gagal', err.message, 'error'),
+        { enableHighAccuracy: true, timeout: 10000 }
+    );
+}
+
+// 📡 Jalankan saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    panduanUjian();
+    ambilLokasi();
+    
+});
+</script>
+@endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+    const mapContainer = document.getElementById('mapContainer');
+
+    function toggleSidebar() {
+        mobileSidebar.classList.toggle('-translate-x-full');
+        sidebarBackdrop.classList.toggle('hidden');
+
+        if (!mobileSidebar.classList.contains('-translate-x-full')) {
+            mapContainer.style.display = 'none';
+        } else {
+            mapContainer.style.display = 'block';
+            setTimeout(() => map.invalidateSize(), 300);
+        }
+    }
+
+    if (mobileMenuToggle) mobileMenuToggle.addEventListener('click', toggleSidebar);
+    if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', toggleSidebar);
+});
+</script>
+@endpush
+
+{{-- 
 @section('scripts')
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -180,35 +364,49 @@ function tampilkanPeta(lat, lng) {
         allowOutsideClick: false
     });
 
-    document.getElementById('koordinatTeks').textContent = `Lokasi Anda: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+    document.getElementById('koordinatTeks').textContent = 
+        `Lokasi Anda: ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
 
-    if(!map) {
-        map = L.map('map').setView([lat, lng], 17);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+    // Tambahan: pastikan elemen peta terlihat
+    const mapDiv = document.getElementById('map');
+    mapDiv.style.display = 'block';
 
-        L.circle([lokasiUjian.lat, lokasiUjian.lng], {
-            color: 'green',
-            fillColor: '#c6f6d5',
-            fillOpacity: 0.3,
-            radius: radiusMeter
-        }).addTo(map).bindPopup("Batas Radius Ujian");
-    } else {
-        map.setView([lat, lng], 17);
-    }
-
-    if(marker) {
-        marker.setLatLng([lat, lng]);
-    } else {
-        marker = L.marker([lat, lng]).addTo(map).bindPopup("Lokasi Anda").openPopup();
-    }
-
+    // Gunakan sedikit delay agar layout sudah stabil
     setTimeout(() => {
-        map.invalidateSize();
-        Swal.close();
-    }, 300);
+        if(!map) {
+            map = L.map('map', {
+                center: [lat, lng],
+                zoom: 17
+            });
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            L.circle([lokasiUjian.lat, lokasiUjian.lng], {
+                color: 'green',
+                fillColor: '#c6f6d5',
+                fillOpacity: 0.3,
+                radius: radiusMeter
+            }).addTo(map).bindPopup("Batas Radius Ujian");
+        } else {
+            map.setView([lat, lng], 17);
+        }
+
+        if(marker) {
+            marker.setLatLng([lat, lng]);
+        } else {
+            marker = L.marker([lat, lng]).addTo(map).bindPopup("Lokasi Anda").openPopup();
+        }
+
+        // Paksa Leaflet hitung ulang ukuran canvas-nya
+        setTimeout(() => {
+            map.invalidateSize();
+            Swal.close();
+        }, 300);
+    }, 400); // delay 400ms agar DOM selesai render
 }
+
 
 // Load lokasi awal
 document.addEventListener('DOMContentLoaded', function() {
@@ -253,4 +451,4 @@ document.addEventListener('DOMContentLoaded', function() {
     if (sidebarBackdrop) sidebarBackdrop.addEventListener('click', toggleSidebar);
 });
 </script>
-@endpush
+@endpush --}}

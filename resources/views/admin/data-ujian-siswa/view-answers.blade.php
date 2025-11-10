@@ -21,6 +21,18 @@
                 <span class="text-sm text-gray-500">({{ $question->point ?? 0 }} poin)</span>
             </p>
 
+            {{-- Gambar pertanyaan --}}
+            @if($question->image_path)
+                <div class="mt-2">
+                    <img src="{{ asset('storage/' . $question->image_path) }}" 
+                         alt="Gambar Soal" 
+                         class="rounded shadow"
+                         style="max-width: 150px; width: auto; height: auto;">
+                </div>
+            @endif
+
+            <br>
+
             <div class="space-y-2">
                 @foreach($question->options as $option)
                     @php
@@ -52,9 +64,19 @@
 
                         <span class="flex-1 {{ $textColor }}">{{ $option->option_label }}. {{ $option->option_text }}</span>
 
+
                         @if($label)
                             <span class="flex items-center gap-1">{{ $label }}</span>
                         @endif
+
+                         @if($option->image_path)
+                                            <div class="mt-1">
+                                                <img src="{{ asset('storage/' . $option->image_path) }}" 
+                                                     alt="Gambar Opsi" 
+                                                     class="rounded shadow"
+                                                     style="max-width: 100px; width: auto; height: auto;">
+                                            </div>
+                                        @endif
                     </div>
                 @endforeach
 
