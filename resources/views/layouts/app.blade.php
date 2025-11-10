@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google" content="notranslate">
        <!-- Logo Tab Browser -->
     <link rel="icon" href="{{ asset('/images/hm.png') }}" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -31,6 +32,15 @@
 
 
 </head>
+<style>
+/* Cegah user select & translate */
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+</style>
 
 <body class="font-sans antialiased text-gray-900 bg-gray-50">
     <div class="min-h-screen flex">
@@ -91,5 +101,13 @@
     </div>
 
     @stack('scripts')
+    <script>
+// Blok Google Translate API injection
+Object.defineProperty(navigator, 'languages', {
+  get: function() {
+    return ['id']; // paksa bahasa Indonesia
+  }
+});
+</script>
 </body>
 </html>

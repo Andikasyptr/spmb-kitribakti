@@ -260,8 +260,12 @@ class UjianController extends Controller
     }
 
     if (empty($answers)) {
-        return response()->json(['success' => false, 'message' => 'Tidak ada jawaban untuk disimpan.']);
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'Ujian diselesaikan tanpa jawaban.'
+    ]);
+}
+
 
     DB::beginTransaction();
     try {

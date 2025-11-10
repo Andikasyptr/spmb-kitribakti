@@ -39,7 +39,7 @@
         <li class="ml-4">
           <div class="absolute -left-2 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
           <p class="font-semibold">Pengumuman</p>
-          <p class="text-sm text-gray-600">📅 1 Juli 2025</p>
+          <p class="text-sm text-gray-600">📅 1 Juli 2026</p>
           <span class="bg-gray-400 text-white text-xs font-semibold px-2 py-1 rounded">Belum dimulai</span>
         </li>
       </ol>

@@ -1,6 +1,7 @@
 @extends('layouts.app', ['noSidebar' => true])
 @section('title', 'Ujian - ' . $exam->title)
 
+
 @section('content')
 <div class="flex justify-center py-8 bg-gray-100 min-h-screen">
     <div class="w-full max-w-3xl bg-white rounded-lg shadow-md p-6">
@@ -10,6 +11,14 @@
         @php
             $currentQuestion = $questions[$number - 1];
         @endphp
+
+        {{-- Timer Ujian --}}
+<div class="flex justify-center mb-4">
+    <div class="bg-blue-50 border border-blue-200 rounded-full px-4 py-2 text-red-700 font-semibold shadow-sm">
+        ⏳ Sisa Waktu: <span id="countdown">--:--:--</span>
+    </div>
+</div>
+
 
         <form id="form-ujian">
             @csrf
@@ -128,127 +137,170 @@
         </form>
     </div>
 </div>
-
-{{-- ================= SCRIPT ================= --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const csrfToken = "{{ csrf_token() }}";
 
-    // Simpan jawaban otomatis saat memilih opsi
-    async function saveAnswer(questionId, optionId, examId) {
+    // ==============================
+    // 🔹 CONFIG
+    // ==============================
+    const csrfToken = "{{ csrf_token() }}";
+    const examId = "{{ $exam->id }}";
+    const finishUrl = `{{ route('ujian.selesai', ['exam' => $exam->id]) }}`;
+    const countdownEl = document.getElementById('countdown');
+
+    // ==============================
+    // 🔹 SIMPAN JAWABAN OTOMATIS
+    // ==============================
+    async function saveAnswer(questionId, optionId) {
         const statusEl = document.getElementById('saving-status');
         const textEl = document.getElementById('saving-text');
         statusEl.classList.remove('hidden');
-        textEl.textContent = 'Menyimpan jawaban...';
         statusEl.classList.add('animate-pulse');
+        textEl.textContent = 'Menyimpan jawaban...';
 
         try {
-            const res = await fetch(`/siswa/ujian/${examId}/${questionId}/answer`, {
+            const url = `{{ url('/siswa/ujian') }}/${examId}/${questionId}/answer`;
+            const res = await fetch(url, {
                 method: "POST",
-                headers: {
+                headers: { 
                     "Content-Type": "application/json",
                     "X-CSRF-TOKEN": csrfToken
                 },
-                body: JSON.stringify({ option_id: optionId })
+                body: JSON.stringify({ option_id: optionId, _token: csrfToken })
             });
-            const data = await res.json();
 
-            if (data.success) {
-                textEl.textContent = '✅ Jawaban tersimpan';
-                setTimeout(() => statusEl.classList.add('hidden'), 800);
-            } else {
-                textEl.textContent = '❌ Gagal menyimpan';
-            }
-        } catch (error) {
+            if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+            const data = await res.json();
+            textEl.textContent = data.success ? '✅ Jawaban tersimpan' : '❌ Gagal menyimpan';
+            if (data.success) setTimeout(() => statusEl.classList.add('hidden'), 800);
+
+        } catch (err) {
+            console.error(err);
             textEl.textContent = '⚠️ Koneksi error';
         }
     }
 
-    // Event untuk setiap opsi jawaban
     document.querySelectorAll('input[name="option_id"]').forEach(radio => {
         radio.addEventListener('change', function() {
-            saveAnswer(this.dataset.question, this.value, this.dataset.exam);
+            saveAnswer(this.dataset.question, this.value);
         });
     });
 
-    // Navigasi antar soal
     document.querySelectorAll('a.nav-question').forEach(a => {
         a.addEventListener('click', async function(e) {
             e.preventDefault();
             const checked = document.querySelector('input[name="option_id"]:checked');
-            if (checked) {
-                await saveAnswer(checked.dataset.question, checked.value, checked.dataset.exam);
-            }
+            if (checked) await saveAnswer(checked.dataset.question, checked.value);
             window.location.href = this.dataset.url;
         });
     });
 
-    // SweetAlert tombol selesai
+    // ==============================
+    // 🔹 TOMBOL SELESAI
+    // ==============================
     const finishBtn = document.getElementById("finishExam");
-if (finishBtn) {
-    finishBtn.addEventListener("click", function () {
-        Swal.fire({
-            title: "Selesaikan Ujian?",
-            text: "Pastikan semua jawaban sudah benar. Setelah diselesaikan, ujian tidak dapat diulang.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, Selesai!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const examId = "{{ $exam->id }}";
-
-                // ✅ gunakan route() Laravel biar URL-nya valid dan aman
-                fetch(`{{ route('ujian.selesai', ['exam' => $exam->id]) }}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                    },
-                    // ✅ sertakan _token dan exam_id agar Laravel mengenalinya
-                    body: JSON.stringify({
-                        _token: "{{ csrf_token() }}",
-                        exam_id: examId
+    if (finishBtn) {
+        finishBtn.addEventListener("click", function () {
+            Swal.fire({
+                title: "Selesaikan Ujian?",
+                text: "Pastikan semua jawaban sudah benar.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, Selesai!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(finishUrl, {
+                        method: "POST",
+                        headers: { 
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": csrfToken
+                        },
+                        body: JSON.stringify({ _token: csrfToken, exam_id: examId })
                     })
-                })
-                .then(async (res) => {
-                    // Tangani error dari server
-                    if (!res.ok) {
-                        const errText = await res.text();
-                        throw new Error(errText || "Server error");
-                    }
-                    return res.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: "Ujian Diselesaikan!",
-                            text: "Jawaban Anda telah tersimpan dan ujian dinyatakan selesai.",
-                            icon: "success",
-                            confirmButtonText: "OK"
-                        }).then(() => {
-                            // ✅ arahkan ke halaman daftar ujian
-                            window.location.href = "{{ route('siswa.ujian.index') }}";
-                        });
-                    } else {
-                        Swal.fire("Gagal", data.message || "Terjadi kesalahan saat menyimpan.", "error");
-                    }
-                })
-                .catch((err) => {
-                    console.error(err);
-                    Swal.fire("Error", "Terjadi kesalahan server. Silakan coba lagi.", "error");
-                });
-            }
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({ title: "Ujian Diselesaikan!", text: "Jawaban Anda telah tersimpan.", icon: "success" })
+                            .then(() => window.location.href = "{{ route('siswa.ujian.index') }}");
+                        } else {
+                            Swal.fire("Gagal", data.message || "Kesalahan server.", "error");
+                        }
+                    })
+                    .catch(() => Swal.fire("Error", "Terjadi kesalahan server.", "error"));
+                }
+            });
         });
-    });
-}
+    }
 
+    // ==============================
+    // 🔹 TIMER COUNTDOWN
+    // ==============================
+    const endTimeServer = new Date("{{ $exam->end_time }}").getTime();
+    const startTimeServer = new Date("{{ $exam->start_time }}").getTime();
+    const now = new Date().getTime();
+    let endTime = localStorage.getItem(`exam_${examId}_end`);
+    if (!endTime) { localStorage.setItem(`exam_${examId}_end`, endTimeServer); endTime = endTimeServer; }
+    else { endTime = parseInt(endTime); }
 
-    // Cegah tombol back
+    if (now < startTimeServer) {
+        Swal.fire({
+            title: "Ujian Belum Dimulai",
+            text: "Ujian akan dimulai pada {{ \Carbon\Carbon::parse($exam->start_time)->format('H:i') }}",
+            icon: "info",
+            confirmButtonText: "OK"
+        }).then(() => window.location.href = "{{ route('siswa.ujian.index') }}");
+    } else {
+        const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = endTime - now;
+
+            if (distance <= 0) {
+                clearInterval(timer);
+                countdownEl.textContent = "00:00:00";
+                Swal.fire({ title: "Waktu Habis!", text: "Jawaban Anda akan disimpan otomatis.", icon: "warning", showConfirmButton: false, timer: 3000 });
+                setTimeout(() => {
+                    fetch(finishUrl, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", "X-CSRF-TOKEN": csrfToken },
+                        body: JSON.stringify({ _token: csrfToken, exam_id: examId })
+                    }).then(() => {
+                        localStorage.removeItem(`exam_${examId}_end`);
+                        window.location.href = "{{ route('siswa.ujian.index') }}";
+                    });
+                }, 3500);
+            } else {
+                const h = Math.floor((distance / (1000*60*60)) % 24);
+                const m = Math.floor((distance / (1000*60)) % 60);
+                const s = Math.floor((distance / 1000) % 60);
+                countdownEl.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            }
+        }, 1000);
+    }
+
+    // ==============================
+    // 🔹 BLOK TOMBOL BACK
+    // ==============================
     history.pushState(null, null, location.href);
-    window.onpopstate = () => history.go(1);
+    window.onpopstate = () => {
+        history.pushState(null, null, location.href);
+        Swal.fire({ icon:"error", title:"Aksi Diblokir", text:"Tombol kembali dinonaktifkan selama ujian.", showConfirmButton:false, timer:1500 });
+    };
+
+    // ==============================
+    // 🔹 BLOK SCREENSHOT, PRINT, DEVTOOLS, KANAN, COPY
+    // ==============================
+    document.addEventListener("keydown", function (e) {
+        if(e.key === "PrintScreen") { e.preventDefault(); navigator.clipboard.writeText(""); Swal.fire({ icon:"warning", title:"Tidak Diizinkan", text:"Screenshot dinonaktifkan selama ujian.", timer:1500, showConfirmButton:false }); }
+        if(e.ctrlKey && e.key.toLowerCase() === 'p') { e.preventDefault(); Swal.fire({ icon:"warning", title:"Tidak Diizinkan", text:"Mencetak halaman tidak diperbolehkan!", timer:1500, showConfirmButton:false }); }
+        if(e.key === "F12" || (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase()))) { e.preventDefault(); Swal.fire({ icon:"error", title:"Diblokir", text:"Inspect element dinonaktifkan!", timer:1500, showConfirmButton:false }); }
+    });
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => { e.preventDefault(); Swal.fire({ icon:"info", title:"Tindakan Diblokir", text:"Menyalin teks tidak diizinkan saat ujian.", timer:1200, showConfirmButton:false }); });
+
 });
 </script>
+
 @endsection
