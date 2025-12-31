@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SMK Kitri Bakti berlokasi di Cikarang Utara - Sekolah Menengah Kejuruan dengan jurusan Akuntansi dan Teknik Kendaraan Ringan. Informasi pendaftaran SPMB terbaru.">
+    <meta name="keywords" content="SMK Kitri Bakti, SPMB, Pendaftaran Sekolah, SMK Terbaik, Akuntansi, Teknik Otomotif">
+
     <script src="https://unpkg.com/alpinejs" defer></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -10,13 +13,13 @@
 
 
     <!-- Logo Tab Browser -->
-    <link rel="icon" href="{{ asset('/images/hm.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('/images/logokitri.png') }}" type="image/png">
 
     <!-- Tailwind CSS via Vite -->
     @vite('resources/css/app.css')
 
     <!-- Title -->
-    <title>smkhijaumuda</title>
+    <title>Smk Kitri Bakti</title>
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -92,12 +95,12 @@
 
 <!-- NAVIGATION BAR -->
 <!-- NAVBAR -->
-<nav class="bg-[#24555e] text-white px-6 py-4 flex justify-between items-center shadow-md z-50 relative">
+<nav class="bg-cyan-700 text-white px-6 py-4 flex justify-between items-center shadow-md z-50 relative">
     <!-- Logo -->
     <div class="flex items-center">
         <a href="{{ url('/') }}" class="-m-1.5 p-1.5">
-            <span class="sr-only">SMK Hijau Muda</span>
-            <img class="h-12 w-auto logo-hover" src="images/hm.png" alt="">
+            <span class="sr-only">SMK kitri Bakti</span>
+            <img class="h-12 w-auto logo-hover" src="images/logokitri.png" alt="">
         </a>
     </div>
 
@@ -170,20 +173,20 @@
   <!-- Kartu Hijau -->
   <div class="bg-green-400 text-white p-6 rounded-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out">
     <h2 class="text-4xl font-bold">SPMB</h2>
-    <p class="mt-2">Pendaftaran Tahap 1 sudah dibuka!!</p>
-{{-- <p class="text-sm text-indigo-600 cursor-pointer underline" onclick="document.getElementById('panduanModal').classList.remove('hidden')">
+    <p class="mt-2">Segera Lihat panduan pendaftaran sekarang</p>
+<p class="text-sm text-indigo-600 cursor-pointer underline" onclick="document.getElementById('panduanModal').classList.remove('hidden')">
     Lihat Panduan Pendaftaran
-</p> --}}
+</p>
   </div>
 
   <!-- Kartu Tengah -->
   <div class="bg-[#90caf9] p-6 rounded-lg shadow-md relative overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out">
-    <h2 class="text-3xl font-bold">Tes Kompetensi Akademik (TKA)</h2>
-    <p class="mt-2 text-lg">dilaksanakan Tanggal 3 - 7 November 2025</p>
+    <h2 class="text-3xl font-bold">Persyaratan</h2>
+    <p class="mt-2 text-lg">Berikut beberapa berkas persyaratan yang harus dilengkapi untuk mendaftar</p>
     <!-- Tombol -->
-{{-- <p class="text-sm text-indigo-600 cursor-pointer underline" onclick="document.getElementById('modal').classList.remove('hidden')">
+<p class="text-sm text-indigo-600 cursor-pointer underline" onclick="document.getElementById('modal').classList.remove('hidden')">
     Lihat Persyaratan
-</p> --}}
+</p>
   </div>
   
 
@@ -273,14 +276,14 @@
             atau yang ada pada halaman utama.
           </li>
 
-            <li>buat akun dengan email aktif anda.</li>
-            <li>masuk/login dengan akun yang telah anda buat.</li>
-            <li>pilih pendaftaran siswa baru yang ada pada menu sebelah kiri</li>
-            <li>lengkapi data anda sesuai persyaratan dan jalur pendaftarannya</li>
-            <li>pastikan data anda sudah sesuai</li>
-            <li>klik daftar</li>
-            <li>selesai, anda sudah mendaftarkan diri sebagai siswa/i SMK Hijau Muda</li>
-            <li>pengumuman akan diinformasikan pada tanggal 5 Juli 2025 yang dikirimkan ke email aktif anda</li>
+            <li>Buat akun SPMB terlebih dahulu dengan email aktif anda.</li>
+            <li>Masuk/login dengan akun yang telah anda buat.</li>
+            <li>Lengkapi data anda untuk melanjutkan proses pendaftaran</li>
+            <li>Simpan data anda</li>
+            <li>Selesaikan administrasi pembayaran</li>
+            <li>Upload bukti transfer anda</li>
+            <li>Tunggu verifikasi pembayaran</li>
+            <li>Cetak atau donwload bukti pembayaran pada halaman pembayaran</li>
       
         </ol>
 
@@ -296,38 +299,16 @@
 <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
   <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full relative animate-fade-in 
               max-h-[90vh] overflow-y-auto"> 
-      <h2 class="text-lg font-semibold text-indigo-700 mb-4">Persyaratan Pendaftaran Jalur Reguler</h2>
+      <h2 class="text-lg font-semibold text-indigo-700 mb-4">Persyaratan Pendaftaran</h2>
 <ul class="list-disc pl-5 text-sm text-gray-700 space-y-2">
-  <li>Fotokopi Ijazah atau Surat Keterangan Lulus dari sekolah asal.</li>
-  <li>Fotokopi Kartu Keluarga (KK).</li>
-  <li>Fotokopi Akta Kelahiran atau KTP.</li>
-  <li>Pas foto berwarna ukuran 3x4 sebanyak 2 lembar.</li>
-  <li>Mengisi formulir pendaftaran secara online atau langsung di sekolah.</li>
-  <li>Mengikuti tes seleksi masuk (jika disyaratkan oleh sekolah).</li>
-  <li>Melampirkan surat keterangan sehat dari puskesmas/klinik.</li>
+  <li>Mengisi Formulir pendaftaran Online pada sistem aplikasi</li>
+  <li>Fotocopy Surat Keterangan lulus</li>
+  <li>Fotocopy KTP Orang Tua</li>
+  <!--<li>siapkan Berkas Scan PDF Akta Kelahiran</li>-->
+  <li>Fotocopy Ijazah sekolah asal (jika sudah ada) *tidak wajib</li>
+  <li>Fotocopy Kartu Keluarga, AKTA dan NISN</li>
+   <p>semua file di upload ke dalam formulir dalam format File Gambar (JPG, JPEG) atau file PDF</p>
 </ul>
-<br>
-      <h2 class="text-lg font-semibold text-indigo-700 mb-4">Persyaratan Pendaftaran Jalur Prestasi</h2>
-        <ul class="list-disc pl-5 text-sm text-gray-700 space-y-2">
-            <li>Fotokopi Ijazah terakhir</li>
-            <li>Pas foto ukuran 3x4 (2 lembar)</li>
-            <li>Fotokopi KTP / Kartu Pelajar</li>
-            <li>Mengisi formulir pendaftaran</li>
-            <li>Melampirkan Sertifikat Kejuaraan Minimal Juara 3 Tingkat Kecamatan</li>
-            <p>semua file di upload ke dalam formulir dalam format File Gambar (JPG, JPEG) atau file PDF</p>
-        </ul>
-        <br>
-      <h2 class="text-lg font-semibold text-indigo-700 mb-4">Persyaratan Pendaftaran Jalur KIP</h2>
-      <ul class="list-disc pl-5 text-sm text-gray-700 space-y-2">
-        <li>Memiliki Kartu Indonesia Pintar (KIP) yang masih berlaku.</li>
-        <li>Fotokopi KIP (1 lembar) dan menunjukkan aslinya saat verifikasi.</li>
-        <li>Fotokopi Kartu Keluarga (KK).</li>
-        <li>Fotokopi Akta Kelahiran atau KTP.</li>
-        <li>Fotokopi rapor semester terakhir.</li>
-        <li>Surat Keterangan Tidak Mampu dari Kelurahan/Desa (jika diminta).</li>
-        <li>Pas foto terbaru ukuran 3x4 (2 lembar).</li>
-        <li>Mengisi formulir pendaftaran online dengan data lengkap dan benar.</li>
-      </ul>
         <!-- Tombol Tutup -->
         <!-- Tombol Tutup Bawah -->
     <div class="mt-6 text-left">
@@ -347,27 +328,69 @@
     <div class="relative isolate overflow-hidden bg-gray-900 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0 animate-zoomIn">
       <svg viewBox="0 0 1024 1024" class="absolute top-1/2 left-1/2 -z-10 size-256 -translate-y-1/2 mask-[radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0" aria-hidden="true">
         <circle cx="512" cy="512" r="512" fill="url(#759c1415-0410-454c-8f7c-9a820de03641)" fill-opacity="0.7" />
-        <defs>
-          <radialGradient id="759c1415-0410-454c-8f7c-9a820de03641">
-            <stop stop-color="#7775D6" />
-            <stop offset="1" stop-color="#E935C1" />
-          </radialGradient>
-        </defs>
+        <!--<defs>-->
+        <!--  <radialGradient id="759c1415-0410-454c-8f7c-9a820de03641">-->
+        <!--    <stop stop-color="#7775D6" />-->
+        <!--    <stop offset="1" stop-color="#E935C1" />-->
+        <!--  </radialGradient>-->
+        <!--</defs>-->
       </svg>
       <div class="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left animate-fadeSlideUp">
-        <h2 class="text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">Tingkatkan Potensi Anak Anda Bersama Sekolah Kami</h2>
-        <p class="mt-6 text-lg/8 text-pretty text-gray-300">"Mendidik generasi berkarakter kuat dan terampil di bidang teknologi, siap bersaing di dunia kerja dan industri global."</p>
+        <h2 class="text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">Mendidik dengan Hati, Menginspirasi dengan Aksi</h2>
+        <p class="mt-6 text-lg/8 text-pretty text-gray-300"> "SMK Kitri Bakti berkomitmen mencetak generasi tangguh yang mampu berkarya, berinovasi, dan berkontribusi nyata untuk bangsa."</p>
         <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
         <a href="{{ route('register') }}" class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-transform duration-300 hover:scale-105">Daftar Sekarang</a>
-          <a href="{{ url('/#jurusan') }}" class="text-sm/6 font-semibold text-white hover:underline">pelajari lebih lanjut <span aria-hidden="true">→</span></a>
+          <a href="{{ url('#poster') }}" class="text-sm/6 font-semibold text-white hover:underline">pelajari lebih lanjut <span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="relative mt-16 h-80 lg:mt-8 animate-fadeSlideUp">
-        <img class="absolute top-0 left-0 w-228 max-w-none rounded-md bg-white/5 ring-1 ring-white/10 shadow-lg hover:scale-105 transition-transform duration-500" src="images/landing.JPG" alt="App screenshot" width="1824" height="1080" />
+        <img 
+              class="max-h-[400px] w-auto mx-auto rounded-md bg-white/5 ring-1 ring-white/10 shadow-lg transition-transform duration-500 hover:scale-105 object-contain" 
+              src="{{ asset('images/foto15.jpg') }}" 
+              alt="Foto kegiatan SMK" 
+            />
+
       </div>
     </div>
   </div>
 </div>
+
+{{-- Section Poster SPMB --}}
+<section class="bg-white">
+  <div class="max-w-7xl mx-auto py-12 px-6 lg:px-8 text-center" id = 'poster'>
+    <h2 class="text-3xl font-bold text-gray-800 mb-8 animate-fadeSlideUp">
+      SPMB SMK Kitri Bakti Tahun Ajaran 2026/2027
+    </h2>
+
+    <div class="relative rounded-3xl overflow-hidden shadow-2xl animate-zoomIn">
+      <img 
+        src="{{ asset('images/banner_spmb.png') }}" 
+        alt="Poster SPMB SMK Kitri Bakti" 
+        class="w-full h-auto object-contain hover:scale-105 transition-transform duration-700 ease-in-out"
+      />
+    </div>
+    <br>
+    <div class="relative rounded-3xl overflow-hidden shadow-2xl animate-zoomIn">
+      <img 
+        src="{{ asset('images/poster1.jpg') }}" 
+        alt="Poster SPMB SMK Kitri Bakti" 
+        class="w-full h-auto object-contain hover:scale-105 transition-transform duration-700 ease-in-out"
+      />
+    </div>
+    <br>
+    <div class="relative rounded-3xl overflow-hidden shadow-2xl animate-zoomIn">
+      <img 
+        src="{{ asset('images/poster2.jpg') }}" 
+        alt="Poster SPMB SMK Kitri Bakti" 
+        class="w-full h-auto object-contain hover:scale-105 transition-transform duration-700 ease-in-out"
+      />
+    </div>
+
+    <p class="mt-6 text-gray-600 text-lg animate-fadeSlideUp">
+      Cek Jadwal Informasi terkait penerimaan peserta didik baru (SPMB) tahun ajaran 2026/2027.
+    </p>
+  </div>
+</section>
 
 
 
@@ -411,9 +434,9 @@
     <p class="mt-2 text-lg text-gray-600">"Pilih jurusan sesuai minat kamu, dan kembangkan potensi terbaikmu bersama kami".</p>
   </div>
 
-  <div class="mt-12 grid gap-6 lg:grid-cols-3 md:grid-cols-2">
+ <div class="mt-12 flex flex-wrap justify-center gap-6">
     <!-- Card 1 -->
-    <div class="relative overflow-hidden rounded-2xl shadow-md group">
+    <div class="relative overflow-hidden rounded-2xl shadow-md group w-80">
       <img class="w-full h-60 object-cover group-hover:scale-105 transition duration-500" src="{{ asset('images/tkr.jpg') }}" alt="Blog 1">
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-4 flex flex-col justify-end">
         <h3 class="text-lg font-bold text-white">Teknik Kendaraan Ringan</h3>
@@ -421,20 +444,15 @@
     </div>
 
     <!-- Card 2 -->
-    <div class="relative overflow-hidden rounded-2xl shadow-md group">
-      <img class="w-full h-60 object-cover group-hover:scale-105 transition duration-500" src="{{ asset('images/tkj.jpeg') }}" alt="Blog 2">
+    <div class="relative overflow-hidden rounded-2xl shadow-md group w-80">
+      <img class="w-full h-60 object-cover group-hover:scale-105 transition duration-500" src="{{ asset('images/akuntansi.JPG') }}" alt="Blog 2">
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-4 flex flex-col justify-end">
-        <h3 class="text-lg font-bold text-white">Teknik Komputer Jaringan Telekomunikasi</h3>
+        <h3 class="text-lg font-bold text-white">Akuntansi</h3>
       </div>
     </div>
+</div>
 
-    <!-- Card 3 -->
-    <div class="relative overflow-hidden rounded-2xl shadow-md group">
-      <img class="w-full h-60 object-cover group-hover:scale-105 transition duration-500" src="{{ asset('images/mp.webp') }}" alt="Blog 3">
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-4 flex flex-col justify-end">
-        <h3 class="text-lg font-bold text-white">Manajemen Perkantoran</h3>
-      </div>
-    </div>
+
   </div>
 </section>
 {{-- 
@@ -471,14 +489,112 @@
 </section>
  --}}
 
+ <!-- Section Lokasi / Peta SMK Kitri Bakti -->
+<section id="lokasi" class="relative bg-gradient-to-b from-blue-900 via-blue-800 to-blue-950 py-20 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 animate-fadeSlideUp">
+      Lokasi SMK Kitri Bakti
+    </h2>
+    <p class="text-gray-100 mb-10 text-lg animate-fadeSlideUp delay-200">
+      Temukan kami di lokasi strategis yang mudah dijangkau dan nyaman untuk kegiatan belajar.
+    </p>
+
+    <div class="relative w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden shadow-2xl animate-fadeSlideUp delay-300">
+      <iframe 
+        class="w-full h-full border-0 rounded-2xl"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.350056384828!2d107.184094!3d-6.2725071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6985002f11f45d%3A0xc478fba1d2359023!2sSMK%20Kitri%20Bakti!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"> 
+      </iframe>
+    </div>
+  </div>
+
+  <style>
+    @keyframes fadeSlideUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeSlideUp {
+      animation: fadeSlideUp 0.9s ease-out forwards;
+    }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+  </style>
+</section>
+
+<!-- Dokumentasi Slider -->
+<section class="py-8 overflow-hidden">
+  <h2 class="text-center text-2xl font-bold text-gray-800 mb-6">Dokumentasi Kegiatan</h2>
+  <div class="relative w-full overflow-hidden">
+    <div class="flex animate-scroll gap-2">
+      <img src="images/foto1.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 1">
+      <img src="images/foto2.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 2">
+      <img src="images/foto3.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 3">
+      <img src="images/foto4.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 4">
+      {{-- <img src="images/foto5.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 5"> --}}
+      <img src="images/foto6.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 6">
+      <img src="images/foto7.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 7">
+      <img src="images/foto8.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 8">
+      <img src="images/foto9.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 9">
+      <img src="images/foto10.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 10">
+      <img src="images/foto11.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 11">
+      <img src="images/foto12.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 12">
+      <img src="images/foto13.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 13">
+      <img src="images/foto14.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 14">
+      <img src="images/foto15.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 15">
+      <img src="images/foto16.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 16">
+      <img src="images/foto17.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 17">
+      <img src="images/foto18.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 18">
+      <img src="images/foto19.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 19">
+      <img src="images/foto20.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 20">
+      <!-- duplikat supaya loop mulus -->
+       <img src="images/foto1.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 1">
+      <img src="images/foto2.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 2">
+      <img src="images/foto3.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 3">
+      <img src="images/foto4.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 4">
+      {{-- <img src="images/foto5.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 5"> --}}
+      <img src="images/foto6.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 6">
+      <img src="images/foto7.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 7">
+      <img src="images/foto8.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 8">
+      <img src="images/foto9.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 9">
+      <img src="images/foto10.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 10">
+      <img src="images/foto11.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 11">
+      <img src="images/foto12.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 12">
+      <img src="images/foto13.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 13">
+      <img src="images/foto14.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 14">
+      <img src="images/foto15.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 15">
+      <img src="images/foto16.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 16">
+      <img src="images/foto17.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 17">
+      <img src="images/foto18.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 18">
+      <img src="images/foto19.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 19">
+      <img src="images/foto20.jpg" class="h-48 w-auto rounded-lg object-cover" alt="Foto 20">
+    </div>
+  </div>
+</section>
+
+<style>
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  display: flex;
+  width: max-content;
+  animation: scroll 30s linear infinite;
+}
+</style>
+
 
     <!-- FOOTER -->
-    <footer class="bg-teal-800 text-white border-t border-gray-200 mt-10">
+    <footer class="bg-cyan-700 text-white border-t border-gray-200 mt-10">
       <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="flex flex-col md:flex-row justify-between">
           <div class="mb-10 md:mb-0 md:w-1/4">
-            <img class="h-auto w-28 mb-4" src="images/hm.png" alt="Logo">
-            <p class="text-sm">SMK Hijau Muda berkomitmen mencetak generasi unggul berbasis teknologi dan karakter.</p>
+            <img class="h-auto w-28 mb-4" src="images/logokitri.png" alt="Logo">
+            <span>SMK KITRI BAKTI</span>
+            <p class="text-sm">Ciptakan Inovasi, Wujudkan Mimpi!</p>
             <div class="flex space-x-4 mt-4">
               <a href="#" class="hover:underline">Facebook</a>
               <a href="#" class="hover:underline">Instagram</a>
@@ -508,14 +624,14 @@
               </ul>
             </div>
             <div>
-              <h3 class="text-sm font-semibold text-yellow-500 mb-4">Pendaftaran</h3>
-              <ul class="space-y-2 text-sm">
-                <li><a href="#" class="hover:underline">Terms of service</a></li>
+              <!--<h3 class="text-sm font-semibold text-yellow-500 mb-4">Pendaftaran</h3>-->
+              <!--<ul class="space-y-2 text-sm">-->
+                <!--<li><a href="#" class="hover:underline">Terms of service</a></li>-->
 <!-- Trigger Button -->
-<p class="text-sm text-white cursor-pointer hover:text-gray-300 transition"
-   onclick="document.getElementById('privacyModal').classList.remove('hidden')">
-  Kebijakan Privasi
-</p>
+<!--<p class="text-sm text-white cursor-pointer hover:text-gray-300 transition"-->
+<!--   onclick="document.getElementById('privacyModal').classList.remove('hidden')">-->
+<!--  Kebijakan Privasi-->
+<!--</p>-->
 
 <!-- Modal / Popup -->
 <div id="privacyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
@@ -601,7 +717,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-12 border-t pt-6 text-center text-sm">© 2025 SMK Hijau Muda, Inc. All rights reserved.
+        <div class="mt-12 border-t pt-6 text-center text-sm">© 2025 SMK Kitri Bakti, Inc. All rights reserved.
           <p class="mt-2 text-xs text-gray-400">
             Developed by <span class="text-white font-semibold">Muhammad Andika Anjas Syaputra, S.Kom.</span>
         </p>

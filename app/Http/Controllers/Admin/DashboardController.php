@@ -17,7 +17,7 @@ class DashboardController extends Controller
     $profile = ProfileAdmin::where('user_id', Auth::id())->first();
 
     $jumlahGuru = \App\Models\User::where('role', 'guru')->count();
-    $jumlahSiswa = \App\Models\User::where('role', 'siswa')->count();
+   $jumlahSiswa = \App\Models\Siswa::count();
     $jumlahTendik = \App\Models\User::where('role', 'staff')->count();
 
     // Ambil data jumlah siswa per kelas (dari relasi ke tabel kelas)

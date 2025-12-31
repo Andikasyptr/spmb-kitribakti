@@ -39,16 +39,16 @@
         Dashboard
     </a>
     <!-- E-Learning -->
-    <a href="{{ route('admin.exams.index') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
+    {{-- <a href="{{ route('admin.exams.index') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <!-- Ikon buku -->
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 0a4 4 0 00-4 4v12a4 4 0 004 4m0-20a4 4 0 014 4v12a4 4 0 01-4 4" />
         </svg>
         E-Learning
-    </a>
+    </a> --}}
 
     <!-- Data Ujian Siswa -->
-        <a href="{{ route('data-ujian-siswa.index') }}" 
+        {{-- <a href="{{ route('data-ujian-siswa.index') }}" 
         class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
             <svg xmlns="http://www.w3.org/2000/svg" 
                 class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,7 +57,7 @@
                     d="M9 17v-6h13M9 11h13M9 7h13M5 7h.01M5 11h.01M5 17h.01" />
             </svg>
             Data Ujian Siswa
-        </a>
+        </a> --}}
 
 
 
@@ -75,15 +75,15 @@
             </svg>
         </button>
         <div x-show="open" x-transition class="mt-2 space-y-1 pl-6 text-sm">
-            <a href="{{ route('admin.super-admin.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('admin.super-admin.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
+            {{-- <a href="{{ route('admin.super-admin.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('admin.super-admin.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
                 Super Admin
-            </a>
-            <a href="{{ route('admin.guru.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('admin.guru.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
+            </a> --}}
+            {{-- <a href="{{ route('admin.guru.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('admin.guru.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
                 Guru
             </a>
             <a href="{{ route('admin.tendik.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('admin.tendik.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
                 Tenaga Kependidikan
-            </a>
+            </a> --}}
             <a href="{{ route('admin.siswa.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('admin.siswa.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
                 Siswa
             </a>
@@ -98,23 +98,27 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m1-4a4 4 0 118 0 4 4 0 01-8 0z" />
             </svg>
-            <span>Civitas Akademika</span>
+            <span>Master SPMB</span>
             <svg xmlns="http://www.w3.org/2000/svg" :class="{ 'rotate-180': open }" class="h-4 w-4 ml-auto transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
             </svg>
         </button>
         <div x-show="open" x-transition class="mt-2 space-y-1 pl-6 text-sm">
-            <a href="{{ route('pegawai.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('pegawai.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
+            {{-- <a href="{{ route('pegawai.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('pegawai.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
                 Data Kepegawaian
-            </a>
+            </a> --}}
             <a href="{{ route('datasiswa.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('siswa.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
-                Data Siswa
+                Data Siswa Baru
             </a>
+            <a href="{{ route('admin.pembayaran.index') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg {{ Route::is('siswa.*') ? 'bg-gray-200 text-gray-900' : 'text-gray-400 hover:bg-gray-100 hover:text-gray-900' }}">
+                Data Pembayaran
+            </a>
+
         </div>
     </div>
 
     <!-- Absensi -->
-    <div x-data="{ open: localStorage.getItem('dropdown-absensi') !== 'false' }"
+    {{-- <div x-data="{ open: localStorage.getItem('dropdown-absensi') !== 'false' }"
          x-init="$watch('open', value => localStorage.setItem('dropdown-absensi', value))"
          class="text-white">
         <button @click="open = !open" class="w-full flex items-center gap-2 px-3 py-2 text-white font-medium rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
@@ -137,7 +141,7 @@
                 Siswa
             </a>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Arsip Data -->
     <div x-data="{ open: localStorage.getItem('dropdown-arsip') !== 'false' }"

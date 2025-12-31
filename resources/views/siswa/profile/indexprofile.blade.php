@@ -66,6 +66,22 @@
                         <span class="text-red-600">Belum diunggah</span>
                     @endif
                 </li>
+                 <li>Scan NISN:
+                    @if ($siswa->file_nisn)
+                        <a href="{{ asset('storage/' . $siswa->file_nisn) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
+                    @else
+                        <span class="text-red-600">Belum diunggah</span>
+                    @endif
+                </li>
+
+                <!-- 🔥 FILE AKTA (BARU DITAMBAHKAN) -->
+                <li>Akta Kelahiran:
+                    @if ($siswa->file_akta)
+                        <a href="{{ asset('storage/' . $siswa->file_akta) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
+                    @else
+                        <span class="text-red-600">Belum diunggah</span>
+                    @endif
+                </li>
                 <li>Ijazah:
                     @if ($siswa->file_ijazah)
                         <a href="{{ asset('storage/' . $siswa->file_ijazah) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
@@ -100,7 +116,7 @@
         </div>
 
         <div class="mt-6 text-right">
-            <a href="{{ route('profile.siswa.edit') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Edit Profil</a>
+            <a href="{{ route('profile.siswa.edit') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Lengkapi Profile</a>
         </div>
     @endif
 </div>

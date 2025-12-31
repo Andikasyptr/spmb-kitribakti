@@ -38,15 +38,15 @@
             </div>
 
             <!-- ✅ Menu baru: Mata Pelajaran -->
-            <div class="mb-2">
+            {{-- <div class="mb-2">
                 <h2>
                     <a href="{{ route('mapel.index') }}" class="text-gray-600 hover:underline text-lg font-semibold">
                         Mata Pelajaran
                     </a>
                 </h2>
-            </div>
+            </div> --}}
 
-            <div class="mb-2">
+            {{-- <div class="mb-2">
                 <h2>
                     <button 
                         id="openRadiusModal" 
@@ -84,7 +84,7 @@
                 </div>
             </div>
             </div>
-
+ --}}
 
 
     

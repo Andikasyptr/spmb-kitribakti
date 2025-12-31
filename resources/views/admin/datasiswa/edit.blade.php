@@ -206,50 +206,75 @@
                 </div>
             </div>
 
-            {{-- Upload file --}}
-            <div class="mb-4">
-                <label class="block">File SKL</label>
-                <input type="file" name="file_skl" class="w-full border rounded p-2">
-                @if($siswa->file_skl)
-                    <a href="{{ asset('storage/' . $siswa->file_skl) }}" target="_blank" class="text-blue-500 underline">Lihat File SKL</a>
-                @endif
-            </div>
-            <div class="mb-4">
-                <label class="block">File Ijazah</label>
-                <input type="file" name="file_ijazah" class="w-full border rounded p-2">
-                @if($siswa->file_ijazah)
-                    <a href="{{ asset('storage/' . $siswa->file_ijazah) }}" target="_blank" class="text-blue-500 underline">Lihat File Ijazah</a>
-                @endif
-            </div>
-            <div class="mb-4">
-                <label class="block">File KTP Orang Tua</label>
-                <input type="file" name="file_ktp_orang_tua" class="w-full border rounded p-2">
-                @if($siswa->file_ktp_orang_tua)
-                    <a href="{{ asset('storage/' . $siswa->file_ktp_orang_tua) }}" target="_blank" class="text-blue-500 underline">Lihat File KTP</a>
-                @endif
-            </div>
-            <div class="mb-4">
-                <label class="block">File Kartu Keluarga</label>
-                <input type="file" name="file_kk" class="w-full border rounded p-2">
-                @if($siswa->file_kk)
-                    <a href="{{ asset('storage/' . $siswa->file_kk) }}" target="_blank" class="text-blue-500 underline">Lihat File KK</a>
-                @endif
-            </div>
-            <div class="mb-4">
-                <label class="block">Foto</label>
-                <input type="file" name="file_foto" class="w-full border rounded p-2">
-                @if($siswa->file_foto)
-                    <img src="{{ asset('storage/' . $siswa->file_foto) }}" alt="Foto" class="h-24 mt-2">
-                @endif
-            </div>
-            <div class="flex gap-4 mt-6">
-                <a href="{{ route('datasiswa.index') }}" class="inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
-                    Kembali
-                </a>
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    Update
-                </button>
-            </div>
+           {{-- Upload file --}}
+                <div class="mb-4">
+                    <label class="block">File SKL</label>
+                    <input type="file" name="file_skl" class="w-full border rounded p-2">
+                    @if($siswa->file_skl)
+                        <a href="{{ asset('storage/' . $siswa->file_skl) }}" target="_blank" class="text-blue-500 underline">Lihat File SKL</a>
+                    @endif
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block">File Ijazah</label>
+                    <input type="file" name="file_ijazah" class="w-full border rounded p-2">
+                    @if($siswa->file_ijazah)
+                        <a href="{{ asset('storage/' . $siswa->file_ijazah) }}" target="_blank" class="text-blue-500 underline">Lihat File Ijazah</a>
+                    @endif
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block">File KTP Orang Tua</label>
+                    <input type="file" name="file_ktp_orang_tua" class="w-full border rounded p-2">
+                    @if($siswa->file_ktp_orang_tua)
+                        <a href="{{ asset('storage/' . $siswa->file_ktp_orang_tua) }}" target="_blank" class="text-blue-500 underline">Lihat File KTP</a>
+                    @endif
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block">File Kartu Keluarga</label>
+                    <input type="file" name="file_kk" class="w-full border rounded p-2">
+                    @if($siswa->file_kk)
+                        <a href="{{ asset('storage/' . $siswa->file_kk) }}" target="_blank" class="text-blue-500 underline">Lihat File KK</a>
+                    @endif
+                </div>
+                
+                {{-- File NISN --}}
+                <div class="mb-4">
+                    <label class="block">File NISN</label>
+                    <input type="file" name="file_nisn" class="w-full border rounded p-2">
+                    @if($siswa->file_nisn)
+                        <a href="{{ asset('storage/' . $siswa->file_nisn) }}" target="_blank" class="text-blue-500 underline">Lihat File NISN</a>
+                    @endif
+                </div>
+                
+                {{-- File Akta --}}
+                <div class="mb-4">
+                    <label class="block">File Akta Kelahiran</label>
+                    <input type="file" name="file_akta" class="w-full border rounded p-2">
+                    @if($siswa->file_akta)
+                        <a href="{{ asset('storage/' . $siswa->file_akta) }}" target="_blank" class="text-blue-500 underline">Lihat File Akta</a>
+                    @endif
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block">Foto</label>
+                    <input type="file" name="file_foto" class="w-full border rounded p-2">
+                    @if($siswa->file_foto)
+                        <img src="{{ asset('storage/' . $siswa->file_foto) }}" alt="Foto" class="h-24 mt-2">
+                    @endif
+                </div>
+                
+                
+                
+                <div class="flex gap-4 mt-6">
+                    <a href="{{ route('datasiswa.index') }}" class="inline-block bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                        Kembali
+                    </a>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        Update
+                    </button>
+                </div>
 
         </form>
     </div>

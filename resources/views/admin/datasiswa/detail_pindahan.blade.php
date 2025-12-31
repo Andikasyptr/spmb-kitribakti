@@ -37,57 +37,86 @@
                 <tr><td class="font-semibold py-2">Nama Ibu</td><td class="py-2">{{ $siswa->nama_ibu ?? '-' }}</td></tr>
                 <tr><td class="font-semibold py-2">Alamat Orang Tua</td><td class="py-2">{{ $siswa->alamat_orang_tua ?? '-' }}</td></tr>
 
-                {{-- Dokumen --}}
-                <tr>
-                    <td class="font-semibold py-2">SKL</td>
-                    <td class="py-2">
-                        @if($siswa->file_skl)
-                            <a href="{{ asset('storage/' . $siswa->file_skl) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
-                        @else
-                            <span class="text-gray-500">Tidak tersedia</span>
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-semibold py-2">Ijazah</td>
-                    <td class="py-2">
-                        @if($siswa->file_ijazah)
-                            <a href="{{ asset('storage/' . $siswa->file_ijazah) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
-                        @else
-                            <span class="text-gray-500">Tidak tersedia</span>
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-semibold py-2">KTP Orang Tua</td>
-                    <td class="py-2">
-                        @if($siswa->file_ktp_orang_tua)
-                            <a href="{{ asset('storage/' . $siswa->file_ktp_orang_tua) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
-                        @else
-                            <span class="text-gray-500">Tidak tersedia</span>
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-semibold py-2">Kartu Keluarga</td>
-                    <td class="py-2">
-                        @if($siswa->file_kk)
-                            <a href="{{ asset('storage/' . $siswa->file_kk) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
-                        @else
-                            <span class="text-gray-500">Tidak tersedia</span>
-                        @endif
-                    </td>
-                </tr>
-                <tr>
-                    <td class="font-semibold py-2 align-top">Foto</td>
-                    <td class="py-2">
-                        @if($siswa->file_foto)
-                            <img src="{{ asset('storage/' . $siswa->file_foto) }}" alt="Foto" class="h-32 rounded border">
-                        @else
-                            <span class="text-gray-500">Tidak tersedia</span>
-                        @endif
-                    </td>
-                </tr>
+               {{-- Dokumen --}}
+                    <tr>
+                        <td class="font-semibold py-2">SKL</td>
+                        <td class="py-2">
+                            @if($siswa->file_skl)
+                                <a href="{{ asset('storage/' . $siswa->file_skl) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
+                            @else
+                                <span class="text-gray-500">Tidak tersedia</span>
+                            @endif
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="font-semibold py-2">Ijazah</td>
+                        <td class="py-2">
+                            @if($siswa->file_ijazah)
+                                <a href="{{ asset('storage/' . $siswa->file_ijazah) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
+                            @else
+                                <span class="text-gray-500">Tidak tersedia</span>
+                            @endif
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="font-semibold py-2">KTP Orang Tua</td>
+                        <td class="py-2">
+                            @if($siswa->file_ktp_orang_tua)
+                                <a href="{{ asset('storage/' . $siswa->file_ktp_orang_tua) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
+                            @else
+                                <span class="text-gray-500">Tidak tersedia</span>
+                            @endif
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="font-semibold py-2">Kartu Keluarga</td>
+                        <td class="py-2">
+                            @if($siswa->file_kk)
+                                <a href="{{ asset('storage/' . $siswa->file_kk) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
+                            @else
+                                <span class="text-gray-500">Tidak tersedia</span>
+                            @endif
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="font-semibold py-2 align-top">Foto</td>
+                        <td class="py-2">
+                            @if($siswa->file_foto)
+                                <img src="{{ asset('storage/' . $siswa->file_foto) }}" alt="Foto" class="h-32 rounded border">
+                            @else
+                                <span class="text-gray-500">Tidak tersedia</span>
+                            @endif
+                        </td>
+                    </tr>
+                    
+                    {{-- NISN --}}
+                    <tr>
+                        <td class="font-semibold py-2">NISN</td>
+                        <td class="py-2">
+                            @if($siswa->file_nisn)
+                                <a href="{{ asset('storage/' . $siswa->file_nisn) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
+                            @else
+                                <span class="text-gray-500">Tidak tersedia</span>
+                            @endif
+                        </td>
+                    </tr>
+                    
+                    {{-- Akta --}}
+                    <tr>
+                        <td class="font-semibold py-2">Akta Kelahiran</td>
+                        <td class="py-2">
+                            @if($siswa->file_akta)
+                                <a href="{{ asset('storage/' . $siswa->file_akta) }}" target="_blank" class="text-blue-600 underline">Lihat File</a>
+                            @else
+                                <span class="text-gray-500">Tidak tersedia</span>
+                            @endif
+                        </td>
+                    </tr>
+
             </tbody>
         </table>
 

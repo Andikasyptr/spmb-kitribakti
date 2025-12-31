@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\ExamQuestionController;
 use App\Http\Controllers\Admin\DataUjianSiswaController;
 use App\Http\Controllers\Admin\ExamResultController;
 use App\Http\Controllers\Admin\MapelController;
+use App\Http\Controllers\Admin\AdminPemabayaranController;
 
 
 // guru
@@ -70,6 +71,7 @@ use App\Http\Controllers\Siswa\SiswaSpmbController;
 use App\Http\Controllers\Admin\SiswaAbsensiLaporanController;
 use App\Http\Controllers\Siswa\ElearningController;
 use App\Http\Controllers\Siswa\UjianController;
+use App\Http\Controllers\Siswa\PembayaranController;
 
 
 Route::get('/', function () {
@@ -95,6 +97,11 @@ Route::get('/forgot-password', [ForgotPasswordController::class, 'showForgotForm
     ->name('password.request');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
     ->name('password.email');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->name('password.reset');
+
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
+    ->name('password.update');
 
 Route::middleware(['auth', RoleMiddleware::class . ':super-admin'])
     ->prefix('super-admin')
@@ -188,6 +195,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         Route::delete('/datasiswa/delete-all', [DataSiswaController::class, 'deleteAll'])->name('datasiswa.deleteAll');
 
         // Route::get('/admin/datasiswa/{id}/move', [DataSiswaController::class, 'move'])->name('datasiswa.move');
+        
         Route::get('/admin/datasiswa/move', [DataSiswaController::class, 'move'])->name('datasiswa.move');
         Route::get('/admin/siswapindahan/{id}', [SiswaPindahanController::class, 'show'])->name('siswapindahan.show');
         Route::delete('/admin/siswapindahan/{id}', [SiswaPindahanController::class, 'destroy'])->name('siswapindahan.destroy');
@@ -328,7 +336,10 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         ->name('admin.ujian.delete-all');
     
 
-   
+        // pembayaran spmb
+    Route::get('/pembayaran', [App\Http\Controllers\Admin\PembayaranController::class, 'index'])->name('admin.pembayaran.index');
+     Route::get('/siswa/pembayaran/cetak/{id}', [PembayaranController::class, 'cetak'])->name('siswa.pembayaran.cetak');
+     Route::post('/pembayaran/{id}/verifikasi', [App\Http\Controllers\Admin\PembayaranController::class, 'verifikasi'])->name('admin.pembayaran.verifikasi');
 
 
 
@@ -545,6 +556,17 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         ->name('ujian.selesai');
 
         Route::post('/siswa/ujian/{examId}/{questionId}/answer', [UjianController::class, 'saveAnswer'])->name('ujian.saveAnswer');
+
+        // pembayaran 
+        Route::get('/siswa/pembayaran', [PembayaranController::class, 'index'])->name('siswa.pembayaran');
+        Route::post('/siswa/pembayaran', [PembayaranController::class, 'store'])->name('siswa.pembayaran.store');
+        Route::get('/siswa/pembayaran/cetak', [PembayaranController::class, 'cetak'])->name('siswa.pembayaran.cetak');
+         Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('siswa.pembayaran');
+        Route::post('/pembayaran', [PembayaranController::class, 'store'])->name('siswa.pembayaran.store');
+        Route::get('/siswa/pembayaran/cetak/{id}', [PembayaranController::class, 'cetak'])->name('siswa.pembayaran.cetak');
+
+
+
 
   
 

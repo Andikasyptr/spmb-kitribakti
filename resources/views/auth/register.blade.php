@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
   @vite('resources/css/app.css')
-  <link rel="icon" href="{{ asset('/images/hm.png') }}" type="image/png">
-  <title>Register | Smkhijaumuda</title>
+  <link rel="icon" href="{{ asset('/images/logokitri.png') }}" type="image/png">
+  <title>Register | SMK Kitri Bakti</title>
   <style>
     @keyframes fadeInUp {
       0% { opacity: 0; transform: translateY(30px); }
@@ -44,7 +46,7 @@
 <!-- SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-@if(true) {{-- ganti true jadi kondisi apakah pendaftaran ditutup --}}
+@if(false) {{-- ganti true jadi kondisi apakah pendaftaran ditutup --}}
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         Swal.fire({
@@ -64,15 +66,15 @@
   <div class="flex min-h-screen overflow-hidden">
     <!-- Left Side -->
     <div class="hidden lg:block w-1/2 h-screen animate-fadeInRight">
-      <img class="object-cover w-full h-full" src="{{ asset('images/loginn.JPG') }}" alt="Background" />
+      <img class="object-cover w-full h-full" src="{{ asset('images/login.jpeg') }}" alt="Background" />
     </div>
 
     <!-- Right Side -->
     <div class="w-full lg:w-1/2 max-w-md mx-auto flex flex-col justify-center px-8 animate-fadeInUp">
       <div>
-        <img class="h-auto w-40 md:w-24 lg:w-28 mb-1 mx-auto transition duration-700 ease-in-out transform hover:scale-105" src="{{ asset('images/hm.png') }}" alt="Logo">
+        <img class="h-auto w-40 md:w-24 lg:w-28 mb-0 mx-auto transition duration-700 ease-in-out transform hover:scale-105" src="{{ asset('images/logokitri.png') }}" alt="Logo">
         <h2 class="text-2xl font-bold text-gray-900 text-center">Daftar Akun Baru</h2>
-        <p class="mt-2 text-sm text-gray-600 text-center">
+        <p class="mt-1 text-sm text-gray-600 text-center">
           sudah punya akun?
           <a href="{{ route('login') }}" class="text-indigo-600 font-medium hover:underline">masuk di sini</a>
         </p>
@@ -92,7 +94,7 @@
         <div>
           <label for="name" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
           <input type="text" name="name" id="name" value="{{ old('name') }}" required autofocus
-            class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out">
+            class="mt-0 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out">
         </div>
 
         <!-- Email -->
@@ -102,16 +104,20 @@
             class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out">
         </div>
 
-       <!-- Password -->
-<div class="mb-4">
+     <div class="mb-4">
   <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi</label>
   <div class="relative">
-    <input type="password" name="password" id="password" required
-      class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out">
-    
+    <input 
+      type="password" 
+      name="password" 
+      id="password" 
+      required
+      class="mt-1 w-full px-4 py-2 pr-10 border border-gray-300 rounded-md shadow-sm 
+             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300">
+
     <!-- Tombol ikon mata -->
     <button type="button" onclick="togglePassword('password', 'eye-icon')"
-      class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-indigo-600">
+      class="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-indigo-600">
       <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
         viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -123,16 +129,24 @@
       </svg>
     </button>
   </div>
+
+  <!-- Error message di luar wrapper -->
+  <p class="text-red-700 mt-1">Password harus minimal 8 karakter</p>
 </div>
 
-<!-- Konfirmasi Password -->
+
+
 <div class="mb-4">
   <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Kata Sandi</label>
   <div class="relative">
-    <input type="password" name="password_confirmation" id="password_confirmation" required
-      class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300 ease-in-out">
-    
-    <!-- Tombol ikon mata -->
+    <input 
+      type="password" 
+      name="password_confirmation" 
+      id="password_confirmation" 
+      required
+      class="mt-1 w-full px-4 py-2 pr-10 border border-gray-300 rounded-md shadow-sm 
+             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-300">
+
     <button type="button" onclick="togglePassword('password_confirmation', 'eye-icon-confirm')"
       class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-indigo-600">
       <svg id="eye-icon-confirm" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -187,9 +201,9 @@
 
 <!--<script>-->
 
-  // SweetAlert after form submit
+<!--SweetAlert after form submit
 <!--  document.getElementById('registerForm').addEventListener('submit', function(e) {-->
-    e.preventDefault(); // hentikan submit default
+<!--e.preventDefault(); // hentikan submit default
 <!--    const form = this;-->
 
 <!--    fetch(form.action, {-->

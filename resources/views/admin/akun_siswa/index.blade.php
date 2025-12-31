@@ -7,46 +7,48 @@
     <div class="max-w-7xl mx-auto px-4">
         <div class="bg-white shadow rounded-lg p-6">
 
-            <!-- Header & Tombol Aksi -->
+           <!-- Header & Tombol Aksi -->
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
-
-                <div class="flex flex-col sm:flex-row flex-wrap gap-3">
-
-                   
+            
+                <div class="flex flex-wrap gap-3 items-center">
+            
                     <!-- Tombol Tambah -->
                     <a href="{{ route('admin.siswa.create') }}"
-                        class="bg-blue-600 text-white text-sm font-semibold py-2 px-5 rounded-lg shadow hover:bg-blue-700 transition-all">
+                        class="bg-blue-600 text-white text-sm font-semibold py-2 px-5 rounded-lg shadow hover:bg-blue-700 transition-all whitespace-nowrap">
                         ➕ Tambah
                     </a>
-
+            
                     <!-- Tombol Download Template -->
                     <a href="{{ route('admin.siswa.download-template') }}"
-                        class="bg-green-600 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow hover:bg-green-700 transition-all">
+                        class="bg-green-600 text-white text-sm font-semibold py-2 px-5 rounded-lg shadow hover:bg-green-700 transition-all whitespace-nowrap">
                         📄 Template
                     </a>
-
+            
                     <!-- Form Import -->
-                    <form action="{{ route('admin.siswa.import') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row gap-2 items-center">
+                    <form action="{{ route('admin.siswa.import') }}" method="POST" enctype="multipart/form-data" 
+                        class="flex flex-wrap sm:flex-row gap-2 items-center">
                         @csrf
                         <input type="file" name="file" accept=".xlsx,.xls" required
-                            class="border rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring focus:border-blue-400 w-full sm:w-auto">
+                            class="border rounded-lg px-2 py-2 text-sm focus:outline-none focus:ring focus:border-blue-400 w-full sm:w-auto">
                         <button type="submit"
-                            class="bg-indigo-600 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow hover:bg-indigo-700 transition-all">
+                            class="bg-indigo-600 text-white text-sm font-semibold py-2 px-5 rounded-lg shadow hover:bg-indigo-700 transition-all whitespace-nowrap">
                             ⬆️ Import
                         </button>
                     </form>
-
+            
                     <!-- Tombol Hapus Semua -->
                     <form id="delete-all-form" action="{{ route('admin.siswa.deleteAll') }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="button"
                             onclick="confirmDeleteAll()"
-                            class="bg-red-600 text-white text-sm font-semibold py-2 px-4 rounded-lg shadow hover:bg-red-700 transition-all">
+                            class="bg-red-600 text-white text-sm font-semibold py-2 px-5 rounded-lg shadow hover:bg-red-700 transition-all whitespace-nowrap">
                             🗑️ Hapus Semua
                         </button>
                     </form>
+            
                 </div>
+            
             </div>
 
             <!-- Notifikasi -->
@@ -105,6 +107,8 @@
                     {{ $siswas->withQueryString()->links() }}
                 </div>
                 <br>
+                
+            </div>
                  <!-- Form Pencarian -->
                     <form method="GET" action="{{ route('admin.siswa.index') }}" class="flex w-full sm:w-auto">
                         <input type="text" name="search" value="{{ request('search') }}"
@@ -123,14 +127,37 @@
                             </a>
                         @endif
                     </form>
+                      @include('components.footer')
 
-
-                @include('components.footer')
-            </div>
         </div>
     </div>
+
 </div>
 @endsection
+
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+        
+        function toggleSidebar() {
+            mobileSidebar.classList.toggle('-translate-x-full');
+            sidebarBackdrop.classList.toggle('hidden');
+        }
+        
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        if (sidebarBackdrop) {
+            sidebarBackdrop.addEventListener('click', toggleSidebar);
+        }
+    });
+</script>
+@endpush
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

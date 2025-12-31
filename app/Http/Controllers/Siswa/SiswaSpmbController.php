@@ -12,14 +12,19 @@ use Illuminate\Support\Facades\Validator;
 
 class SiswaSpmbController extends Controller
 {
-   public function create()
+  public function create()
 {
     $kelasList = Kelas::all(); 
     $jurusans = Jurusan::all();
     $user = Auth::user();
     $siswa = $user->siswa; // relasi dengan tabel siswa
 
-    return view('siswa.spmb.form', compact('kelasList', 'jurusans', 'siswa'));
+    // ✅ Cek apakah user sudah terdaftar berdasarkan email atau nisn
+    $sudahTerdaftar = \App\Models\Siswa::where('email', $user->email)
+                        ->orWhere('nisn', $siswa->nisn ?? null)
+                        ->exists();
+
+    return view('siswa.spmb.form', compact('kelasList', 'jurusans', 'siswa', 'sudahTerdaftar'));
 }
 
 
@@ -59,11 +64,14 @@ class SiswaSpmbController extends Controller
 
 
         // Validasi file
-        'file_skl' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
-        'file_ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
-        'file_ktp_orang_tua' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
-        'file_kk' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
-        'file_foto' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
+       'file_skl' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
+        'file_ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
+        'file_ktp_orang_tua' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
+        'file_kk' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
+        'file_foto' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
+        'file_nisn' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
+        'file_akta' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
+
     ]);
 
     if ($validator->fails()) {
@@ -84,6 +92,8 @@ class SiswaSpmbController extends Controller
     $file_ktp_orang_tua = $request->file('file_ktp_orang_tua') ? $request->file('file_ktp_orang_tua')->store('dokumen/ktp_ortu', 'public') : null;
     $file_kk = $request->file('file_kk') ? $request->file('file_kk')->store('dokumen/kk', 'public') : null;
     $file_foto = $request->file('file_foto') ? $request->file('file_foto')->store('dokumen/foto', 'public') : null;
+    $file_nisn = $request->file('file_nisn') ? $request->file('file_nisn')->store('dokumen/nisn', 'public') : null;
+    $file_akta = $request->file('file_akta') ? $request->file('file_akta')->store('dokumen/akta', 'public') : null;
 
     // Simpan atau update data siswa
     $user->siswa()->updateOrCreate(
@@ -125,10 +135,17 @@ class SiswaSpmbController extends Controller
             'file_ktp_orang_tua' => $file_ktp_orang_tua,
             'file_kk' => $file_kk,
             'file_foto' => $file_foto,
+            'file_nisn' => $file_nisn,
+            'file_akta' => $file_akta,
         ]
     );
 
-    return redirect()->route('siswa.dashboard')->with('success', 'Data Anda berhasil disimpan.');
+    return redirect()
+    ->route('siswa.dashboard')
+    ->with('success', 'Data Anda berhasil disimpan.')
+    ->with('show_payment_popup', true);
+
 }
+
 
 }

@@ -36,46 +36,55 @@
 <div class="mt-6 px-2 space-y-1">
 
     <!-- Dashboard -->
-    <a href="{{ route('siswa.dashboard') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition {{ Route::is('siswa.dashboard') ? 'bg-gray-100 text-gray-900' : '' }}">
+    <a href="{{ route('siswa.dashboard') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
         <svg class="h-5 w-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m7-7l7 7M13 5v6h6M5 10v10h3" />
         </svg>
-        Dashboard
+        Pendaftaran
     </a>
 
      <!-- E-Learning -->
-    <a href="{{ route ('siswa.e-learning.index') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
+    {{-- <a href="{{ route ('siswa.e-learning.index') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <!-- Ikon buku -->
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 0a4 4 0 00-4 4v12a4 4 0 004 4m0-20a4 4 0 014 4v12a4 4 0 01-4 4" />
         </svg>
         E-Learning
+    </a> --}}
+     
+    <!-- Pembayaran anda -->
+    <a href="{{ route ('siswa.pembayaran') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <!-- Ikon buku -->
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 0a4 4 0 00-4 4v12a4 4 0 004 4m0-20a4 4 0 014 4v12a4 4 0 01-4 4" />
+        </svg>
+        Riwayat Pembayaran
     </a>
 
 
     <!-- Absensi -->
-    <a href="{{ route ('siswa.absensi.index') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition {{ Route::is('siswa.absensi') ? 'bg-gray-100 text-gray-900' : '' }}">
+    {{-- <a href="{{ route ('siswa.absensi.index') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition {{ Route::is('siswa.absensi') ? 'bg-gray-100 text-gray-900' : '' }}">
         <svg class="h-5 w-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M5 21h14V7H5v14z" />
         </svg>
         Absensi
-    </a>
+    </a> --}}
 
     <!-- Nilai -->
-    <a href="#" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition {{ Route::is('siswa.nilai') ? 'bg-gray-100 text-gray-900' : '' }}">
+    {{-- <a href="#" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition {{ Route::is('siswa.nilai') ? 'bg-gray-100 text-gray-900' : '' }}">
         <svg class="h-5 w-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h4M9 23v-6h6v6" />
         </svg>
         Nilai
-    </a>
+    </a> --}}
 
     <!-- Belajar Mengajar -->
-    <a href="#" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition {{ Route::is('siswa.mata_pelajaran') ? 'bg-gray-100 text-gray-900' : '' }}">
+    {{-- <a href="#" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition {{ Route::is('siswa.mata_pelajaran') ? 'bg-gray-100 text-gray-900' : '' }}">
         <svg class="h-5 w-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3M5 21h14a2 2 0 002-2V7H3v12a2 2 0 002 2z" />
         </svg>
         Belajar Mengajar
-    </a>
+    </a> --}}
     {{-- profile --}}
       <a href="{{ route('profile.siswa') }}" class="flex items-center gap-2 text-base font-medium text-white px-3 py-2 rounded-lg hover:bg-gray-100 hover:text-gray-900 transition">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">

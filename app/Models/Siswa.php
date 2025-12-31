@@ -50,6 +50,8 @@ class Siswa extends Model
         'file_ktp_orang_tua',
         'file_kk',
         'file_foto',
+        'file_nisn',
+        'file_akta',
     ];
 
     public function kelas()

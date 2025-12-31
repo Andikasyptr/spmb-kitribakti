@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google" content="notranslate">
        <!-- Logo Tab Browser -->
-    <link rel="icon" href="{{ asset('/images/hm.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('/images/logokitri.png') }}" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     
     <title>@yield('title', config('app.name'))</title>
     @yield('scripts')
@@ -84,7 +86,7 @@ body {
                     </svg>
                 </button>
                 <div class="text-lg font-medium text-gray-800">
-                    SMK Hijau Muda
+                    SMK KITRI BAKTI
                 </div>
                 <div class="w-6"></div> <!-- Spacer for alignment -->
             </header>

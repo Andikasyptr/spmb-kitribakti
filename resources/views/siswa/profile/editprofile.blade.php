@@ -1,10 +1,10 @@
 @extends('layouts.app')
-@section('title', 'Edit Profil Siswa')
+@section('title', 'Lengkapi Profile')
 @include('components.sidebar-siswa')
 
 @section('content')
 <div class="max-w-4xl mx-auto py-8 px-6 bg-white rounded shadow">
-    <h2 class="text-2xl font-bold mb-6 text-center text-blue-700">Edit Profil Siswa</h2>
+    <h2 class="text-2xl font-bold mb-6 text-center text-blue-700">Lengkapi Profile</h2>
 
     @if ($errors->any())
         <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
@@ -40,8 +40,8 @@
                 <label class="block mt-4 text-sm font-medium">TTL</label>
                 <input type="text" name="ttl" value="{{ old('ttl', $siswa->ttl ?? '') }}" class="w-full mt-1 p-2 border rounded">
 
-                <label class="block mt-4 text-sm font-medium">Tahun Masuk</label>
-                <input type="number" name="tahun_masuk" value="{{ old('tahun_masuk', $siswa->tahun_masuk ?? '') }}" class="w-full mt-1 p-2 border rounded">
+                {{-- <label class="block mt-4 text-sm font-medium">Tahun Masuk</label>
+                <input type="number" name="tahun_masuk" value="{{ old('tahun_masuk', $siswa->tahun_masuk ?? '') }}" class="w-full mt-1 p-2 border rounded"> --}}
 
                 @php
                     $tahunAwal = 2025; // Tahun ajaran awal
@@ -73,14 +73,14 @@
                         </option>
                     @endforeach
                 </select> --}}
-                <div>
+                {{-- <div>
                     <label for="kode_kelas" class="block mb-1 font-medium text-gray-700">Kode Kelas</label>
                     <select name="kode_kelas" id="kode_kelas" class="w-full border rounded p-2">
                         <option value="">-- Pilih Kode Kelas --</option>
                         <option value="1" {{ old('kode_kelas', $siswa->kode_kelas ?? '') == '1' ? 'selected' : '' }}>1</option>
                         <option value="2" {{ old('kode_kelas', $siswa->kode_kelas ?? '') == '2' ? 'selected' : '' }}>2</option>
                     </select>
-                </div>
+                </div> --}}
 
                <label for="jurusan" class="block text-sm font-medium">Jurusan</label>
                 <select name="jurusan" id="jurusan" class="w-full mt-1 p-2 border rounded">
@@ -145,7 +145,7 @@
         <div class="mt-6 border-t pt-4">
             <h3 class="text-lg font-semibold mb-2">Upload Dokumen (opsional)</h3>
 
-            @foreach(['file_skl' => 'SKL', 'file_ijazah' => 'Ijazah', 'file_ktp_orang_tua' => 'KTP Orang Tua', 'file_kk' => 'Kartu Keluarga', 'file_foto' => 'Pas Foto'] as $name => $label)
+            @foreach(['file_skl' => 'SKL', 'file_ijazah' => 'Ijazah', 'file_ktp_orang_tua' => 'KTP Orang Tua', 'file_kk' => 'Kartu Keluarga', 'file_foto' => 'Pas Foto', 'file_nisn' => 'Scan NISN', 'file_akta' => 'Akta Kelahiran'] as $name => $label)
                 <div class="mb-4">
                     <label class="block text-sm font-medium">{{ $label }}</label>
                     <input type="file" name="{{ $name }}" class="mt-1 p-1 border rounded w-full">

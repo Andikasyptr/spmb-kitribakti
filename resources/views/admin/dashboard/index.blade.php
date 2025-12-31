@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Admin Dashboard - smkhijaumuda')
+@section('title', 'Admin Dashboard - SMK Kitri Bakti')
 
 @include('components.sidebar-admin')
 @section('content')
@@ -10,22 +10,22 @@
 
             <!-- Konten jumlah -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg shadow">
+                {{-- <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg shadow">
                     <div class="text-sm font-medium">Akun Guru</div>
                     <div class="text-2xl font-bold mt-1">{{ $jumlahGuru }}</div>
-                </div>
+                </div> --}}
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-lg shadow">
-                    <div class="text-sm font-medium">Akun siswa</div>
+                    <div class="text-sm font-medium">Siswa Baru</div>
                     <div class="text-2xl font-bold mt-1">{{ $jumlahSiswa }}</div>
                 </div>
-                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg shadow">
+                {{-- <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded-lg shadow">
                     <div class="text-sm font-medium">Akun Tenaga Kependidikan</div>
                     <div class="text-2xl font-bold mt-1">{{ $jumlahTendik }}</div>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Jumlah Siswa Per Kelas -->
-            <div class="mt-8">
+            {{-- <div class="mt-8">
                 <h2 class="text-xl font-semibold text-gray-700 mb-4">Jumlah Siswa per Kelas</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach ($siswaPerKelas as $kelasNama => $siswas)
@@ -35,11 +35,11 @@
                         </div>
                     @endforeach
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Jumlah Siswa Per Jurusan -->
             <div class="mt-8">
-                <h2 class="text-xl font-semibold text-gray-700 mb-4">Jumlah Siswa per Jurusan</h2>
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Siswa Baru per Jurusan</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     @foreach ($siswaPerJurusan as $jurusan => $siswas)
                         <div class="bg-white border-l-4 border-green-400 p-4 rounded shadow-sm">

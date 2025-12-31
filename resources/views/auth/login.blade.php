@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   @vite('resources/css/app.css')
   <!-- Logo Tab Browser -->
-    <link rel="icon" href="{{ asset('/images/hm.png') }}" type="image/png">
-  <title>Login | smkhijaumuda</title>
+    <link rel="icon" href="{{ asset('/images/logokitri.png') }}" type="image/png">
+  <title>Login | Smk Kitri Bakti</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @keyframes fadeInUp {
@@ -35,14 +35,14 @@
   <div class="flex min-h-screen overflow-hidden">
     <!-- Left Side - Image -->
   <div class="hidden lg:block w-1/2 h-screen animate-fadeInRight">
-  <img class="object-cover w-full h-full" src="{{ asset('images/loginn.JPG') }}" alt="Background" />
+  <img class="object-cover w-full h-full" src="{{ asset('images/login.jpeg') }}" alt="Background" />
 </div>
 
 
     <!-- Right Side - Sign In Form -->
     <div class="w-full lg:w-1/2 max-w-md mx-auto flex flex-col justify-center px-8 animate-fadeInUp">
       <div>
-      <img class="h-auto w-40 md:w-24 lg:w-28 mb-1 mx-auto transition duration-700 ease-in-out transform hover:scale-105" src="{{ asset('images/hm.png') }}" alt="Logo">
+      <img class="h-auto w-40 md:w-24 lg:w-28 mb-1 mx-auto transition duration-700 ease-in-out transform hover:scale-105" src="{{ asset('images/logokitri.png') }}" alt="Logo">
         <h2 class="text-2xl font-bold text-gray-900 text-center">Masuk Ke Akun Kamu</h2>
         <p class="mt-2 text-sm text-gray-600 text-center">
           belum memiliki akun?
@@ -97,7 +97,7 @@
             <input type="checkbox" name="remember" class="mr-2">
             ingatkan saya
           </label>
-          <!--<a href="{{ route('password.request') }}" class="text-indigo-600 hover:underline font-medium">Lupa kata sandi?</a>-->
+          <a href="{{ route('password.request') }}" class="text-indigo-600 hover:underline font-medium">Lupa kata sandi?</a>
         </div>
 
         <button type="submit"

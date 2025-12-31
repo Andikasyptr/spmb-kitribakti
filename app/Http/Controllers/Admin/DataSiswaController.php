@@ -22,50 +22,63 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class DataSiswaController extends Controller
 {
     public function index(Request $request)
-    {
-        $tahun_ajaran = $request->tahun_ajaran;
-        $kelas_id = $request->kelas_id;
-        $jurusan = $request->jurusan;
-        $kode_kelas = $request->kode_kelas;
-        $search = $request->input('search'); // opsional: fitur pencarian
+{
+    // Ambil semua input filter
+    $tahun_ajaran = $request->input('tahun_ajaran');
+    $kelas_id = $request->input('kelas_id');
+    $jurusan = $request->input('jurusan');
+    $kode_kelas = $request->input('kode_kelas');
+    $search = $request->input('search'); // bisa nama atau nisn
 
-        // 🔹 Query dasar
-        $query = Siswa::query();
+    // 🔹 Mulai query dasar
+    $query = Siswa::query();
 
-        // 🔹 Filter berdasarkan input
-        if ($tahun_ajaran) $query->where('tahun_ajaran', $tahun_ajaran);
-        if ($kelas_id) $query->where('kelas_id', $kelas_id);
-        if ($jurusan) $query->where('jurusan', $jurusan);
-        if ($kode_kelas) $query->where('kode_kelas', $kode_kelas);
-
-        // 🔹 Tambahkan pencarian opsional (nama, nisn, email)
-        if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->where('nama', 'like', "%{$search}%")
-                ->orWhere('nisn', 'like', "%{$search}%")
-                ->orWhere('email', 'like', "%{$search}%");
-            });
-        }
-
-        // 🔹 Gunakan paginate, bukan get()
-        $siswas = $query->latest()->paginate(10);
-
-        // 🔹 Data dropdown kelas
-        $kelasList = Kelas::all();
-
-        // 🔹 Generate list tahun ajaran dinamis
-        $currentYear = Carbon::now()->year;
-        $tahunAjaranList = [];
-        for ($year = 2025; $year <= $currentYear + 5; $year++) {
-            $tahunAjaranList[] = $year . '/' . ($year + 1);
-        }
-
-        // 🔹 Ambil daftar jurusan unik
-        $jurusanList = Siswa::select('jurusan')->distinct()->pluck('jurusan');
-
-        // 🔹 Return ke view
-        return view('admin.datasiswa.index', compact('siswas', 'kelasList', 'tahunAjaranList', 'jurusanList'));
+    // 🔹 Filter berdasarkan tahun ajaran, kelas, jurusan, kode kelas
+    if (!empty($tahun_ajaran)) {
+        $query->where('tahun_ajaran', $tahun_ajaran);
     }
+
+    if (!empty($kelas_id)) {
+        $query->where('kelas_id', $kelas_id);
+    }
+
+    if (!empty($jurusan)) {
+        $query->where('jurusan', $jurusan);
+    }
+
+    if (!empty($kode_kelas)) {
+        $query->where('kode_kelas', $kode_kelas);
+    }
+
+    // 🔹 Filter pencarian berdasarkan nama atau NISN
+    if (!empty($search)) {
+        $query->where(function ($q) use ($search) {
+            $q->where('nama', 'like', "%{$search}%")
+              ->orWhere('nisn', 'like', "%{$search}%");
+        });
+    }
+
+    // 🔹 Ambil data siswa (paginate biar efisien)
+    $siswas = $query->orderBy('nama', 'asc')->paginate(10);
+
+    // 🔹 Data untuk dropdown di view
+    $kelasList = Kelas::all();
+
+    // 🔹 Buat list tahun ajaran dinamis (2025 - 2030 misalnya)
+    $currentYear = now()->year;
+    $tahunAjaranList = [];
+    for ($year = 2025; $year <= $currentYear + 5; $year++) {
+        $tahunAjaranList[] = $year . '/' . ($year + 1);
+    }
+
+    // 🔹 Ambil jurusan unik dari database siswa
+    $jurusanList = Siswa::select('jurusan')->distinct()->pluck('jurusan');
+
+    // 🔹 Kirim ke view
+    return view('admin.datasiswa.index', compact(
+        'siswas', 'kelasList', 'tahunAjaranList', 'jurusanList'
+    ));
+}
 
     public function create()
     {
@@ -109,14 +122,27 @@ class DataSiswaController extends Controller
             'nik_ibu' => 'nullable|string',
             'penghasilan_ayah' => 'nullable|string',
             'penghasilan_ibu' => 'nullable|string',
-            'file_skl' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'file_ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'file_ktp_orang_tua' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'file_kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-            'file_foto' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'file_skl' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:4096',
+            'file_ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:4096',
+            'file_ktp_orang_tua' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:4096',
+            'file_kk' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:4096',
+            'file_foto' => 'nullable|file|mimes:jpg,jpeg,png|max:4096',
+            'file_nisn' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:4096',
+            'file_akta' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:4096',
+
         ]);
 
-        foreach (['file_skl', 'file_ijazah', 'file_ktp_orang_tua', 'file_kk', 'file_foto'] as $fileField) {
+        
+        foreach ([
+                'file_skl',
+                'file_ijazah',
+                'file_ktp_orang_tua',
+                'file_kk',
+                'file_foto',
+                'file_nisn',
+                'file_akta'
+            ] as $fileField) {
+
             if ($request->hasFile($fileField)) {
                 $validated[$fileField] = $request->file($fileField)->store("siswa/{$fileField}", 'public');
             }
@@ -164,9 +190,26 @@ class DataSiswaController extends Controller
             'alamat' => 'nullable|string',
             'status' => 'nullable|in:siswa aktif,siswa pindahan,keluar',
             'no_hp' => 'nullable|string',
+            'file_skl' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
+            'file_ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
+            'file_ktp_orang_tua' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
+            'file_kk' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
+            'file_foto' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
+            'file_nisn' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
+            'file_akta' => 'nullable|file|mimes:pdf,jpg,jpeg|max:2048',
+
         ]);
 
-        foreach (['file_skl', 'file_ijazah', 'file_ktp_orang_tua', 'file_kk', 'file_foto'] as $fileField) {
+        foreach ([
+                'file_skl',
+                'file_ijazah',
+                'file_ktp_orang_tua',
+                'file_kk',
+                'file_foto',
+                'file_nisn',
+                'file_akta'
+            ] as $fileField) {
+
             if ($request->hasFile($fileField)) {
                 if ($siswa->$fileField && Storage::disk('public')->exists($siswa->$fileField)) {
                     Storage::disk('public')->delete($siswa->$fileField);
@@ -183,7 +226,16 @@ class DataSiswaController extends Controller
     public function destroy($id)
     {
         $siswa = Siswa::findOrFail($id);
-        foreach (['file_skl', 'file_ijazah', 'file_ktp_orang_tua', 'file_kk', 'file_foto'] as $fileField) {
+        foreach ([
+                'file_skl',
+                'file_ijazah',
+                'file_ktp_orang_tua',
+                'file_kk',
+                'file_foto',
+                'file_nisn',
+                'file_akta'
+            ] as $fileField) {
+
             if ($siswa->$fileField && Storage::disk('public')->exists($siswa->$fileField)) {
                 Storage::disk('public')->delete($siswa->$fileField);
             }
@@ -351,5 +403,7 @@ class DataSiswaController extends Controller
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
+
+    
 
 }
