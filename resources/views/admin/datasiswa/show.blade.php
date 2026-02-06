@@ -15,25 +15,25 @@
                 <tr><td class="font-semibold py-2">NIK</td><td class="py-2">{{ $siswa->nik }}</td></tr>
                 <tr><td class="font-semibold py-2">No. KK</td><td class="py-2">{{ $siswa->no_kk ?? '-' }}</td></tr>
                 <tr><td class="font-semibold py-2">Tempat, Tanggal Lahir</td><td class="py-2">{{ $siswa->ttl ?? '-' }}</td></tr>
-                <tr><td class="font-semibold py-2">Tahun Masuk</td><td class="py-2">{{ $siswa->tahun_masuk ?? '-' }}</td></tr>
+                <!-- <tr><td class="font-semibold py-2">Tahun Masuk</td><td class="py-2">{{ $siswa->tahun_masuk ?? '-' }}</td></tr> -->
                 <tr>
                     <td class="font-semibold py-2">Tahun Ajaran</td>
                     <td class="py-2">{{ $siswa->tahun_ajaran ?? '-' }}</td>
                 </tr>
 
-                <tr>
+                <!-- <tr>
                     <td class="font-semibold py-2">Kelas</td>
                     <td class="py-2">{{ $siswa->kelas->nama_kelas ?? '-' }}</td>
-                </tr>
+                </tr> -->
                 <tr><td class="font-semibold py-2">Jurusan</td><td class="py-2">{{ $siswa->jurusan ?? '-' }}</td></tr>
-                <tr>
+                <!-- <tr>
                     <td class="font-semibold py-2">Kode Kelas</td>
                     <td class="py-2">{{ $siswa->kode_kelas ?? '-' }}</td>
-                </tr>
-                <tr>
+                </tr> -->
+                <!-- <tr>
                     <td class="font-semibold py-2">NIS</td>
                     <td class="py-2">{{ $siswa->nis ?? '-' }}</td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td class="font-semibold py-2">No Ijazah</td>
                     <td class="py-2">{{ $siswa->no_ijazah ?? '-' }}</td>

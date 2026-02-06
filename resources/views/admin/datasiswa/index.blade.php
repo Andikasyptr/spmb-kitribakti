@@ -3,9 +3,24 @@
 @include('components.sidebar-admin')
 
 @section('content')
-<div class="py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <div>
+            <h2 class="text-lg font-semibold text-gray-800">Daftar Siswa</h2>
+            <p class="text-sm text-gray-500">Manajemen data siswa</p>
+        </div>
+
+        <a href="{{ route('admin.siswa.export', request()->query()) }}"
+        class="inline-flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg
+                hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400
+                transition text-sm font-medium shadow-sm w-full sm:w-auto justify-center">
+            📥 <span>Export Excel</span>
+        </a>
+    </div>
+
         <div class="bg-white shadow rounded-lg p-6">
+
 
             <!-- Form Pencarian -->
             <form method="GET" action="{{ route('datasiswa.index') }}" class="flex flex-col sm:flex-row sm:flex-wrap gap-3 mb-6 items-start sm:items-end">
@@ -52,6 +67,8 @@
             @if(session('error'))
                 <div class="mb-4 p-3 bg-red-100 text-red-800 rounded">{!! session('error') !!}</div>
             @endif
+
+            
 
             <!-- Tabel Data -->
             <div class="overflow-x-auto bg-white rounded-lg shadow">
@@ -117,7 +134,7 @@
                     </tbody>
                 </table>
             </div>
-
+            
             <div class="mt-4">
                 {{ $siswas->withQueryString()->links() }}
             </div>

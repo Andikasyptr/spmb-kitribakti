@@ -9,12 +9,12 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-   public function up()
-{
-    Schema::table('absensis', function (Blueprint $table) {
-        $table->longText('foto_pulang')->nullable()->after('foto');
-    });
-}
+        public function up()
+    {
+        Schema::table('siswas', function (Blueprint $table) {
+            $table->string('tahun_ajaran')->nullable()->after('tahun_masuk');
+        });
+    }
 
 
     /**
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('absensis', function (Blueprint $table) {
+        Schema::table('siswas', function (Blueprint $table) {
             //
         });
     }

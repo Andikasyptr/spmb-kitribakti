@@ -36,7 +36,7 @@
             </p>
         </div>
 
-        {{-- Bukti File Pembayaran --}}
+        <!-- {{-- Bukti File Pembayaran --}}
         <div class="mt-6">
             <h2 class="text-lg font-semibold mb-2">📄 Bukti Pembayaran:</h2>
             @if(Str::endsWith($pembayaran->bukti_pembayaran, ['.jpg', '.jpeg', '.png']))
@@ -48,7 +48,11 @@
                     Lihat file PDF
                 </a>
             @endif
-        </div>
+        </div> -->
+
+        <div class="footer mt-8 text-center">
+        <p class="text-gray-500" ><i>Dicetak otomatis dari sistem SPMB - SMK KITRI BAKTI pada {{ now()->format('d M Y H:i') }}</i></p>
+    </div>
 
         {{-- Tombol Aksi --}}
         <div class="mt-8 flex justify-between items-center">
@@ -71,5 +75,10 @@
             </div>
         </div>
     </div>
+
+    <br>
+    <br>
+
+     
 </div>
 @endsection

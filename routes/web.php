@@ -36,6 +36,10 @@ use App\Http\Controllers\Admin\MapelController;
 use App\Http\Controllers\Admin\AdminPemabayaranController;
 
 
+
+
+
+
 // guru
 use App\Http\Controllers\Guru\GuruDashboardController;
 use App\Http\Controllers\Guru\GuruSettingController;
@@ -210,6 +214,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
         // routes/web.php
         Route::get('/admin/data-siswa/template', [DataSiswaController::class, 'downloadTemplate'])->name('admin.data_siswa.download_template');
         Route::post('/admin/datasiswa/import', [DataSiswaController::class, 'import'])->name('datasiswa.import');
+        Route::get('/admin/siswa/export-excel', [DataSiswaController::class, 'exportExcel'])
+        ->name('admin.siswa.export');
     
         
     // jurusan

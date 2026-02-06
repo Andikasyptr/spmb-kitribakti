@@ -404,6 +404,111 @@ class DataSiswaController extends Controller
         }
     }
 
+    public function exportExcel(Request $request)
+{
+    // 🔹 Ambil filter (sama persis dengan index)
+    $tahun_ajaran = $request->input('tahun_ajaran');
+    $kelas_id = $request->input('kelas_id');
+    $jurusan = $request->input('jurusan');
+    $kode_kelas = $request->input('kode_kelas');
+    $search = $request->input('search');
+
+    // 🔹 Query dasar
+    $query = Siswa::query();
+
+    if (!empty($tahun_ajaran)) {
+        $query->where('tahun_ajaran', $tahun_ajaran);
+    }
+
+    if (!empty($kelas_id)) {
+        $query->where('kelas_id', $kelas_id);
+    }
+
+    if (!empty($jurusan)) {
+        $query->where('jurusan', $jurusan);
+    }
+
+    if (!empty($kode_kelas)) {
+        $query->where('kode_kelas', $kode_kelas);
+    }
+
+    if (!empty($search)) {
+        $query->where(function ($q) use ($search) {
+            $q->where('nama', 'like', "%{$search}%")
+              ->orWhere('nisn', 'like', "%{$search}%");
+        });
+    }
+
+    // 🔹 Ambil semua data (tanpa paginate)
+    $siswas = $query->orderBy('nama')->get();
+
+    // ================= EXCEL =================
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setTitle('Data Siswa');
+
+    // 🔹 Header
+    $headers = [
+        'No', 'Nama', 'Email', 'NISN', 'NIK', 'JK', 'Agama',
+        'TTL', 'Tahun Ajaran', 'Kelas', 'Kode Kelas', 'Jurusan',
+        'Asal Sekolah', 'Alamat', 'No HP',
+        'Nama Ayah', 'Pendidikan Ayah', 'Pekerjaan Ayah', 'Penghasilan Ayah',
+        'Nama Ibu', 'Pendidikan Ibu', 'Pekerjaan Ibu', 'Penghasilan Ibu'
+    ];
+
+    $col = 'A';
+    foreach ($headers as $header) {
+        $sheet->setCellValue($col.'1', $header);
+        $sheet->getStyle($col.'1')->getFont()->setBold(true);
+        $col++;
+    }
+
+    // 🔹 Data
+    $row = 2;
+    foreach ($siswas as $i => $siswa) {
+        $sheet->setCellValue("A$row", $i + 1);
+        $sheet->setCellValue("B$row", $siswa->nama);
+        $sheet->setCellValue("C$row", $siswa->email);
+        $sheet->setCellValue("D$row", $siswa->nisn);
+        $sheet->setCellValue("E$row", $siswa->nik);
+        $sheet->setCellValue("F$row", $siswa->jenis_kelamin);
+        $sheet->setCellValue("G$row", $siswa->agama);
+        $sheet->setCellValue("H$row", $siswa->ttl);
+        $sheet->setCellValue("I$row", $siswa->tahun_ajaran);
+        $sheet->setCellValue("J$row", optional($siswa->kelas)->nama_kelas);
+        $sheet->setCellValue("K$row", $siswa->kode_kelas);
+        $sheet->setCellValue("L$row", $siswa->jurusan);
+        $sheet->setCellValue("M$row", $siswa->asal_sekolah);
+        $sheet->setCellValue("N$row", $siswa->alamat);
+        $sheet->setCellValue("O$row", $siswa->no_hp);
+
+        $sheet->setCellValue("P$row", $siswa->nama_ayah);
+        $sheet->setCellValue("Q$row", $siswa->pendidikan_ayah);
+        $sheet->setCellValue("R$row", $siswa->pekerjaan_ayah);
+        $sheet->setCellValue("S$row", $siswa->penghasilan_ayah);
+
+        $sheet->setCellValue("T$row", $siswa->nama_ibu);
+        $sheet->setCellValue("U$row", $siswa->pendidikan_ibu);
+        $sheet->setCellValue("V$row", $siswa->pekerjaan_ibu);
+        $sheet->setCellValue("W$row", $siswa->penghasilan_ibu);
+
+        $row++;
+    }
+
+    // 🔹 Auto width
+    foreach (range('A', 'W') as $column) {
+        $sheet->getColumnDimension($column)->setAutoSize(true);
+    }
+
+    // 🔹 Download
+    $writer = new Xlsx($spreadsheet);
+    $filename = 'data_siswa_' . now()->format('Ymd_His') . '.xlsx';
+
+    return response()->streamDownload(function () use ($writer) {
+        $writer->save('php://output');
+    }, $filename);
+}
+
     
 
 }

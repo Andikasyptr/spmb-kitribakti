@@ -76,6 +76,19 @@
             <span class="badge">{{ $pembayaran->status }}</span>
         </p>
     </div>
+     {{-- Bukti File Pembayaran --}}
+        <div class="mt-6">
+            <h2 class="text-lg font-semibold mb-2">📄 Bukti Pembayaran:</h2>
+            @if(Str::endsWith($pembayaran->bukti_pembayaran, ['.jpg', '.jpeg', '.png']))
+                <img src="{{ asset('storage/'.$pembayaran->bukti_pembayaran) }}" 
+                     alt="Bukti Pembayaran" 
+                     class="rounded-lg border w-full max-w-md">
+            @else
+                <a href="{{ asset('storage/'.$pembayaran->bukti_pembayaran) }}" target="_blank" class="text-blue-600 hover:underline">
+                    Lihat file PDF
+                </a>
+            @endif
+        </div>
 
     <div class="footer">
         <p><i>Dicetak otomatis dari sistem SPMB - SMK KITRI BAKTI pada {{ now()->format('d M Y H:i') }}</i></p>
