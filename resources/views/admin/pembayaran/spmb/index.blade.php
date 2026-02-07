@@ -28,7 +28,7 @@
     <!-- Container tombol -->
     <div class="flex flex-row gap-2 w-full sm:w-auto mt-2 sm:mt-0">
         <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm transition duration-200">
-        Filter
+        Cari 
         </button>
         <a href="{{ route('admin.pembayaran.index') }}" 
         class="flex flex-1 items-center justify-center bg-red-700 hover:bg-gray-500 text-white px-6 py-2 rounded-lg text-sm transition duration-200">
