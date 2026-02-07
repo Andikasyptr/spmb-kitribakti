@@ -10,7 +10,7 @@ return new class extends Migration
         Schema::table('siswas', function (Blueprint $table) {
             $table->enum('status', ['diterima','keluar'])
                   ->default('diterima')
-                  ->after('agama');
+                  ->after('jurusan');
         });
     }
 

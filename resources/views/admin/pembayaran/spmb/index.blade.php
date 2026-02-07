@@ -6,8 +6,8 @@
 @section('content')
 <div class="p-8 bg-gray-50 min-h-screen">
     <div>
-            <h2 class="text-lg font-semibold text-gray-800">Daftar Siswa</h2>
-            <p class="text-sm text-gray-500">Manajemen data siswa</p>
+            <h2 class="text-lg font-semibold text-gray-800">Pembayaran SPMB</h2>
+            <p class="text-sm text-gray-500">Manajemen pembayaran siswa</p>
         </div>
 
     <!-- Filter Form -->
