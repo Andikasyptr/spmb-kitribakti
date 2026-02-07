@@ -15,10 +15,10 @@
                 <tr><td class="font-semibold py-2">NIK</td><td class="py-2">{{ $siswa->nik }}</td></tr>
                 <tr><td class="font-semibold py-2">No. KK</td><td class="py-2">{{ $siswa->no_kk ?? '-' }}</td></tr>
                 <tr><td class="font-semibold py-2">Tempat, Tanggal Lahir</td><td class="py-2">{{ $siswa->ttl ?? '-' }}</td></tr>
-                <tr><td class="font-semibold py-2">Tahun Masuk</td><td class="py-2">{{ $siswa->tahun_masuk ?? '-' }}</td></tr>
+                <!-- <tr><td class="font-semibold py-2">Tahun Masuk</td><td class="py-2">{{ $siswa->tahun_masuk ?? '-' }}</td></tr> -->
                 <tr><td class="font-semibold py-2">Tahun Ajaran</td><td class="py-2">{{ $siswa->tahun_ajaran ?? '-' }}</td></tr>
-                <tr><td class="font-semibold py-2">Kelas</td><td class="py-2">{{ $siswa->kelas->nama_kelas ?? '-' }}</td></tr>
-                <tr><td class="font-semibold py-2">NIS</td><td class="py-2">{{ $siswa->nis ?? '-' }}</td></tr>
+                <!-- <tr><td class="font-semibold py-2">Kelas</td><td class="py-2">{{ $siswa->kelas->nama_kelas ?? '-' }}</td></tr> -->
+                <!-- <tr><td class="font-semibold py-2">NIS</td><td class="py-2">{{ $siswa->nis ?? '-' }}</td></tr> -->
                 <tr><td class="font-semibold py-2">No Ijazah</td><td class="py-2">{{ $siswa->no_ijazah ?? '-' }}</td></tr>
                 <tr><td class="font-semibold py-2">NIK Ayah</td><td class="py-2">{{ $siswa->nik_ayah ?? '-' }}</td></tr>
                 <tr><td class="font-semibold py-2">Pendidikan Terakhir Ayah</td><td class="py-2">{{ $siswa->pendidikan_ayah ?? '-' }}</td></tr>
@@ -31,7 +31,7 @@
                 <tr><td class="font-semibold py-2">Jurusan</td><td class="py-2">{{ $siswa->jurusan ?? '-' }}</td></tr>
                 <tr><td class="font-semibold py-2">Asal Sekolah</td><td class="py-2">{{ $siswa->asal_sekolah ?? '-' }}</td></tr>
                 <tr><td class="font-semibold py-2">Alamat</td><td class="py-2">{{ $siswa->alamat ?? '-' }}</td></tr>
-                <tr><td class="font-semibold">Status</td><td>{{ $siswa->status ?? '-' }}</td></tr>
+                <!-- <tr><td class="font-semibold">Status</td><td>{{ $siswa->status ?? '-' }}</td></tr> -->
                 <tr><td class="font-semibold py-2">No. HP</td><td class="py-2">{{ $siswa->no_hp ?? '-' }}</td></tr>
                 <tr><td class="font-semibold py-2">Nama Ayah</td><td class="py-2">{{ $siswa->nama_ayah ?? '-' }}</td></tr>
                 <tr><td class="font-semibold py-2">Nama Ibu</td><td class="py-2">{{ $siswa->nama_ibu ?? '-' }}</td></tr>

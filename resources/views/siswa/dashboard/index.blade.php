@@ -46,7 +46,7 @@
             </div>
             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg shadow hover:shadow-md transition">
                 <h3 class="font-semibold text-blue-700">Pelaksanaan Pendaftaran SPMB </h3>
-                <p class="text-gray-700 text-sm mt-1">SPMB Gelombang 1 Tahun Ajaran 2026/2027 dilaksanakan pada 01 Maret 2026 - 15 Juni 2026</p>
+                <p class="text-gray-700 text-sm mt-1">SPMB Gelombang 2 Tahun Ajaran 2026/2027 dilaksanakan pada 01 Maret 2026 - 15 Juni 2026</p>
                 <p class="text-gray-400 text-xs mt-1">Biaya Pendaftaran - Rp. 500.000 (Free seragam olahraga)</p>
                 <p class="text-blue-600 text-sm hover:underline mt-1 inline-block">Pastikan anda sudah mendaftarkan diri dan menyelesaikan administasi pembayaran sebelum tenggatnya</p>
             </div>

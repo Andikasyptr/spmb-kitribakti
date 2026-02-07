@@ -80,6 +80,11 @@ class User extends Authenticatable
         return $this->belongsTo(\App\Models\Kelas::class, 'kelas_id');
     }
 
+        public function pembayarans()
+    {
+        return $this->hasMany(\App\Models\Pembayaran::class);
+    }
+
 
 
 

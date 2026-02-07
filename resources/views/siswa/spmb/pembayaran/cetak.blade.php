@@ -55,11 +55,9 @@
     </div>
 
         {{-- Tombol Aksi --}}
-        <div class="mt-8 flex justify-between items-center">
-            <a href="{{ route('siswa.pembayaran') }}" class="text-gray-600 hover:underline">
-                ← Kembali ke Halaman Pembayaran
-            </a>
+       <div class="mt-8 flex justify-end items-center">
 
+        @if($pembayaran->status === 'Sudah Bayar')
             <div class="flex space-x-3">
                 {{-- Tombol Cetak --}}
                 <button onclick="window.print()" 
@@ -69,12 +67,19 @@
 
                 {{-- Tombol Unduh PDF --}}
                 <a href="{{ route('siswa.pembayaran.cetak', $pembayaran->id) }}" 
-                   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
                     📥 Unduh PDF
                 </a>
             </div>
-        </div>
+        @else
+            <div class="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded">
+                ⏳ Pembayaran masih <b>menunggu verifikasi admin</b>.<br>
+                Bukti pembayaran dapat dicetak setelah pembayaran disetujui.
+            </div>
+        @endif
+
     </div>
+
 
     <br>
     <br>
@@ -82,3 +87,25 @@
      
 </div>
 @endsection
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+        
+        function toggleSidebar() {
+            mobileSidebar.classList.toggle('-translate-x-full');
+            sidebarBackdrop.classList.toggle('hidden');
+        }
+        
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        if (sidebarBackdrop) {
+            sidebarBackdrop.addEventListener('click', toggleSidebar);
+        }
+    });
+</script>
+@endpush

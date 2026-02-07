@@ -1,38 +1,89 @@
 <?php
-// app/Http/Controllers/Admin/DashboardController.php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
-use App\Models\Profile;
-use App\Models\ProfileAdmin;
 use App\Models\Siswa;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Pembayaran;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     public function index()
+    {
+        // =============================
+        // TOTAL SISWA
+        // =============================
+        $totalSiswa = Siswa::count();
+
+        // =============================
+        // SUDAH BAYAR
+        // (anggap 1 siswa minimal pernah bayar)
+        // =============================
+        $sudahBayar = Pembayaran::distinct('user_id')->count('user_id');
+
+        // =============================
+        // GRAFIK PENDAFTAR PER BULAN
+        // ambil dari created_at tabel siswas
+        // =============================
+        $data = Siswa::select(
+                DB::raw('MONTH(created_at) as bulan'),
+                DB::raw('COUNT(*) as total')
+            )
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        // siapkan 12 bulan
+        $bulanLabel = [
+            'Jan','Feb','Mar','Apr','Mei','Jun',
+            'Jul','Agu','Sep','Okt','Nov','Des'
+        ];
+
+        $jumlahPendaftar = array_fill(0, 12, 0);
+
+        foreach ($data as $d) {
+            $jumlahPendaftar[$d->bulan - 1] = $d->total;
+        }
+
+        // =============================
+        // SISWA PER JURUSAN
+        // =============================
+        $siswaPerJurusan = Siswa::select('jurusan', DB::raw('count(*) as total'))
+            ->groupBy('jurusan')
+            ->pluck('total', 'jurusan');
+
+        // =============================
+        // NOTIFIKASI PEMBAYARAN TERBARU
+        // =============================
+        $notifs = Pembayaran::with('user')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('admin.dashboard.index', [
+            'totalSiswa' => $totalSiswa,
+            'sudahBayar' => $sudahBayar,
+            'bulan' => $bulanLabel,
+            'jumlahPendaftar' => $jumlahPendaftar,
+            'siswaPerJurusan' => $siswaPerJurusan,
+            'notifs' => $notifs,
+        ]);
+    }
+
+
+  
+
+public function notifPembayaran()
 {
-    // Ambil profil berdasarkan user yang sedang login
-    $profile = ProfileAdmin::where('user_id', Auth::id())->first();
+    $notifs = Pembayaran::with('user')
+        ->latest()
+        ->take(5)
+        ->get();
 
-    $jumlahGuru = \App\Models\User::where('role', 'guru')->count();
-   $jumlahSiswa = \App\Models\Siswa::count();
-    $jumlahTendik = \App\Models\User::where('role', 'staff')->count();
-
-    // Ambil data jumlah siswa per kelas (dari relasi ke tabel kelas)
-    $siswaPerKelas = Siswa::with('kelas')->get()->groupBy(fn($siswa) => $siswa->kelas->nama_kelas ?? 'Belum diatur');
-
-    // Ambil data jumlah siswa per jurusan (langsung dari kolom jurusan)
-    $siswaPerJurusan = Siswa::get()->groupBy(fn($siswa) => $siswa->jurusan ?? 'Belum diatur');
-
-    return view('admin.dashboard.index', compact(
-        'jumlahGuru',
-        'jumlahSiswa',
-        'jumlahTendik',
-        'siswaPerKelas',
-        'siswaPerJurusan'
-    ));
+    return response()->json($notifs);
 }
 
 }

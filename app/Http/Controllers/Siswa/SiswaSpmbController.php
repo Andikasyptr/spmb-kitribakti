@@ -63,14 +63,15 @@ class SiswaSpmbController extends Controller
           'kode_kelas' => 'nullable|string|max:5',
 
 
-        // Validasi file
-       'file_skl' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
-        'file_ijazah' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
-        'file_ktp_orang_tua' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
-        'file_kk' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
-        'file_foto' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
-        'file_nisn' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
-        'file_akta' => 'nullable|file|mimes:pdf,jpg,jpeg|max:4096',
+      // Validasi file (10 MB)
+        'file_skl'            => 'nullable|file|mimes:pdf,jpg,jpeg|max:10240',
+        'file_ijazah'         => 'nullable|file|mimes:pdf,jpg,jpeg|max:10240',
+        'file_ktp_orang_tua'  => 'nullable|file|mimes:pdf,jpg,jpeg|max:10240',
+        'file_kk'             => 'nullable|file|mimes:pdf,jpg,jpeg|max:10240',
+        'file_foto'           => 'nullable|file|mimes:pdf,jpg,jpeg|max:10240',
+        'file_nisn'           => 'nullable|file|mimes:pdf,jpg,jpeg|max:10240',
+        'file_akta'           => 'nullable|file|mimes:pdf,jpg,jpeg|max:10240',
+
 
     ]);
 

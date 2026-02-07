@@ -5,10 +5,13 @@
 
 @section('content')
 <div class="p-8 bg-gray-50 min-h-screen">
-    <h1 class="text-3xl font-bold text-gray-800 mb-8">💰 Data Pembayaran Siswa</h1>
+    <div>
+            <h2 class="text-lg font-semibold text-gray-800">Daftar Siswa</h2>
+            <p class="text-sm text-gray-500">Manajemen data siswa</p>
+        </div>
 
     <!-- Filter Form -->
-<form method="GET" action="{{ route('admin.pembayaran.index') }}" class="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
+<form method="GET" action="{{ route('admin.pembayaran.index') }}" class="mb-6 mt-10 flex flex-col sm:flex-row gap-4 items-start sm:items-end">
     <div class="flex flex-col w-full sm:w-auto">
         <label for="nama" class="text-gray-700 text-sm mb-1">Nama Siswa</label>
         <input type="text" name="nama" id="nama" value="{{ request('nama') }}"
@@ -28,7 +31,7 @@
         Filter
         </button>
         <a href="{{ route('admin.pembayaran.index') }}" 
-           class="flex-1 bg-red-700 hover:bg-gray-500 text-white px-6 py-2 rounded-lg text-sm transition duration-200">
+        class="flex flex-1 items-center justify-center bg-red-700 hover:bg-gray-500 text-white px-6 py-2 rounded-lg text-sm transition duration-200">
             Reset
         </a>
     </div>

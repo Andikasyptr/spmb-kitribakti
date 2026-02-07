@@ -39,17 +39,28 @@ class SiswaPindahanController extends Controller
 {
     $siswaPindahan = SiswaPindahan::findOrFail($request->siswa_id);
 
-    // Ubah data ke array, lalu ubah status sebelum disimpan ke tabel siswa
+    // Ambil data array
     $data = $siswaPindahan->toArray();
-    $data['status'] = 'siswa aktif'; // ubah status jadi aktif
 
-    // Simpan ke tabel siswa
-    $siswaBaru = Siswa::create($data);
+    // HAPUS KOLOM YANG BUKAN MILIK TABEL SISWA
+    unset(
+        $data['id'],
+        $data['siswa_id'],
+        $data['tanggal_keluar'],
+        $data['alasan_keluar'],
+        $data['sekolah_tujuan'],
+        $data['file_surat_pindah'],
+        $data['status_keluar'],
+        $data['created_at'],
+        $data['updated_at']
+    );
 
-    // Hapus dari tabel siswa_pindahan
+    // simpan kembali ke siswa aktif
+    Siswa::create($data);
+
+    // hapus dari arsip
     $siswaPindahan->delete();
 
-    return redirect()->back()->with('success', 'Siswa berhasil dipindahkan kembali ke data aktif.');
+    return redirect()->back()->with('success', 'Siswa berhasil dikembalikan ke siswa aktif.');
 }
-
-}
+};

@@ -30,9 +30,9 @@
                 <p><strong>NIK:</strong> {{ $siswa->nik }}</p>
                 <p><strong>No KK:</strong> {{ $siswa->no_kk }}</p>
                 <p><strong>TTL:</strong> {{ $siswa->ttl }}</p>
-                <p><strong>Tahun Masuk:</strong> {{ $siswa->tahun_masuk }}</p>
-                <p><strong>Kelas:</strong> {{ optional($siswa->kelas)->nama_kelas ?? 'Kelas diatur oleh admin' }}</p>
-                <p><strong>Kode Kelas:</strong> {{ $siswa->kode_kelas ?? 'Belum diatur' }}</p>
+                <!-- <p><strong>Tahun Masuk:</strong> {{ $siswa->tahun_masuk }}</p> -->
+                <!-- <p><strong>Kelas:</strong> {{ optional($siswa->kelas)->nama_kelas ?? 'Kelas diatur oleh admin' }}</p> -->
+                <!-- <p><strong>Kode Kelas:</strong> {{ $siswa->kode_kelas ?? 'Belum diatur' }}</p> -->
 
                 <p><strong>Jurusan:</strong> {{ $siswa->jurusan }}</p>
                 <p><strong>Asal Sekolah:</strong> {{ $siswa->asal_sekolah }}</p>

@@ -15,7 +15,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $profile = $user->profileAdmin;
 
-        return view('admin.Profile.indexprofile', compact('profile'));
+        return view('admin.profile.indexprofile', compact('profile'));
     }
 
     public function edit()
@@ -24,7 +24,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $profile = $user->profileAdmin;
 
-        return view('admin.Profile.editprofile', compact('profile'));
+        return view('admin.profile.editprofile', compact('profile'));
     }
 
     public function update(Request $request)
@@ -74,6 +74,6 @@ class ProfileController extends Controller
 
     $profile->save();
 
-    return redirect()->route('admin.Profile.index')->with('success', 'Profil berhasil diperbarui.');
+    return redirect()->route('admin.profile.index')->with('success', 'Profil berhasil diperbarui.');
 }
 }

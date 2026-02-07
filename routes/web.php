@@ -124,6 +124,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin'])
     ->prefix('admin')
     ->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('/notif-pembayaran', [AdminDashboardController::class, 'notifPembayaran'])
+            ->name('admin.notif.pembayaran');
         Route::get('/admin/settings', [SettingController::class, 'index'])->name('admin.settings');
         Route::get('/', [ProfileController::class, 'index'])->name('admin.profile.index');
         Route::get('/edit', [ProfileController::class, 'edit'])->name('admin.profile.edit');
